@@ -7,10 +7,18 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatDrawableManager;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.example.twoknight.androidGUI.GUIConstants;
 import com.example.twoknight.factory.StandardGameFactory;
@@ -19,7 +27,7 @@ import com.example.twoknight.standard.KeyEvent;
 import com.example.twoknight.standard.StandardGame;
 
 public class StandardView extends View {
-    private final Game game;
+    private Game game;
     private float viewHeight;
     private float viewWidth;
     private float spacing;
@@ -29,23 +37,30 @@ public class StandardView extends View {
     private float margin;
     private float tileSize;
 
-
+    Drawable heroSmug = AppCompatResources.getDrawable(getContext(), R.drawable.ic_hero_smug);
     private final Paint textPaint;
     private float corner;
+    private Drawable heroScard = AppCompatResources.getDrawable(getContext(), R.drawable.ic_hero_scard);;
+    //private Color heroColor = Color.(R.styleable.StandardView_circleColor);
 
     public StandardView(Context context) {
         super(context);
         //game = new AlternatingGame();
         game = new StandardGame(new StandardGameFactory(1));
         textPaint = new Paint();
-        textPaint.setColor(Color.GRAY);
+        textPaint.setColor(Color.BLACK);
     }
     public StandardView(Context context, AttributeSet attrs) {
-        super(context);
+        super(context, attrs);
         //game = new AlternatingGame();
         game = new StandardGame(new StandardGameFactory(1));
         textPaint = new Paint();
         textPaint.setColor(Color.BLACK);
+
+    }
+    public void addGame(Game game){
+        this.game = game;
+        textPaint.setAntiAlias(true);
     }
 
     @Override
@@ -82,40 +97,69 @@ public class StandardView extends View {
     }
 
     private void drawTile(Tile[][] field, int i, int j, Canvas canvas) {
-        if (field[i][j] != null) {
-            Tile tile = field[i][j];
-            int value = tile.getValue();
-            if (value == 0) {
-                GUIConstants.TilePaint.setColor(Color.BLACK);
-            } else {
-                GUIConstants.TilePaint.setColor(
-                        Color.parseColor(
-                                GUIConstants.colorTable[(int) (Math.log(Math.abs(value)) / Math.log(2))]));
-                drawTileRect(i, j, canvas, value); //draws tile with value
-            }
-        }
-        else {
+        if (field[i][j] == null) {
             GUIConstants.TilePaint.setColor(Color.GRAY);
             drawTileRect(i, j, canvas); //draws tile without value. Color is determined before fcn is called
+            return;
         }
+        Tile tile = field[i][j];
+        if (tile instanceof Hero) {
+            Hero hero = (Hero) tile;
+            drawHeroTile(hero, i,j, canvas);
+            return;
+        }
+
+        int value = tile.getValue();
+        if (value == 0) {
+            GUIConstants.TilePaint.setColor(Color.BLACK);
+        } else {
+            GUIConstants.TilePaint.setColor(
+                    Color.parseColor(
+                            GUIConstants.colorTable[(int) (Math.log(Math.abs(value)) / Math.log(2))]));
+            drawTileRect(i, j, canvas, value); //draws tile with value
+        }
+    }
+
+    private void drawHeroTile(Hero hero, int i, int j, Canvas canvas) {
+        Drawable drawing = heroSmug;
+        if (hero.isVulnerable()){
+            drawing = heroScard;
+        }
+        RectF bounds = getTileRect(i,j);
+        drawing.setBounds(
+                (int) bounds.left,
+                (int) bounds.top,
+                (int) bounds.right,
+                (int) bounds.bottom
+        );
+        GUIConstants.TilePaint.setColor(Color.DKGRAY);
+        canvas.drawRoundRect(bounds, corner/4, corner/4, GUIConstants.TilePaint);
+        drawing.draw(canvas);
 
     }
 
     private void drawTileRect(int i, int j, Canvas canvas, int value) {
-        float xu = margin + (i +1)*spacing + i *tileSize;
-        float yu = margin + (j +1)*spacing + j *tileSize;
-        float xd = xu + tileSize;
-        float yd = yu + tileSize;
-        canvas.drawRoundRect(xu, yu, xd, yd,corner/4,corner/4, GUIConstants.TilePaint);
+        RectF rect = getTileRect(i, j);
+        canvas.drawRoundRect(rect,corner/4,corner/4, GUIConstants.TilePaint);
         if (value > 0){
             textPaint.setTextSize(tileSize / 2);
             Rect textBounds = new Rect();
             textPaint.getTextBounds(String.valueOf(value), 0, String.valueOf(value).length(), textBounds);
             // Calculate the position to draw the number in the center of the tile
-            float textX = xu + tileSize/2 - textBounds.width() / 2;
-            float textY = yu + tileSize/2 + textBounds.height() / 2;
+            float textX = rect.centerX() - textBounds.width() / 2;
+            float textY = rect.centerY() + textBounds.height() / 2;
             canvas.drawText(""+value, textX, textY, textPaint);
         }
+    }
+
+    @NonNull
+    private RectF getTileRect(int i, int j) {
+        float xu = margin + (i +1)*spacing + i *tileSize;
+        float yu = margin + (j +1)*spacing + j *tileSize;
+        float xd = xu + tileSize;
+        float yd = yu + tileSize;
+        RectF rect = new RectF(xu, yu, xd, yd);
+        return rect;
     }
 
     private void drawTileRect(int i, int j, Canvas canvas) {
@@ -147,22 +191,22 @@ public class StandardView extends View {
                     if (deltaY > 0) {
                         // Right swipe
                         // Update game logic to move tiles to the right
-                        game.endTurn(KeyEvent.VK_RIGHT);
+                        game.endTurn(KeyEvent.VK_DOWN);
                     } else {
                         // Left swipe
                         // Update game logic to move tiles to the left
-                        game.endTurn(KeyEvent.VK_LEFT);
+                        game.endTurn(KeyEvent.VK_UP);
                     }
                 } else {
                     // Vertical swipe (up or down)
                     if (deltaX > 0) {
                         // Down swipe
                         // Update game logic to move tiles down
-                        game.endTurn(KeyEvent.VK_DOWN);
+                        game.endTurn(KeyEvent.VK_RIGHT);
                     } else {
                         // Up swipe
                         // Update game logic to move tiles up
-                        game.endTurn(KeyEvent.VK_UP);
+                        game.endTurn(KeyEvent.VK_LEFT);
                     }
                 }
                 invalidate();

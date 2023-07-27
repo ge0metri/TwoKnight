@@ -4,13 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.twoknight.databinding.ActivityMainBinding;
+import com.example.twoknight.factory.StandardGameFactory;
+import com.example.twoknight.framework.Game;
+import com.example.twoknight.standard.KeyEvent;
+import com.example.twoknight.standard.StandardGame;
+import com.google.android.gms.ads.AdView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,29 +20,28 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private AppBarConfiguration appBarConfiguration;
 
+    private StandardView gameView;
+
+    private FloatingActionButton fab;
+    private Game standardGame = new StandardGame(new StandardGameFactory(1));
+    private AdView adView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         // Set the content view to your custom GameView
-        View gameView = new StandardView(this);
-        //setContentView(R.layout.activity_main);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        // Access the views using data binding
-        CoordinatorLayout coordinatorLayout = binding.coordinatorLayout;
-        coordinatorLayout.addView(gameView);
-        //StandardView standardView = binding.gameView;
-        // You can set properties or listeners directly on the views using data binding
-        //standardView.setVisibility(View.VISIBLE);
-        // You can also use the binding to set the content description for the FloatingActionButton
-        binding.fab.setContentDescription("Send email");
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
-            }
-        });
+        gameView = (StandardView)findViewById(R.id.gameView);
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        adView = (AdView)findViewById(R.id.adView);
+        gameView.addGame(standardGame);
+    }
+
+    public void btn10(View view) {
+        Snackbar.make(view, "BAH", Snackbar.LENGTH_LONG)
+                .setAnchorView(R.id.fab)
+                .setAction("Action", null).show();
+        standardGame.endTurn(KeyEvent.VK_UP);
+        gameView.invalidate();
     }
 }

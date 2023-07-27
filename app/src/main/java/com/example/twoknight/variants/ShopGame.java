@@ -56,7 +56,7 @@ public class ShopGame implements Shop {
         int x = pointer / side1;
         int y = pointer % side1;
         switch (e) {
-            case KeyEvent.VK_UP: {
+            case KeyEvent.VK_LEFT: {
                 if (x != 0) {
                     pointer -= side1;
                 } else {
@@ -64,7 +64,7 @@ public class ShopGame implements Shop {
                 }
                 break;
             }
-            case KeyEvent.VK_DOWN: {
+            case KeyEvent.VK_RIGHT: {
                 if (x != side0 - 1) {
                     pointer += side1;
                 } else {
@@ -72,7 +72,7 @@ public class ShopGame implements Shop {
                 }
                 break;
             }
-            case KeyEvent.VK_LEFT: {
+            case KeyEvent.VK_UP: {
                 if (y != 0) {
                     pointer--;
                 } else {
@@ -80,7 +80,7 @@ public class ShopGame implements Shop {
                 }
                 break;
             }
-            case KeyEvent.VK_RIGHT: {
+            case KeyEvent.VK_DOWN: {
                 if (y != (side1) - 1) {
                     pointer++;
                 } else {

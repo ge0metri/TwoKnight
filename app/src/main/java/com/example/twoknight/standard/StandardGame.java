@@ -32,8 +32,6 @@ import com.example.twoknight.tiles.StandardTile;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.example.twoknight.framework.*;
-
 public class StandardGame implements MutableGame {
     Random rand = new Random();
     private int currentTurn;
@@ -123,19 +121,19 @@ public class StandardGame implements MutableGame {
                     gameState = GameState.RUNNING;
                     break;
                 }
-                case KeyEvent.VK_UP: {
+                case KeyEvent.VK_LEFT: {
                     moved = moveUp();
                     break;
                 }
-                case KeyEvent.VK_DOWN: {
+                case KeyEvent.VK_RIGHT: {
                     moved = moveDown();
                     break;
                 }
-                case KeyEvent.VK_LEFT: {
+                case KeyEvent.VK_UP: {
                     moved = moveLeft();
                     break;
                 }
-                case KeyEvent.VK_RIGHT: {
+                case KeyEvent.VK_DOWN: {
                     moved = moveRight();
                     break;
                 }
@@ -162,7 +160,7 @@ public class StandardGame implements MutableGame {
         int y = pointer % side1;
         System.out.println(x + ", " + y);
         switch (e) {
-            case (KeyEvent.VK_UP): {
+            case (KeyEvent.VK_LEFT): {
                 if (x != 0) {
                     pointer -= side1;
                 } else {
@@ -170,7 +168,7 @@ public class StandardGame implements MutableGame {
                 }
                 break;
             }
-            case KeyEvent.VK_DOWN: {
+            case KeyEvent.VK_RIGHT: {
                 if (x != side0 - 1) {
                     pointer += side1;
                 } else {
@@ -178,7 +176,7 @@ public class StandardGame implements MutableGame {
                 }
                 break;
             }
-            case KeyEvent.VK_LEFT: {
+            case KeyEvent.VK_UP: {
                 if (y != 0) {
                     pointer--;
                 } else {
@@ -186,7 +184,7 @@ public class StandardGame implements MutableGame {
                 }
                 break;
             }
-            case KeyEvent.VK_RIGHT: {
+            case KeyEvent.VK_DOWN: {
                 if (y != (side1) - 1) {
                     pointer++;
                 } else {

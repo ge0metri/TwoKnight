@@ -14,10 +14,10 @@ public class KeyEvent {
     public final static int VK_9 = 9;
     public final static int VK_ENTER = 10;
 
-    public static final int VK_DOWN = 11;
-    public static final int VK_UP = 12;
-    public static final int VK_LEFT = 13;
-    public static final int VK_RIGHT = 14;
+    public static final int VK_RIGHT = 11;
+    public static final int VK_LEFT = 12;
+    public static final int VK_UP = 13;
+    public static final int VK_DOWN = 14;
     public static final int VK_Q = 15;
     public static final int VK_D = 16;
     public static final int VK_ESCAPE = 17;

@@ -17,8 +17,5 @@ public class GUIConstants {
             "#be5e56", "#9c3931", "#701710",
             "#A4544D", "#6E2A23", "#420D09"};
 
-    public GUIConstants() {
-        boardPaint.setColor(Color.GRAY);
 
-    }
 }
