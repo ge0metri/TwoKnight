@@ -18,6 +18,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatDrawableManager;
+import androidx.core.content.ContextCompat;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.example.twoknight.androidGUI.GUIConstants;
@@ -40,9 +41,11 @@ public class StandardView extends View {
     Drawable heroSmug = AppCompatResources.getDrawable(getContext(), R.drawable.ic_hero_smug);
     private final Paint textPaint;
     private float corner;
-    private Drawable heroScard = AppCompatResources.getDrawable(getContext(), R.drawable.ic_hero_scard);;
-    //private Color heroColor = Color.(R.styleable.StandardView_circleColor);
-
+    private Drawable heroScard = AppCompatResources.getDrawable(getContext(), R.drawable.ic_hero_scard);
+    private Drawable heroShield = AppCompatResources.getDrawable(getContext(), R.drawable.ic_shield);
+    int heroColor = ContextCompat.getColor(getContext(), R.color.hero_col);
+    int hurtColor = ContextCompat.getColor(getContext(), R.color.hero_stcolor);
+    int emptyColor = ContextCompat.getColor(getContext(), R.color.empty_col);
     public StandardView(Context context) {
         super(context);
         //game = new AlternatingGame();
@@ -98,7 +101,7 @@ public class StandardView extends View {
 
     private void drawTile(Tile[][] field, int i, int j, Canvas canvas) {
         if (field[i][j] == null) {
-            GUIConstants.TilePaint.setColor(Color.GRAY);
+            GUIConstants.TilePaint.setColor(emptyColor);
             drawTileRect(i, j, canvas); //draws tile without value. Color is determined before fcn is called
             return;
         }
@@ -122,20 +125,32 @@ public class StandardView extends View {
 
     private void drawHeroTile(Hero hero, int i, int j, Canvas canvas) {
         Drawable drawing = heroSmug;
+        RectF bounds = getTileRect(i,j);
+        GUIConstants.TilePaint.setColor(heroColor);
         if (hero.isVulnerable()){
             drawing = heroScard;
+            GUIConstants.TilePaint.setColor(hurtColor);
+            drawTileValue("x2", bounds, canvas);
         }
-        RectF bounds = getTileRect(i,j);
+        canvas.drawRoundRect(bounds, corner/4, corner/4, GUIConstants.TilePaint);
         drawing.setBounds(
                 (int) bounds.left,
                 (int) bounds.top,
                 (int) bounds.right,
                 (int) bounds.bottom
         );
-        GUIConstants.TilePaint.setColor(Color.DKGRAY);
-        canvas.drawRoundRect(bounds, corner/4, corner/4, GUIConstants.TilePaint);
         drawing.draw(canvas);
-
+        if (hero.getShield() > 0){
+            float scale = (float) 1.1;
+            heroShield.setBounds(
+                    (int) (bounds.centerX() - (bounds.width() * scale) / 2),
+                    (int) (bounds.centerY() - (bounds.height() * scale) / 2),
+                    (int) (bounds.centerX() + (bounds.width() * scale) / 2),
+                    (int) (bounds.centerY() + (bounds.height() * scale) / 2));
+            heroShield.draw(canvas);
+            textPaint.setColor(Color.DKGRAY);
+            drawTileValue(String.valueOf(hero.getShield()), bounds, canvas);
+        }
     }
 
     private void drawTileRect(int i, int j, Canvas canvas, int value) {
@@ -143,13 +158,17 @@ public class StandardView extends View {
         canvas.drawRoundRect(rect,corner/4,corner/4, GUIConstants.TilePaint);
         if (value > 0){
             textPaint.setTextSize(tileSize / 2);
-            Rect textBounds = new Rect();
-            textPaint.getTextBounds(String.valueOf(value), 0, String.valueOf(value).length(), textBounds);
-            // Calculate the position to draw the number in the center of the tile
-            float textX = rect.centerX() - textBounds.width() / 2;
-            float textY = rect.centerY() + textBounds.height() / 2;
-            canvas.drawText(""+value, textX, textY, textPaint);
+            drawTileValue(String.valueOf(value), rect, canvas);
         }
+    }
+
+    private void drawTileValue(String value, RectF rect, Canvas canvas) {
+        Rect textBounds = new Rect();
+        textPaint.getTextBounds(value, 0, value.length(), textBounds);
+        // Calculate the position to draw the number in the center of the tile
+        float textX = rect.centerX() - textBounds.width() / 2;
+        float textY = rect.centerY() + textBounds.height() / 2;
+        canvas.drawText(value, textX, textY, textPaint);
     }
 
     @NonNull

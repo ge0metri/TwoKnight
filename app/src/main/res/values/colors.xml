@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="hero_stcolor">#3E305E</color>
+    <color name="hero_col">#141251</color>
+    <color name="empty_col">#BABABA</color>
 </resources>

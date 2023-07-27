@@ -1,6 +1,7 @@
 package com.example.twoknight;
 
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
+
+
     private ActivityMainBinding binding;
     private AppBarConfiguration appBarConfiguration;
 
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private Game standardGame = new StandardGame(new StandardGameFactory(1));
     private AdView adView;
-
+    DataSaver dataSaver = new DataSaver();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         adView = (AdView)findViewById(R.id.adView);
         gameView.addGame(standardGame);
     }
+    // TODO: Add healthbar.
 
     public void btn10(View view) {
         Snackbar.make(view, "BAH", Snackbar.LENGTH_LONG)
