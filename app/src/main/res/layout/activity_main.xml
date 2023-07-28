@@ -10,162 +10,153 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.twoknight.MainActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="0.5"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="parent"
+        ads:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             ads:adSize="SMART_BANNER"
-            ads:adUnitId="YOUR_AD_UNIT_ID" />
+            ads:adUnitId="YOUR_AD_UNIT_ID"
+            ads:layout_constraintBottom_toTopOf="@id/gameView"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintHorizontal_bias="0.5"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toTopOf="parent"
+            ads:layout_constraintVertical_bias="1.0" />
 
         <com.example.twoknight.StandardView
             android:id="@+id/gameView"
-            android:layout_width="wrap_content"
-            android:layout_height="410dp"
-            android:layout_gravity="bottom"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
+            android:baselineAligned="false"
             android:visibility="visible"
+            ads:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toBottomOf="@id/adView"
             custom:circleColor="#92B692"
             custom:circleLabel="Hello"
             custom:labelColor="#ffff66"></com.example.twoknight.StandardView>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="horizontal"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintHorizontal_bias="0.5"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toBottomOf="@+id/gameView">
 
-            <LinearLayout
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab8"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Send email"
+                android:onClick="btn10"
+                custom:srcCompat="@android:drawable/ic_dialog_email" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:contentDescription="Send email"
-                    android:onClick="btn10"
-                    app:srcCompat="@android:drawable/ic_dialog_email" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:contentDescription="Send email"
-                    android:onClick="btn10"
-                    custom:srcCompat="@android:drawable/ic_dialog_email" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:contentDescription="Send email"
-                    android:onClick="btn10"
-                    custom:srcCompat="@android:drawable/ic_dialog_email" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:contentDescription="Send email"
-                    android:onClick="btn10"
-                    custom:srcCompat="@android:drawable/ic_dialog_email" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:contentDescription="Send email"
-                    android:onClick="btn10"
-                    app:fabSize="auto"
-                    custom:srcCompat="@android:drawable/ic_dialog_email" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Send email"
+                android:onClick="btn10"
+                custom:srcCompat="@android:drawable/ic_dialog_email" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:contentDescription="Send email"
-                    android:onClick="btn10"
-                    custom:srcCompat="@android:drawable/ic_dialog_email" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Send email"
+                android:onClick="btn10"
+                custom:srcCompat="@android:drawable/ic_dialog_email" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:contentDescription="Send email"
-                    android:onClick="btn10"
-                    custom:srcCompat="@android:drawable/ic_dialog_email" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Send email"
+                android:onClick="btn10"
+                custom:srcCompat="@android:drawable/ic_dialog_email" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:contentDescription="Send email"
-                    android:onClick="btn10"
-                    custom:srcCompat="@android:drawable/ic_dialog_email" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Send email"
+                android:onClick="btn10"
+                custom:srcCompat="@android:drawable/ic_dialog_email" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:contentDescription="Send email"
-                    android:onClick="btn10"
-                    custom:srcCompat="@android:drawable/ic_dialog_email" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Send email"
+                android:onClick="btn10"
+                custom:srcCompat="@android:drawable/ic_dialog_email" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_marginBottom="@dimen/fab_margin"
-                    android:contentDescription="Send email"
-                    android:onClick="btn10"
-                    custom:srcCompat="@android:drawable/ic_dialog_email" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Send email"
+                android:onClick="btn10"
+                app:fabSize="auto"
+                custom:srcCompat="@android:drawable/ic_dialog_email" />
 
-            </LinearLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Send email"
+                android:onClick="btn10"
+                custom:srcCompat="@android:drawable/ic_dialog_email" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Send email"
+                android:onClick="btn10"
+                app:srcCompat="@android:drawable/ic_dialog_email" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:contentDescription="Send email"
+                android:onClick="btn10"
+                custom:srcCompat="@android:drawable/ic_dialog_email" />
+
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--
          <com.google.android.material.appbar.AppBarLayout

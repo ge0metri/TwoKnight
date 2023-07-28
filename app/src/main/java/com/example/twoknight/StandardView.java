@@ -9,21 +9,18 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.AppCompatDrawableManager;
 import androidx.core.content.ContextCompat;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 import com.example.twoknight.androidGUI.GUIConstants;
 import com.example.twoknight.factory.StandardGameFactory;
 import com.example.twoknight.framework.*;
+import com.example.twoknight.standard.GameConstants;
 import com.example.twoknight.standard.KeyEvent;
 import com.example.twoknight.standard.StandardGame;
 
@@ -46,6 +43,10 @@ public class StandardView extends View {
     int heroColor = ContextCompat.getColor(getContext(), R.color.hero_col);
     int hurtColor = ContextCompat.getColor(getContext(), R.color.hero_stcolor);
     int emptyColor = ContextCompat.getColor(getContext(), R.color.empty_col);
+    private float healthBarHeight;
+    private float healthBarWidth;
+    private float yOffSet;
+
     public StandardView(Context context) {
         super(context);
         //game = new AlternatingGame();
@@ -76,6 +77,9 @@ public class StandardView extends View {
         tileSize = boardSize/5;
         spacing = tileSize/5;
         corner = boardSize/50;
+        healthBarHeight = tileSize/2;
+        healthBarWidth = boardSize - tileSize;
+        yOffSet = 2*margin + healthBarHeight;
     }
 
     @Override
@@ -83,15 +87,32 @@ public class StandardView extends View {
         super.onDraw(canvas);
         // Draw your game elements on the canvas
         //canvas.drawCircle(200, 200, 200, pincelAmerelo);
-        DrawBoard(canvas);
-        Log.d("MainActivity", "This is a debug message" + margin + "");
-        Log.d("MainActivity", "numbers" + margin + " " + viewHeight + " " + viewWidth);
-
+        drawBoard(canvas);
+        drawHealth(canvas);
     }
 
-    private void DrawBoard(Canvas canvas) {
+    private void drawHealth(Canvas canvas) {
+        GUIConstants.TilePaint.setColor(Color.RED);
+        float healthBar = boardSize * game.getHero().getHealth() / game.getHero().getValue();
+        canvas.drawRoundRect(margin,
+                margin,
+                margin+healthBar,
+                margin + healthBarHeight,
+                corner,
+                corner,
+                GUIConstants.TilePaint);
+    }
+
+    private void drawBoard(Canvas canvas) {
         Tile[][] field = game.getField();
-        canvas.drawRoundRect(margin, margin, margin+boardSize, margin+boardSize, corner, corner, GUIConstants.boardPaint);
+        canvas.drawRoundRect(
+                margin,
+                yOffSet,
+                margin + boardSize,
+                yOffSet + boardSize,
+                corner,
+                corner,
+                GUIConstants.boardPaint);
         for (int i = 0; i < field.length; i++){
             for (int j = 0; j < field[i].length; j++){
                 drawTile(field, i,j, canvas);
@@ -174,7 +195,7 @@ public class StandardView extends View {
     @NonNull
     private RectF getTileRect(int i, int j) {
         float xu = margin + (i +1)*spacing + i *tileSize;
-        float yu = margin + (j +1)*spacing + j *tileSize;
+        float yu = yOffSet + (j +1)*spacing + j *tileSize;
         float xd = xu + tileSize;
         float yd = yu + tileSize;
         RectF rect = new RectF(xu, yu, xd, yd);

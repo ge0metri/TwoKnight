@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         adView = (AdView)findViewById(R.id.adView);
         gameView.addGame(standardGame);
     }
-    // TODO: Add healthbar.
 
     public void btn10(View view) {
         Snackbar.make(view, "BAH", Snackbar.LENGTH_LONG)
