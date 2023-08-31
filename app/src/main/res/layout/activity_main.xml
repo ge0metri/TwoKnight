@@ -70,7 +70,7 @@
                 android:layout_gravity="bottom|end"
                 android:contentDescription="Send email"
                 android:onClick="btn10"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
+                custom:srcCompat="@android:drawable/ic_popup_sync" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab2"
