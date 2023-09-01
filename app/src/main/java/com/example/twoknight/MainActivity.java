@@ -19,7 +19,12 @@ import com.google.android.material.snackbar.Snackbar;
 public class MainActivity extends AppCompatActivity {
 
 
-
+    // TODO: 1) Make data saver thing. Prob only level and money/power
+    // TODO: 2) Make menu screen
+    // TODO: 3) implement tutorial, probably by fragments at some point
+    // TODO: 4) implement visual for powers
+    // TODO: 5) adjust difficulty, and make powers either fully rougelike or forever
+    // TODO: 6) More stuff later probably
     private ActivityMainBinding binding;
     private AppBarConfiguration appBarConfiguration;
 
@@ -38,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         fab = (FloatingActionButton)findViewById(R.id.fab10);
         adView = (AdView)findViewById(R.id.adView);
         gameView.addGame(standardGame);
+    }
+    public void startGame(){
+
     }
 
     public void btn10(View view) {

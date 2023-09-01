@@ -40,11 +40,11 @@ public class StandardView extends View {
     private float corner;
     private Drawable heroScard = AppCompatResources.getDrawable(getContext(), R.drawable.ic_hero_scard);
     private Drawable heroShield = AppCompatResources.getDrawable(getContext(), R.drawable.ic_shield);
+    private Drawable criticalImage = AppCompatResources.getDrawable(getContext(), R.drawable.ic_x2);
     int heroColor = ContextCompat.getColor(getContext(), R.color.hero_col);
     int hurtColor = ContextCompat.getColor(getContext(), R.color.hero_stcolor);
     int emptyColor = ContextCompat.getColor(getContext(), R.color.empty_col);
     private float healthBarHeight;
-    private float healthBarWidth;
     private float yOffSet;
 
     public StandardView(Context context) {
@@ -78,7 +78,6 @@ public class StandardView extends View {
         spacing = tileSize/5;
         corner = boardSize/50;
         healthBarHeight = tileSize/2;
-        healthBarWidth = boardSize - tileSize;
         yOffSet = 2*margin + healthBarHeight;
     }
 
@@ -94,13 +93,21 @@ public class StandardView extends View {
     private void drawHealth(Canvas canvas) {
         GUIConstants.TilePaint.setColor(Color.RED);
         float healthBar = boardSize * game.getHero().getHealth() / game.getHero().getValue();
+        if (healthBar<0){healthBar=0;}
         canvas.drawRoundRect(margin,
-                margin,
+                (float) (1*margin),
                 margin+healthBar,
                 margin + healthBarHeight,
                 corner,
                 corner,
                 GUIConstants.TilePaint);
+        if (game.getHero().isVulnerable()){
+            criticalImage.setBounds(new Rect((int) (margin+healthBar-0.75*tileSize),
+                    (int) (0.5*margin),
+                    (int) (margin+healthBar+0.25*tileSize),
+                    (int) (margin + tileSize-0.5*margin)));
+            criticalImage.draw(canvas);
+        }
     }
 
     private void drawBoard(Canvas canvas) {
@@ -150,8 +157,6 @@ public class StandardView extends View {
         GUIConstants.TilePaint.setColor(heroColor);
         if (hero.isVulnerable()){
             drawing = heroScard;
-            GUIConstants.TilePaint.setColor(hurtColor);
-            drawTileValue("x2", bounds, canvas);
         }
         canvas.drawRoundRect(bounds, corner/4, corner/4, GUIConstants.TilePaint);
         drawing.setBounds(
