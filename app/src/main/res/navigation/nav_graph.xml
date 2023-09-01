@@ -16,6 +16,12 @@
             app:destination="@id/SecondFragment" />
     </fragment>
     <fragment
+        android:id="@+id/GameFragment"
+        android:name="com.example.twoknight.GameFragment"
+        android:label="game fragment"
+        tools:layout="@layout/fragment_game">
+    </fragment>
+    <fragment
         android:id="@+id/SecondFragment"
         android:name="com.example.twoknight.SecondFragment"
         android:label="@string/second_fragment_label"

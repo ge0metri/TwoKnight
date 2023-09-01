@@ -10,120 +10,13 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.twoknight.MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        ads:layout_constraintBottom_toBottomOf="parent"
-        ads:layout_constraintEnd_toEndOf="parent"
-        ads:layout_constraintHorizontal_bias="0.5"
-        ads:layout_constraintStart_toStartOf="parent"
-        ads:layout_constraintTop_toTopOf="parent"
-        ads:layout_constraintVertical_bias="0.5"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            ads:adSize="SMART_BANNER"
-            ads:adUnitId="YOUR_AD_UNIT_ID"
-            ads:layout_constraintBottom_toTopOf="@id/gameView"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintHorizontal_bias="0.5"
-            ads:layout_constraintStart_toStartOf="parent"
-            ads:layout_constraintTop_toTopOf="parent"
-            ads:layout_constraintVertical_bias="1.0" />
-
-        <com.example.twoknight.StandardView
-            android:id="@+id/gameView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:baselineAligned="false"
-            android:visibility="visible"
-            app:layout_constraintDimensionRatio="1:1.15"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintStart_toStartOf="parent"
-            ads:layout_constraintTop_toBottomOf="@id/adView"
-            custom:circleColor="#92B692"
-            custom:circleLabel="Hello"
-            custom:labelColor="#ffff66"></com.example.twoknight.StandardView>
-
-        <GridLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:rowCount="2"
-            android:columnCount="3"
-            android:alignmentMode="alignMargins"
-            ads:layout_constraintBottom_toBottomOf="parent"
-            ads:layout_constraintEnd_toEndOf="parent"
-            ads:layout_constraintStart_toStartOf="parent"
-            ads:layout_constraintTop_toBottomOf="@+id/gameView">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                android:onClick="btn10"
-                custom:srcCompat="@android:drawable/ic_popup_sync" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                android:onClick="btn10"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                android:onClick="btn10"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                android:onClick="btn10"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                android:onClick="btn10"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                android:onClick="btn10"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
-        </GridLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
     <!--
          <com.google.android.material.appbar.AppBarLayout
              android:layout_width="match_parent"
