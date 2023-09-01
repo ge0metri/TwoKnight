@@ -35,14 +35,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         // Set the content view to your custom GameView
         gameView = (StandardView)findViewById(R.id.gameView);
-        fab = (FloatingActionButton)findViewById(R.id.fab);
+        fab = (FloatingActionButton)findViewById(R.id.fab10);
         adView = (AdView)findViewById(R.id.adView);
         gameView.addGame(standardGame);
     }
 
     public void btn10(View view) {
         Snackbar.make(view, "BAH", Snackbar.LENGTH_LONG)
-                .setAnchorView(R.id.fab)
+                .setAnchorView(R.id.fab10)
                 .setAction("Action", null).show();
         standardGame.endTurn(KeyEvent.VK_UP);
         gameView.invalidate();
