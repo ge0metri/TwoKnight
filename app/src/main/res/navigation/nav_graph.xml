@@ -5,6 +5,28 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/FirstFragment">
 
+
+
+    <fragment
+        android:id="@+id/GameFragment"
+        android:name="com.example.twoknight.GameFragment"
+        android:label="game fragment"
+        tools:layout="@layout/fragment_game">
+    </fragment>
+
+    <fragment
+        android:id="@+id/MenuFragment"
+        android:name="com.example.twoknight.MenuFragment"
+        android:label="menu fragment"
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_MenuFragment_to_GameFragment"
+            app:destination="@id/GameFragment" />
+    </fragment>
+
+
+
+
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.twoknight.FirstFragment"
@@ -14,12 +36,6 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/GameFragment"
-        android:name="com.example.twoknight.GameFragment"
-        android:label="game fragment"
-        tools:layout="@layout/fragment_game">
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
