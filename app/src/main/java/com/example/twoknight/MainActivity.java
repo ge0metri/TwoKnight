@@ -15,39 +15,22 @@ import com.google.android.material.snackbar.Snackbar;
 public class MainActivity extends AppCompatActivity {
 
 
-    // TOD: 1) Make data saver thing. Prob only level and money/power --ok--
-    // TODO: 1.5) Clean up data loader. I need a good idea of how to make it
+    // TODO: 1) Make data saver thing. Prob only level and money/power -semi-
+    // TODO 1) Make end screen
+    // TODO 2) refactor shop
+    // TODO 3) difficulty handler
+    // TODO: 1.5) Clean up data loader. I need a good idea of how to make it / when to save
     // TODO: 2) Make menu screen -semi done-
-    // TODO: 3) implement tutorial, probably by fragments at some point
+    // TOD: 3) implement tutorial --ok--
     // TODO: 4) implement visual for powers
-    // TODO: 5) adjust difficulty, and make powers either fully rougelike or forever
+    // TODO: 5) adjust difficulty, and make powers either fully roguelike or forever
     // TODO: 6) More stuff later probably
-    private ActivityMainBinding binding;
-    private AppBarConfiguration appBarConfiguration;
-    private DataSaver dataSaver;
-    private Game game;
-    private int currentLevel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dataSaver = new DataSaver(getApplicationContext());
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        navController.navigate(R.id.MenuFragment);
     }
 
-    private void loadGame(DataSaver dataSaver) {
-
-    }
-
-    public void btn10(View view) {
-        Snackbar.make(view, "BAH", Snackbar.LENGTH_LONG)
-                .setAnchorView(R.id.fab8)
-                .setAction("Action", null).show();
-    }
-    public void saveGame(){
-    }
-    public void startGame(){
-    }
 
 }

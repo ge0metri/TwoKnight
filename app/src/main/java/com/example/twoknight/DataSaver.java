@@ -16,6 +16,7 @@ public class DataSaver {
     private static final String PREF_NAME = "GameData";
     private static final String KEY_CURRENT_LEVEL = "current_level";
     private static final String KEY_BOUGHT_ITEMS = "bought_items";
+    private static final String KEY_CURRENT_MONEY = "money";
 
     private final SharedPreferences sharedPreferences;
 
@@ -29,6 +30,12 @@ public class DataSaver {
 
     public int loadCurrentLevel() {
         return sharedPreferences.getInt(KEY_CURRENT_LEVEL, 1); // Default level 1
+    }
+    public void saveMoney(int money) {
+        sharedPreferences.edit().putInt(KEY_CURRENT_MONEY, money).apply();
+    }
+    public int loadMoney() {
+        return sharedPreferences.getInt(KEY_CURRENT_MONEY, 1); // Default level 1
     }
 
     public void saveBoughtItems(int[] items) {

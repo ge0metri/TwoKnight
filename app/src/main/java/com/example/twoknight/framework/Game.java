@@ -23,7 +23,7 @@ import com.example.twoknight.standard.Laser;
  * The role of a single TwoKnight game, allowing clients to
  * take game actions and then the game takes care of it.
  */
-public interface Game {
+public interface Game extends Observable {
     // === Accessors for Game state
 
     /**

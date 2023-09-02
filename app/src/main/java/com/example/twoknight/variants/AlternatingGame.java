@@ -4,6 +4,7 @@ package com.example.twoknight.variants;
 
 import com.example.twoknight.factory.StandardGameFactory;
 import com.example.twoknight.framework.Game;
+import com.example.twoknight.framework.GameListener;
 import com.example.twoknight.framework.GameState;
 import com.example.twoknight.framework.Hero;
 import com.example.twoknight.framework.Tile;
@@ -93,5 +94,10 @@ public class AlternatingGame implements Game, Shop {
     @Override
     public int getBalance() {
         return shop.getBalance();
+    }
+
+    @Override
+    public void setGameListener(GameListener listener) {
+
     }
 }

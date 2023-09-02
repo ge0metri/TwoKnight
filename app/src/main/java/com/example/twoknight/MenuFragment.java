@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,10 +27,11 @@ public class MenuFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
+    private TextView levelTextView;
+    private TextView moneyTextView;
+
+    private DataSaver dataSaver;
     public MenuFragment() {
         // Required empty public constructor
     }
@@ -53,35 +57,39 @@ public class MenuFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        dataSaver = new DataSaver(requireContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
-
         // Find the buttons by their IDs and set click listeners
-
         Button playButton = view.findViewById(R.id.btnPlay);
         Button howToPlayButton = view.findViewById(R.id.btnHowToPlay);
         Button shopButton = view.findViewById(R.id.btnShop);
-
         playButton.setOnClickListener(this::startGame);
-
         howToPlayButton.setOnClickListener(this::howToPlay);
-
         shopButton.setOnClickListener(this::toShop);
 
+        moneyTextView = view.findViewById(R.id.moneyText);
+        levelTextView = view.findViewById(R.id.levelText);
+        updateDisplay();
         return view;
+    }
+
+    private void updateDisplay() {
+        String levelText = "Current level: " + dataSaver.loadCurrentLevel();
+        levelTextView.setText(levelText);
+        String moneyText = "$ " + dataSaver.loadMoney() + " $";
+        moneyTextView.setText(moneyText);
     }
 
     private void toShop(View view) {
     }
 
     private void howToPlay(View view) {
+        NavHostFragment.findNavController(MenuFragment.this)
+                .navigate(R.id.action_MenuFragment_to_TutorialFragment);
     }
 
     public void startGame(View view) {

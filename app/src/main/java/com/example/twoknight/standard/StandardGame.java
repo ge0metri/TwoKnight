@@ -18,6 +18,7 @@
 package com.example.twoknight.standard;
 
 import com.example.twoknight.factory.GameFactory;
+import com.example.twoknight.framework.GameListener;
 import com.example.twoknight.framework.GameState;
 import com.example.twoknight.framework.Hero;
 import com.example.twoknight.framework.ImmovableTile;
@@ -54,6 +55,7 @@ public class StandardGame implements MutableGame {
     private boolean debugMode;
     private int pointer = 0;
     private final PowerStrategy powerStrategy = new StandardPowerStrategy();
+    private GameListener listener;
 
     public StandardGame(GameFactory gameFactory) {
         this.difficultyHandler = gameFactory.getDifficultyHandler();
@@ -417,6 +419,7 @@ public class StandardGame implements MutableGame {
                 addRandomTile();
             } else {
                 gameState = GameState.WINNER;
+                listener.onLevelCleared(this);
             }
         }
 
@@ -456,4 +459,8 @@ public class StandardGame implements MutableGame {
         isCharging = false;
     }
 
+    @Override
+    public void setGameListener(GameListener listener) {
+        this.listener = listener;
+    }
 }

@@ -3,6 +3,7 @@ package com.example.twoknight.variants;
 //import java.awt.event.KeyEvent;
 
 import com.example.twoknight.errors.InsufficientFunds;
+import com.example.twoknight.framework.GameListener;
 import com.example.twoknight.framework.GameState;
 import com.example.twoknight.framework.Hero;
 import com.example.twoknight.framework.Tile;
@@ -154,5 +155,10 @@ public class ShopGame implements Shop {
     @Override
     public int getBalance() {
         return balance;
+    }
+
+    @Override
+    public void setGameListener(GameListener listener) {
+
     }
 }

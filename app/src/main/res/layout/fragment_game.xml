@@ -66,7 +66,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
-                android:onClick="btn10"
                 custom:srcCompat="@android:drawable/ic_popup_sync" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -76,7 +75,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
-                android:onClick="btn10"
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -86,7 +84,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
-                android:onClick="btn10"
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -96,7 +93,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
-                android:onClick="btn10"
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -106,7 +102,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
-                android:onClick="btn10"
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -116,7 +111,6 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
-                android:onClick="btn10"
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
         </GridLayout>
 

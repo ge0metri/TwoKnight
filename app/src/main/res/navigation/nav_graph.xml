@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/MenuFragment">
 
 
 
@@ -12,6 +12,9 @@
         android:name="com.example.twoknight.GameFragment"
         android:label="game fragment"
         tools:layout="@layout/fragment_game">
+        <action
+            android:id="@+id/action_GameFragment_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
     </fragment>
 
     <fragment
@@ -22,11 +25,33 @@
         <action
             android:id="@+id/action_MenuFragment_to_GameFragment"
             app:destination="@id/GameFragment" />
+        <action
+            android:id="@+id/action_MenuFragment_to_TutorialFragment"
+            app:destination="@id/TutorialFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/TutorialFragment"
+        android:name="com.example.twoknight.TutorialFragment"
+        android:label="tutorial fragment"
+        tools:layout="@layout/fragment_tutorial" >
+        <action
+            android:id="@+id/action_TutorialFragment_to_TutorialFragment2"
+            app:destination="@id/TutorialFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/TutorialFragment2"
+        android:name="com.example.twoknight.TutorialFragment2"
+        android:label="tutorial fragment2"
+        tools:layout="@layout/fragment_tutorial2" >
+        <action
+            android:id="@+id/action_TutorialFragment2_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
     </fragment>
 
 
 
-
+<!--
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.example.twoknight.FirstFragment"
@@ -46,5 +71,5 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
-    </fragment>
+    </fragment> -->
 </navigation>

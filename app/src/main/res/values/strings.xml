@@ -45,4 +45,11 @@
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tutorial_description1"></string>
+    <string name="tutorial_description2">But watch out! \n A shield can appear that can only be broken by a tile of a specific value.</string>
+    <string name="tutorial_description3">And the next tile will deal DOUBLE damage. But hurry, the shield will regenerate!</string>
+    <string name="tutorial_title1">Smash the villain with tiles!</string>
+    <string name="next_button1">Next</string>
+    <string name="tutorial_title2">After you break the shield the villain is vulnerable!</string>
+    <string name="next_button2">Menu</string>
 </resources>
