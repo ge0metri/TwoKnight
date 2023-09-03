@@ -52,4 +52,5 @@
     <string name="next_button1">Next</string>
     <string name="tutorial_title2">After you break the shield the villain is vulnerable!</string>
     <string name="next_button2">Menu</string>
+    <string name="contin">Continue</string>
 </resources>

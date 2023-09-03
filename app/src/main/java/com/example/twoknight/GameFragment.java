@@ -1,5 +1,7 @@
 package com.example.twoknight;
 
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -16,6 +18,10 @@ import com.example.twoknight.framework.Game;
 import com.example.twoknight.framework.GameListener;
 import com.example.twoknight.standard.StandardGame;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link GameFragment#newInstance} factory method to
@@ -31,7 +37,7 @@ public class GameFragment extends Fragment implements GameListener {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private Game standardGame = new StandardGame(new StandardGameFactory(1));
+    private Game standardGame;
     private StandardView gameView;
     private DataSaver dataSaver;
 
@@ -61,13 +67,13 @@ public class GameFragment extends Fragment implements GameListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dataSaver = new DataSaver(requireContext());
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+/*        OnBackPressedCallback callback = new OnBackPressedCallback(true *//* enabled by default *//*) {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);*/
 
     }
 
@@ -80,9 +86,11 @@ public class GameFragment extends Fragment implements GameListener {
 
         StandardView gameView = rootView.findViewById(R.id.gameView);
         // Customize and configure your GameView as needed
-        standardGame = new StandardGame(new StandardGameFactory(dataSaver.loadCurrentLevel()));
-        standardGame.setGameListener(this);
-        gameView.addGame(standardGame);
+        if (GameManager.getInstance().getGame() == null){
+            GameManager.getInstance().setGame(dataSaver.loadCurrentLevel());
+            GameManager.getInstance().getGame().setGameListener(this);
+        }
+        gameView.addGame(GameManager.getInstance().getGame());
         return rootView;
     }
 
@@ -95,6 +103,7 @@ public class GameFragment extends Fragment implements GameListener {
     @Override
     public void onLevelCleared(Game game) {
         saveGame(game);
+        GameManager.getInstance().deleteGame();
         NavHostFragment.findNavController(GameFragment.this).navigate(R.id.action_GameFragment_to_MenuFragment);
     }
 }

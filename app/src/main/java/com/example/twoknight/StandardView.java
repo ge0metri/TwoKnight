@@ -9,7 +9,9 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -23,6 +25,10 @@ import com.example.twoknight.framework.*;
 import com.example.twoknight.standard.GameConstants;
 import com.example.twoknight.standard.KeyEvent;
 import com.example.twoknight.standard.StandardGame;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class StandardView extends View {
     private Game game;
@@ -67,11 +73,12 @@ public class StandardView extends View {
         textPaint.setAntiAlias(true);
     }
 
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        viewWidth = getWidth();
-        viewHeight = getHeight();
+        int viewWidth = w;
+        int viewHeight = h;
         boardSize = (float) (Math.min(viewHeight, viewWidth)*0.90);
         margin = (float) ((Math.min(viewHeight, viewWidth)-boardSize)*0.5);
         tileSize = boardSize/5;
@@ -79,6 +86,15 @@ public class StandardView extends View {
         corner = boardSize/50;
         healthBarHeight = tileSize/2;
         yOffSet = 2*margin + healthBarHeight;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            int yourWidth = (int) (viewWidth*0.1);
+            int yourHeightTop = (int) (viewHeight*0.2);
+            int yourHeightBot = (int) (viewHeight*0.8);
+            Rect leftRect = new Rect(0, yourHeightTop, yourWidth, yourHeightBot);
+            Rect rightRect = new Rect(viewWidth - yourWidth, yourHeightTop, viewWidth, yourHeightBot);
+            List<Rect> regions = new ArrayList<>(Arrays.asList(leftRect, rightRect));
+            this.setSystemGestureExclusionRects(regions);
+        }
     }
 
     @Override

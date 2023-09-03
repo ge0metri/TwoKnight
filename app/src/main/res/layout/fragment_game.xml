@@ -40,10 +40,10 @@
             android:layout_height="0dp"
             android:baselineAligned="false"
             android:visibility="visible"
-            app:layout_constraintDimensionRatio="1:1.15"
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
             ads:layout_constraintTop_toBottomOf="@id/adView"
+            app:layout_constraintDimensionRatio="1:1.15"
             custom:circleColor="#92B692"
             custom:circleLabel="Hello"
             custom:labelColor="#ffff66" />
@@ -51,9 +51,9 @@
         <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:rowCount="2"
-            android:columnCount="3"
             android:alignmentMode="alignMargins"
+            android:columnCount="3"
+            android:rowCount="2"
             ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
