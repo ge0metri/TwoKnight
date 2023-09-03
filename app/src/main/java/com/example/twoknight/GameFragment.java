@@ -2,9 +2,12 @@ package com.example.twoknight;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -58,6 +61,14 @@ public class GameFragment extends Fragment implements GameListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dataSaver = new DataSaver(requireContext());
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
+
     }
 
     @Override
@@ -65,7 +76,8 @@ public class GameFragment extends Fragment implements GameListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_game, container, false);
-        // Initialize and add your GameView here
+
+
         StandardView gameView = rootView.findViewById(R.id.gameView);
         // Customize and configure your GameView as needed
         standardGame = new StandardGame(new StandardGameFactory(dataSaver.loadCurrentLevel()));
@@ -83,5 +95,6 @@ public class GameFragment extends Fragment implements GameListener {
     @Override
     public void onLevelCleared(Game game) {
         saveGame(game);
+        NavHostFragment.findNavController(GameFragment.this).navigate(R.id.action_GameFragment_to_MenuFragment);
     }
 }
