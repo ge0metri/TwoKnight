@@ -17,6 +17,8 @@
 
 package com.example.twoknight.standard;
 
+import android.util.Log;
+
 import com.example.twoknight.factory.GameFactory;
 import com.example.twoknight.framework.GameListener;
 import com.example.twoknight.framework.GameState;
@@ -43,7 +45,7 @@ public class StandardGame implements MutableGame {
 
     private final Hero hero;
     private final ArrayList<int[]> emptyMap = new ArrayList<>();
-    private GameState gameState = GameState.BEGIN;
+    private GameState gameState = GameState.RUNNING;
 
     private boolean checkingAvailableMoves = false;
     private boolean isCharging = false;
@@ -109,6 +111,7 @@ public class StandardGame implements MutableGame {
 
     @Override
     public void endTurn(int e) {
+        Log.d("game", String.valueOf(gameState));
         boolean moved = false;
         if (debugMode) {
             debugCode(e);
@@ -147,12 +150,14 @@ public class StandardGame implements MutableGame {
             }
             if (!movesAvailable() && gameState == GameState.RUNNING) {
                 gameState = GameState.LOSER;
+                listener.onLevelCleared(this, gameState);
             }
             if (moved) {
                 difficultyHandler.prepareNextRound(this);
             }
             if (checkTiles() == 0 && gameState != GameState.WINNER) {
                 gameState = GameState.LOSER;
+                listener.onLevelCleared(this, gameState);
             }
         }
     }
@@ -419,7 +424,7 @@ public class StandardGame implements MutableGame {
                 addRandomTile();
             } else {
                 gameState = GameState.WINNER;
-                listener.onLevelCleared(this);
+                listener.onLevelCleared(this, gameState);
             }
         }
 

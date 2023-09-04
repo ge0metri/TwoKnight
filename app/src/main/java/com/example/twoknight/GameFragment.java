@@ -1,26 +1,17 @@
 package com.example.twoknight;
 
-import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.twoknight.factory.StandardGameFactory;
 import com.example.twoknight.framework.Game;
 import com.example.twoknight.framework.GameListener;
-import com.example.twoknight.standard.StandardGame;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.example.twoknight.framework.GameState;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,16 +85,25 @@ public class GameFragment extends Fragment implements GameListener {
         return rootView;
     }
 
-    private void saveGame(Game game){
-        dataSaver.saveCurrentLevel(game.getLevel()+1);
+    private void saveGame(Game game, GameState status){
         int currentMoney = dataSaver.loadMoney();
+        if (status == GameState.LOSER){
+            dataSaver.saveCurrentLevel(game.getLevel());
+            dataSaver.saveMoney(currentMoney);
+            return;
+        }
+        dataSaver.saveCurrentLevel(game.getLevel()+1);
         dataSaver.saveMoney(currentMoney+1);
     }
 
     @Override
-    public void onLevelCleared(Game game) {
-        saveGame(game);
+    public void onLevelCleared(Game game, GameState status) {
+        saveGame(game, status);
+        int destination = R.id.action_GameFragment_to_EndScreenFragment;
+        if (status == GameState.LOSER){
+            destination = R.id.action_GameFragment_to_LossScreenFragment;
+        }
         GameManager.getInstance().deleteGame();
-        NavHostFragment.findNavController(GameFragment.this).navigate(R.id.action_GameFragment_to_MenuFragment);
+        NavHostFragment.findNavController(GameFragment.this).navigate(destination);
     }
 }

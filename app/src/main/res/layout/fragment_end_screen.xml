@@ -4,72 +4,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    tools:context=".MenuFragment">
+    tools:context=".EndScreenFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_background">
+        android:background="@drawable/gradient_background_end">
 
         <!-- Play Button -->
 
         <TextView
-            android:id="@+id/menuTitle"
-            android:layout_width="220dp"
-            android:layout_height="104dp"
+            android:id="@+id/endTextView"
+            android:layout_width="237dp"
+            android:layout_height="58dp"
             android:layout_alignBottom="@+id/btnShop"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="134dp"
-            android:layout_marginTop="306dp"
-            android:layout_marginEnd="56dp"
-            android:layout_marginBottom="206dp"
-            android:gravity="bottom"
+            android:layout_marginStart="125dp"
+            android:layout_marginTop="357dp"
+            android:layout_marginEnd="31dp"
+            android:layout_marginBottom="202dp"
             android:rotation="-3"
-            android:shadowColor="#680000"
+            android:shadowColor="#3E3E3E"
             android:shadowDx="5"
             android:shadowDy="5"
             android:shadowRadius="2"
-            android:text="@string/main_title"
-            android:textColor="#201000"
-            android:textSize="38sp"
+            android:text="You did it!"
+            android:textColor="#000000"
+            android:textSize="34sp"
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/menuImage"
+            android:id="@+id/endImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_hero_smug"
+            android:src="@drawable/ic_hero_dead"
             ads:layout_constraintVertical_bias="1.0" />
 
         <Button
-            android:id="@+id/btnPlay"
+            android:id="@+id/btnNextLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/menuImage"
+            android:layout_below="@id/endImage"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             android:backgroundTint="#361B75"
             android:onClick="startGame"
-            android:text="Play"
-            ads:icon="@android:drawable/ic_media_play"
+            android:text="Next level"
             ads:strokeColor="#250000"
             ads:strokeWidth="2dp" />
 
         <!-- How to Play Button -->
         <Button
-            android:id="@+id/btnHowToPlay"
+            android:id="@+id/btnMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnPlay"
+            android:layout_below="@id/btnNextLevel"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:text="How to Play"
+            android:text="Main menu"
             android:backgroundTint="#361B75"
-            ads:icon="@drawable/ic_crit"
             ads:strokeColor="#250000"
             ads:strokeWidth="2dp" />
 
@@ -78,7 +75,7 @@
             android:id="@+id/btnShop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnHowToPlay"
+            android:layout_below="@id/btnMenu"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:text="Shop"
