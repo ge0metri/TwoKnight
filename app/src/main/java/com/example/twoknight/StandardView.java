@@ -59,6 +59,8 @@ public class StandardView extends View {
         game = new StandardGame(new StandardGameFactory(1));
         textPaint = new Paint();
         textPaint.setColor(Color.BLACK);
+        setFocusable(true);
+        setFocusableInTouchMode(true);
     }
     public StandardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -66,7 +68,8 @@ public class StandardView extends View {
         game = new StandardGame(new StandardGameFactory(1));
         textPaint = new Paint();
         textPaint.setColor(Color.BLACK);
-
+        setFocusable(true);
+        setFocusableInTouchMode(true);
     }
     public void addGame(Game game){
         this.game = game;
@@ -77,24 +80,38 @@ public class StandardView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        int viewWidth = w;
-        int viewHeight = h;
-        boardSize = (float) (Math.min(viewHeight, viewWidth)*0.90);
-        margin = (float) ((Math.min(viewHeight, viewWidth)-boardSize)*0.5);
+        boardSize = (float) (Math.min(h, w)*0.90);
+        margin = (float) ((Math.min(h, w)-boardSize)*0.5);
         tileSize = boardSize/5;
         spacing = tileSize/5;
         corner = boardSize/50;
         healthBarHeight = tileSize/2;
         yOffSet = 2*margin + healthBarHeight;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            int yourWidth = (int) (viewWidth*0.1);
-            int yourHeightTop = (int) (viewHeight*0.2);
-            int yourHeightBot = (int) (viewHeight*0.8);
+            int yourWidth = (int) (w *0.1);
+            int yourHeightTop = (int) (h *0.2);
+            int yourHeightBot = (int) (h *0.8);
             Rect leftRect = new Rect(0, yourHeightTop, yourWidth, yourHeightBot);
-            Rect rightRect = new Rect(viewWidth - yourWidth, yourHeightTop, viewWidth, yourHeightBot);
+            Rect rightRect = new Rect(w - yourWidth, yourHeightTop, w, yourHeightBot);
             List<Rect> regions = new ArrayList<>(Arrays.asList(leftRect, rightRect));
             this.setSystemGestureExclusionRects(regions);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
+        switch (keyCode){
+            case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
+                game.endTurn(KeyEvent.VK_LEFT);
+            case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
+                game.endTurn(KeyEvent.VK_RIGHT);
+            case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
+                game.endTurn(KeyEvent.VK_DOWN);
+            case android.view.KeyEvent.KEYCODE_DPAD_UP:
+                game.endTurn(KeyEvent.VK_UP);
+        }
+        invalidate();
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

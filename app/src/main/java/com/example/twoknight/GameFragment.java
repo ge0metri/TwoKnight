@@ -74,6 +74,26 @@ public class GameFragment extends Fragment implements GameListener {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_game, container, false);
 
+        View btn10 = rootView.findViewById(R.id.fab10);
+        btn10.setFocusable(false);
+        btn10.setFocusableInTouchMode(false);
+        View btn2 = rootView.findViewById(R.id.fab2);
+        btn2.setFocusable(false);
+        btn2.setFocusableInTouchMode(false);
+        View btn3 = rootView.findViewById(R.id.fab3);
+        btn3.setFocusable(false);
+        btn3.setFocusableInTouchMode(false);
+        View btn4 = rootView.findViewById(R.id.fab4);
+        btn4.setFocusable(false);
+        btn4.setFocusableInTouchMode(false);
+        View btn6 = rootView.findViewById(R.id.fab6);
+        btn6.setFocusable(false);
+        btn6.setFocusableInTouchMode(false);
+        View btn8 = rootView.findViewById(R.id.fab8);
+        btn8.setFocusable(false);
+        btn8.setFocusableInTouchMode(false);
+
+
 
         StandardView gameView = rootView.findViewById(R.id.gameView);
         // Customize and configure your GameView as needed

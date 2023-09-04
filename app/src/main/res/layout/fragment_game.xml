@@ -44,6 +44,8 @@
             ads:layout_constraintStart_toStartOf="parent"
             ads:layout_constraintTop_toBottomOf="@id/adView"
             app:layout_constraintDimensionRatio="1:1.15"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             custom:circleColor="#92B692"
             custom:circleLabel="Hello"
             custom:labelColor="#ffff66" />
@@ -54,6 +56,8 @@
             android:alignmentMode="alignMargins"
             android:columnCount="3"
             android:rowCount="2"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
@@ -64,6 +68,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
                 custom:srcCompat="@android:drawable/ic_popup_sync" />
@@ -73,6 +79,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
@@ -82,6 +90,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
@@ -91,6 +101,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
@@ -100,6 +112,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
@@ -109,6 +123,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
