@@ -270,6 +270,7 @@ public class StandardGame implements MutableGame {
         int[] out = getRandomPos();
         if (out == null) return;
         int val = rand.nextInt(10) == 0 ? 4 : 2;
+        val = difficultyHandler.getTileValue();
         currentField[out[0]][out[1]] = new StandardTile(val);
         emptyMap.remove(new int[]{out[0], out[1]});
     }

@@ -17,7 +17,7 @@ public class StandardGameFactory implements GameFactory {
     }
 
     public StandardGameFactory(int currentLevel, int[] boughtSkills) {
-        difficultyHandler = new StandardDifficultyHandler(currentLevel);
+        difficultyHandler = new StandardDifficultyHandler(currentLevel, boughtSkills);
         this.currentLevel = currentLevel;
         this.boughtSkills = boughtSkills;
     }

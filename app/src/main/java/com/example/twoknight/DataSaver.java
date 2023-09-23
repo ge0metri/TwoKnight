@@ -50,7 +50,7 @@ public class DataSaver {
             Gson gson = new Gson();
             return gson.fromJson(itemsJson, int[].class);
         } else {
-            return new int[0]; // Default: No items bought
+            return new int[]{0,0,0,0,0,0,0,0,0,0}; // Default: No items bought
         }
     }
 

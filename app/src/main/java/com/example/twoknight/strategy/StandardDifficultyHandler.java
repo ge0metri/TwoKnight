@@ -6,13 +6,24 @@ import com.example.twoknight.framework.Tile;
 import com.example.twoknight.tiles.GoldenTile;
 import com.example.twoknight.tiles.StandardImmovableTile;
 
+import java.util.Random;
+
 public class StandardDifficultyHandler implements DifficultyHandler {
 
     private final int currentLevel;
+    private boolean useSpawnRates = false;
+    private int[] boughtSkills;
     private int shieldCounter = 0;
+    private Random rand = new Random();
 
     public StandardDifficultyHandler(int currentLevel) {
         this.currentLevel = currentLevel;
+    }
+
+    public StandardDifficultyHandler(int currentLevel, int[] boughtSkills) {
+        this.currentLevel = currentLevel;
+        this.boughtSkills = boughtSkills;
+        useSpawnRates = true;
     }
 
     @Override
@@ -43,6 +54,7 @@ public class StandardDifficultyHandler implements DifficultyHandler {
         }
         incrementGoldenTile(game.getField());
     }
+
 
     private void incrementGoldenTile(Tile[][] field) {
         for (Tile[] row : field) {
@@ -75,6 +87,20 @@ public class StandardDifficultyHandler implements DifficultyHandler {
     @Override
     public int getCurrentLevel() {
         return currentLevel;
+    }
+
+    @Override
+    public int getTileValue() {
+        int val = rand.nextInt(10) == 0 ? 4 : 2;
+        if (useSpawnRates){
+            int rateUpgrade = boughtSkills[0]; // Defined as each one is 5% increase. Starts at 4 = 10% 2 = 90%.
+            // Each increase goes 4 = 10 + 5*n %. until 4 = 50%. Then upgrade to 8 = 10, 4 = 90%
+            // So the values are determined by each time 45 | n*5, i.e. 9 | n, the low val is n//9 and rate is n%9.
+            int low = 1<<(1+ rateUpgrade/9);
+            int rateHigh = 1 + rateUpgrade%9;
+            val = rand.nextInt(20) <= rateHigh ? low*2 : low;
+        }
+        return val;
     }
 
 }

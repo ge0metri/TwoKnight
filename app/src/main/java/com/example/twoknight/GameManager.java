@@ -3,6 +3,7 @@ package com.example.twoknight;
 import com.example.twoknight.factory.StandardGameFactory;
 import com.example.twoknight.framework.Game;
 import com.example.twoknight.standard.StandardGame;
+import com.example.twoknight.variants.AlternatingGame;
 
 public class GameManager {
     private static GameManager instance;
@@ -23,10 +24,11 @@ public class GameManager {
         return game;
     }
     public Game setGame(int currentLevel, int[] boughtPower) {
-        return game = new StandardGame(new StandardGameFactory(currentLevel));
+        return game = new StandardGame(new StandardGameFactory(currentLevel, boughtPower));
     }
 
     public Game setGame(int currentLevel) {
+        //Depricated method
         return game = new StandardGame(new StandardGameFactory(currentLevel));
     }
 
