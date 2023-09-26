@@ -88,6 +88,8 @@ public class EndScreenFragment extends Fragment {
     }
 
     private void toShop(View view) {
+        NavHostFragment.findNavController(EndScreenFragment.this)
+                .navigate(R.id.action_EndScreenFragment_to_ShopFragment);
     }
 
     private void mainMenu(View view) {

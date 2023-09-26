@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Item Image -->
+    <ImageView
+        android:id="@+id/shopItemImage"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        ads:layout_constraintVertical_bias="1.0"
+        android:src="@drawable/ic_hero_smug"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/shop_item_image"/>
+
+    <!-- Item Name -->
+    <TextView
+        android:id="@+id/shopItemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/item_name"
+        android:shadowColor="#680000"
+        android:shadowDx="1"
+        android:shadowDy="2"
+        android:shadowRadius="1"
+        android:textColor="#201000"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp" />
+
+    <!-- Item Description -->
+    <TextView
+        android:id="@+id/shopItemDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/item_description"
+        android:textColor="#201000"
+        android:shadowColor="#680000"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Quantity Control -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="16dp">
+
+        <!-- Minus Button -->
+        <Button
+            android:id="@+id/minusButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="-"
+            android:textSize="16sp"
+            android:backgroundTint="#FF5733"
+            android:textColor="#FFFFFF"
+            android:ellipsize="end"
+            android:singleLine="true"/> <!-- Ensure single line for ellipsis -->
+
+
+        <!-- Quantity Indicator -->
+        <TextView
+            android:id="@+id/quantityIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 0 0 0"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"/>
+        <!-- Plus Button -->
+        <Button
+            android:id="@+id/plusButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="+"
+            android:textSize="16sp"
+            android:backgroundTint="#33FF57"
+            android:textColor="#FFFFFF"
+            android:ellipsize="end"
+            android:singleLine="true"/> <!-- Ensure single line for ellipsis -->
+
+
+    </LinearLayout>
+
+</LinearLayout>

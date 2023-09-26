@@ -87,6 +87,8 @@ public class LossScreenFragment extends Fragment {
     }
 
     private void toShop(View view) {
+        NavHostFragment.findNavController(LossScreenFragment.this)
+                .navigate(R.id.action_LossScreenFragment_to_ShopFragment);
     }
 
     private void mainMenu(View view) {

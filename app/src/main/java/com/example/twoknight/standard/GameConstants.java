@@ -40,7 +40,7 @@ public class GameConstants {
     private static final String powerTwo = "WOW double a tile!";
     private static final String powerThree = "Swap two tiles";
     private static final String powerFour = "Remove a tile";
-    private static final String powerFive = "Add THE GOLDEN TILE";
+    private static final String powerFive = "Add THE GOLDEN TILE"; //TODO: double every ten turns?
     private static final String powerSix = "Remove all grey tiles";
     private static final String powerSeven = "Mystery power";
     private static final String powerEight = "Remove shield";
@@ -48,4 +48,5 @@ public class GameConstants {
     private static final String powerZero = "Vulnerable";
     public static final String[] powerDescription = new String[]{powerZero, powerOne, powerTwo, powerThree, powerFour, powerFive, powerSix, powerSeven, powerEight, powerNine};
     public static int[] powerCost = new int[]{1, 3, 1, 2, 1, 4, 1, 2, 1, 3};
+    public static int[] maxItems = new int[]{90, 3, 1, 2, 1, 4, 1, 2, 1, 3};
 }

@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     // TODO: 5) adjust difficulty, and make powers either fully roguelike or forever
     // TODO: 6) More stuff later probably
     // TODO: if unlimited -> add odds for tiles
+    // TODO: Make shop art
+    // TODO: Make buttons do stuff
     // TOD: 3) implement tutorial --ok--
     // TOD 1) Make end screen --ok--
 

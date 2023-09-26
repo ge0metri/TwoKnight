@@ -105,13 +105,15 @@ public class MenuFragment extends Fragment {
     }
 
     private void updateDisplay() {
-        String levelText = "Current level: " + dataSaver.loadCurrentLevel();
+        String levelText = "Current max level: " + dataSaver.loadCurrentLevel();
         levelTextView.setText(levelText);
         String moneyText = "$ " + dataSaver.loadMoney() + " $";
         moneyTextView.setText(moneyText);
     }
 
     private void toShop(View view) {
+        NavHostFragment.findNavController(MenuFragment.this)
+                .navigate(R.id.action_MenuFragment_to_ShopFragment);
     }
 
     private void howToPlay(View view) {

@@ -1,85 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
-    <!-- Shop Content Container -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:background="@drawable/gradient_background_end">
 
-        <!-- Item Image -->
-        <ImageView
-            android:id="@+id/shopItemImage"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/ic_hero_smug"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:contentDescription="Shop Item Image"/>
 
-        <!-- Item Name -->
-        <TextView
-            android:id="@+id/shopItemName"
-            android:layout_width="match_parent"
+
+        <Button
+            android:id="@+id/btnMenu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Item Name"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"/>
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/btn_margin"
+            android:text="Menu"
+            android:backgroundTint="#361B75"
+            ads:icon="?android:attr/listChoiceIndicatorSingle"
+            ads:strokeColor="#250000"
+            ads:strokeWidth="2dp"/>
 
-        <!-- Item Description -->
-        <TextView
-            android:id="@+id/shopItemDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Item Description"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp"/>
 
-        <!-- Quantity Control -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="16dp">
+        <include
+            android:id="@+id/shopItem1"
+            layout="@layout/shop_item_layout" />
 
-            <!-- Minus Button -->
-            <Button
-                android:id="@+id/minusButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:text="-"
-                android:textSize="20sp"
-                android:backgroundTint="#FF5733"
-                android:textColor="#FFFFFF"/>
+        <include
+            android:id="@+id/shopItem2"
+            layout="@layout/shop_item_layout" />
 
-            <!-- Quantity Indicator -->
-            <TextView
-                android:id="@+id/quantityIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="20sp"
-                android:textColor="#000000"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"/>
-
-            <!-- Plus Button -->
-            <Button
-                android:id="@+id/plusButton"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:text="+"
-                android:textSize="20sp"
-                android:backgroundTint="#33FF57"
-                android:textColor="#FFFFFF"/>
-        </LinearLayout>
+        <include
+            android:id="@+id/shopItem3"
+            layout="@layout/shop_item_layout" />
 
     </LinearLayout>
 </ScrollView>
+    <TextView
+        android:id="@+id/moneyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="96$"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"/>
 
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

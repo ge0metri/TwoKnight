@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_MenuFragment_to_TutorialFragment"
             app:destination="@id/TutorialFragment" />
+        <action
+            android:id="@+id/action_MenuFragment_to_ShopFragment"
+            app:destination="@id/ShopFragment" />
     </fragment>
 
     <fragment
@@ -44,6 +47,9 @@
         <action
             android:id="@+id/action_EndScreenFragment_to_MenuFragment"
             app:destination="@id/MenuFragment" />
+        <action
+            android:id="@+id/action_EndScreenFragment_to_ShopFragment"
+            app:destination="@id/ShopFragment" />
     </fragment>
     <fragment
         android:id="@+id/LossScreenFragment"
@@ -56,6 +62,9 @@
         <action
             android:id="@+id/action_LossScreenFragment_to_MenuFragment"
             app:destination="@id/MenuFragment" />
+        <action
+            android:id="@+id/action_LossScreenFragment_to_ShopFragment"
+            app:destination="@id/ShopFragment" />
     </fragment>
 
     <fragment
@@ -77,27 +86,36 @@
             app:destination="@id/MenuFragment" />
     </fragment>
 
-
-
-<!--
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.twoknight.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
+        android:id="@+id/ShopFragment"
+        android:name="com.example.twoknight.ShopFragment"
+        android:label="ShopFragment"
+        tools:layout="@layout/fragment_shop">
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_ShopFragment_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.twoknight.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
 
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment> -->
+
+    <!--
+        <fragment
+            android:id="@+id/FirstFragment"
+            android:name="com.example.twoknight.FirstFragment"
+            android:label="@string/first_fragment_label"
+            tools:layout="@layout/fragment_first">
+
+            <action
+                android:id="@+id/action_FirstFragment_to_SecondFragment"
+                app:destination="@id/SecondFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/SecondFragment"
+            android:name="com.example.twoknight.SecondFragment"
+            android:label="@string/second_fragment_label"
+            tools:layout="@layout/fragment_second">
+
+            <action
+                android:id="@+id/action_SecondFragment_to_FirstFragment"
+                app:destination="@id/FirstFragment" />
+        </fragment> -->
 </navigation>
