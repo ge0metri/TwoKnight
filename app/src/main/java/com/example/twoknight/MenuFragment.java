@@ -71,9 +71,11 @@ public class MenuFragment extends Fragment {
         Button playButton = rootView.findViewById(R.id.btnPlay);
         Button howToPlayButton = rootView.findViewById(R.id.btnHowToPlay);
         Button shopButton = rootView.findViewById(R.id.btnShop);
+        Button levelSelectButton = rootView.findViewById(R.id.btnLevelSelect);
         playButton.setOnClickListener(this::startGame);
         howToPlayButton.setOnClickListener(this::howToPlay);
         shopButton.setOnClickListener(this::toShop);
+        levelSelectButton.setOnClickListener(this::selectLevel);
 
         moneyTextView = rootView.findViewById(R.id.moneyText);
         levelTextView = rootView.findViewById(R.id.levelText);
@@ -85,6 +87,11 @@ public class MenuFragment extends Fragment {
         //mainTitleAnimation(rootView);
 
         return rootView;
+    }
+
+    private void selectLevel(View view) {
+        NavHostFragment.findNavController(MenuFragment.this)
+                .navigate(R.id.action_MenuFragment_to_levelSelectFragment);
     }
 
     private static void mainTitleAnimation(View rootView) {

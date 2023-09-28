@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_MenuFragment_to_ShopFragment"
             app:destination="@id/ShopFragment" />
+        <action
+            android:id="@+id/action_MenuFragment_to_levelSelectFragment"
+            app:destination="@id/levelSelectFragment" />
     </fragment>
 
     <fragment
@@ -93,6 +96,15 @@
         tools:layout="@layout/fragment_shop">
         <action
             android:id="@+id/action_ShopFragment_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/levelSelectFragment"
+        android:name="com.example.twoknight.LevelSelectFragment"
+        android:label="fragment_level_select"
+        tools:layout="@layout/fragment_level_select" >
+        <action
+            android:id="@+id/action_levelSelectFragment_to_MenuFragment"
             app:destination="@id/MenuFragment" />
     </fragment>
 
