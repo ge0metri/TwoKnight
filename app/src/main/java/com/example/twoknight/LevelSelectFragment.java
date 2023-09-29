@@ -3,30 +3,33 @@ package com.example.twoknight;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.twoknight.R;
 import com.example.twoknight.databinding.FragmentLevelSelectBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 public class LevelSelectFragment extends Fragment {
 
 
     private FragmentLevelSelectBinding binding;
-
+    private DataSaver dataSaver;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
+        dataSaver = new DataSaver(requireContext());
         binding = FragmentLevelSelectBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
@@ -37,7 +40,27 @@ public class LevelSelectFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         final EditText levelSelectEditText = binding.editTextNumber;
+        String LevelStart = "" + dataSaver.loadCurrentLevel();
+        levelSelectEditText.setText(LevelStart);
         final Button loginButton = binding.acceptbtn;
+        Button plusButton = binding.plusButton;
+        Button minusButton = binding.minusButton;
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String level = "" + (Integer.parseInt(levelSelectEditText.getText().toString())+1);
+                levelSelectEditText.setText(level);
+                checkLevel(levelSelectEditText, loginButton);
+            }
+        });
+        minusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String level = "" + (Integer.parseInt(levelSelectEditText.getText().toString())-1);
+                levelSelectEditText.setText(level);
+                checkLevel(levelSelectEditText, loginButton);
+            }
+        });
 
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
@@ -53,27 +76,62 @@ public class LevelSelectFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                checkLevel(levelSelectEditText.getText().toString());
+                checkLevel(levelSelectEditText, loginButton);
             }
         };
         levelSelectEditText.addTextChangedListener(afterTextChangedListener);
+        levelSelectEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    // User clicked "Done" or pressed Enter
+                    // Add your code here to handle the action
+
+                    // Unfocus the EditText (remove focus)
+                    levelSelectEditText.clearFocus();
+                    return false; // Consume the event
+                }
+                return false; // Return false to allow further processing
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addGame();
+                addGame(levelSelectEditText);
                 NavHostFragment.findNavController(LevelSelectFragment.this)
                         .navigate(R.id.action_levelSelectFragment_to_MenuFragment);
             }
         });
     }
 
-    private void addGame() {
+
+    private void addGame(EditText levelSelectEditText) {
     }
 
-    private void checkLevel(String toString) {
+    private void checkLevel(EditText levelSelectEditText, Button loginButton) {
+        if (levelSelectEditText.getText().length() < 1){
+            loginButton.setEnabled(false);
+            return;
+        }
+        loginButton.setEnabled(true);
+        int inputLevel = Integer.parseInt(levelSelectEditText.getText().toString());
+        int maxLevel = dataSaver.loadCurrentLevel();
+        if (inputLevel < 1){
+            String LevelStart = "" + 1;
+            levelSelectEditText.setText(LevelStart);
+            showSnackbar(levelSelectEditText, "The lowest level is level 1");
+        }
+        if (inputLevel > maxLevel){
+            String LevelStart = "" + maxLevel;
+            levelSelectEditText.setText(LevelStart);
+            showSnackbar(levelSelectEditText, "You have only reached level " + maxLevel);
+        }
     }
-
+    private void showSnackbar(View button, String message) {
+        Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_SHORT);
+        snackbar.show();
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
