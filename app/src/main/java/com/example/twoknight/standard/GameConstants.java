@@ -36,6 +36,7 @@ public class GameConstants {
     public static final int side1 = 4;
 
     public static final String STANDARD_HERO_TYPE = "Hero";
+    public static final int CLEAR_POWER = 4;
     private static final String powerOne = "Add big tile";
     private static final String powerTwo = "WOW double a tile!";
     private static final String powerThree = "Swap two tiles";
@@ -47,6 +48,6 @@ public class GameConstants {
     private static final String powerNine = "Skip Laser";
     private static final String powerZero = "Vulnerable";
     public static final String[] powerDescription = new String[]{powerZero, powerOne, powerTwo, powerThree, powerFour, powerFive, powerSix, powerSeven, powerEight, powerNine};
-    public static int[] powerCost = new int[]{1, 3, 1, 2, 1, 4, 1, 2, 1, 3};
+    public static int[] powerCost = new int[]{1, 3, 1, 2, 10, 4, 1, 2, 1, 3};
     public static int[] maxItems = new int[]{90, 3, 1, 2, 1, 4, 1, 2, 1, 3};
 }

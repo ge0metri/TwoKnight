@@ -17,18 +17,16 @@ import com.google.android.material.snackbar.Snackbar;
 public class MainActivity extends AppCompatActivity {
 
 
-    // TODO: 1) Make data saver thing. Prob only level and money/power -semi-
-    // TODO: Make a level selector. With writable field, but also plus buttons.
+    // TODO: 1) Make dataSaver do field also?
     // TODO 2) refactor shop
     // TODO 3) difficulty handler
-    // TODO: 1.5) Clean up data loader. I need a good idea of how to make it / when to save
-    // TODO: 2) Make menu screen -semi done-
     // TODO: 4) implement visual for powers
     // TODO: 5) adjust difficulty, and make powers either fully roguelike or forever
     // TODO: 6) More stuff later probably
     // TODO: if unlimited -> add odds for tiles
     // TODO: Make shop art
     // TODO: Make buttons do stuff
+    // TODO: Add small feedback animations - shake, puffs stuff
     // TOD: 3) implement tutorial --ok--
     // TOD 1) Make end screen --ok--
 

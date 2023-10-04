@@ -23,12 +23,12 @@ public class StandardPowerStrategy implements PowerStrategy {
     private Integer tempY = null;
 
     @Override
-    public void prepareSkill(MutableGame game, int e) {
+    public boolean prepareSkill(MutableGame game, int e) {
         boughtSkills = game.getBought();
-        int pressedButton = e - 48;
-        if (boughtSkills[(pressedButton + 9) % 10] <= 0) {
-            return;
-        }
+        int powerIndex = e; // - 48; for standard
+        if (boughtSkills[powerIndex] <= 0) {
+             return false;
+         }
         switch (e) {
             case KeyEvent.VK_1: {
                 game.addTile(new StandardTile(128));
@@ -46,25 +46,25 @@ public class StandardPowerStrategy implements PowerStrategy {
                 usingSkill = 3;
                 break;
             }
-            case KeyEvent.VK_4: {
+            case 12: {
                 game.setWinner(GameState.POINTER);
                 usingSkill = 4;
                 break;
             }
-            case KeyEvent.VK_5: {
+            case 11: {
                 game.addTile(new StandardGoldenTile());
-                boughtSkills[(pressedButton + 9) % 10]--;
+                boughtSkills[(powerIndex + 9) % 10]--;
                 break;
             }
             case KeyEvent.VK_6: {
                 removeGreyTiles(game);
-                boughtSkills[(pressedButton + 9) % 10]--;
+                boughtSkills[(powerIndex + 9) % 10]--;
                 break;
             }
             case KeyEvent.VK_7: { // mystery power
                 Random random = new Random();
                 boughtSkills[random.nextInt(6)]++;
-                boughtSkills[(pressedButton + 9) % 10]--;
+                boughtSkills[(powerIndex + 9) % 10]--;
                 break;
             }
             case KeyEvent.VK_8: { // remove shield
@@ -79,10 +79,35 @@ public class StandardPowerStrategy implements PowerStrategy {
                 }
                 break;
             }
-            case KeyEvent.VK_0: { // vulnerable
-                ((MutableHero) game.getHero()).setVulnerable(true);
+            case GameConstants.CLEAR_POWER: { // vulnerable
+                Tile[][] field = game.getField();
+                int iMax = 0;
+                int jMax = 0;
+                int Max = 0;
+                Tile firstTile = field[0][0];
+                if (firstTile != null && !(firstTile instanceof ImmovableTile)){
+                    Max = firstTile.getValue();
+                }
+                for (int i = 0; i < field.length; i++) {
+                    for (int j = 0; j < field[i].length; j++) {
+                        if (field[i][j] == null || field[i][j] instanceof Hero){continue;}
+                        if (i == 0 && j == 0){continue;}
+                        if (field[i][j].getValue() > Max){
+                            Max = field[i][j].getValue();
+                            field[iMax][jMax] = null;
+                            iMax = i;
+                            jMax = j;
+                        } else {
+                            field[i][j] = null;
+                        }
+                    }
+                }
+                boughtSkills[GameConstants.CLEAR_POWER]--;
+                break;
+                //((MutableHero) game.getHero()).setVulnerable(true);
             }
         }
+        return true;
     }
 
     private void removeGreyTiles(MutableGame game) {

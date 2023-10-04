@@ -5,6 +5,11 @@ import com.example.twoknight.framework.Tile;
 
 public interface DifficultyHandler {
     void prepareNextRound(MutableGame game);
+
+    boolean isBlocksNotLaser();
+
+    int getMaxShield();
+
     int getCurrentLevel();
 
     int getTileValue();

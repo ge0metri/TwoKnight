@@ -11,7 +11,6 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -103,12 +102,16 @@ public class StandardView extends View {
         switch (keyCode){
             case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
                 game.endTurn(KeyEvent.VK_LEFT);
+                break;
             case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
                 game.endTurn(KeyEvent.VK_RIGHT);
+                break;
             case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
                 game.endTurn(KeyEvent.VK_DOWN);
+                break;
             case android.view.KeyEvent.KEYCODE_DPAD_UP:
                 game.endTurn(KeyEvent.VK_UP);
+                break;
         }
         invalidate();
         return super.onKeyDown(keyCode, event);
@@ -128,7 +131,7 @@ public class StandardView extends View {
         float healthBar = boardSize * game.getHero().getHealth() / game.getHero().getValue();
         if (healthBar<0){healthBar=0;}
         canvas.drawRoundRect(margin,
-                (float) (1*margin),
+                margin,
                 margin+healthBar,
                 margin + healthBarHeight,
                 corner,
@@ -140,6 +143,15 @@ public class StandardView extends View {
                     (int) (margin+healthBar+0.25*tileSize),
                     (int) (margin + tileSize-0.5*margin)));
             criticalImage.draw(canvas);
+        }
+        if (healthBar > boardSize*0.1){
+            Rect textBounds = new Rect();
+            String health = game.getHero().getHealth() + "";
+            textPaint.getTextBounds(health, 0, health.length(), textBounds);
+            // Calculate the position to draw the number in the center of the tile
+            float textX = (float) (margin + healthBar*0.5 - textBounds.width() / 2);
+            float textY = (float) (margin + healthBarHeight*0.5 + textBounds.height() / 2);
+            canvas.drawText(health, textX, textY, textPaint);
         }
     }
 
@@ -176,6 +188,9 @@ public class StandardView extends View {
         int value = tile.getValue();
         if (value == 0) {
             GUIConstants.TilePaint.setColor(Color.BLACK);
+        } else if (tile instanceof ImmovableTile) {
+            GUIConstants.TilePaint.setColor(Color.GRAY);
+            drawTileRect(i, j, canvas, value);
         } else {
             GUIConstants.TilePaint.setColor(
                     Color.parseColor(
@@ -293,5 +308,10 @@ public class StandardView extends View {
 
         // Return true to indicate that the touch event is handled
         return true;
+    }
+
+    public void usePower(int power) {
+        game.endTurn(power);
+        invalidate();
     }
 }

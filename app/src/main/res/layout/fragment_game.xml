@@ -108,7 +108,7 @@
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab10"
+                android:id="@+id/clearPowerBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
@@ -116,7 +116,7 @@
                 android:focusableInTouchMode="false"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
+                custom:srcCompat="@android:drawable/ic_delete" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab4"

@@ -148,4 +148,9 @@
     <string name="item_description">Item Description</string>
     <string name="power1">Lucky</string>
     <string name="power2">Double tile</string>
+    <string name="leveldesc1">In this level the shield you must break \n
+        has the value %d. %s \n
+        Good Luck!</string>
+    <string name="clearPower">Clear Field</string>
+    <string name="clearPowerDesc">Clear all but the very largest tile! \n Uses per level: </string>
 </resources>

@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import com.example.twoknight.framework.Game;
 import com.example.twoknight.framework.GameListener;
 import com.example.twoknight.framework.GameState;
+import com.example.twoknight.standard.GameConstants;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,46 +77,48 @@ public class GameFragment extends Fragment implements GameListener {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_game, container, false);
 
-        View btn10 = rootView.findViewById(R.id.fab10);
-        btn10.setFocusable(false);
-        btn10.setFocusableInTouchMode(false);
-        View btn2 = rootView.findViewById(R.id.fab2);
-        btn2.setFocusable(false);
-        btn2.setFocusableInTouchMode(false);
-        View btn3 = rootView.findViewById(R.id.fab3);
-        btn3.setFocusable(false);
-        btn3.setFocusableInTouchMode(false);
-        View btn4 = rootView.findViewById(R.id.fab4);
-        btn4.setFocusable(false);
-        btn4.setFocusableInTouchMode(false);
-        View btn6 = rootView.findViewById(R.id.fab6);
-        btn6.setFocusable(false);
-        btn6.setFocusableInTouchMode(false);
-        View btn8 = rootView.findViewById(R.id.fab8);
-        btn8.setFocusable(false);
-        btn8.setFocusableInTouchMode(false);
+        FloatingActionButton clearFieldPower = rootView.findViewById(R.id.clearPowerBtn);
+        unFocus(clearFieldPower);
+        clearFieldPower.setOnClickListener(this::clearPower);
+        FloatingActionButton btn2 = rootView.findViewById(R.id.fab2);
+        unFocus(btn2);
+        FloatingActionButton btn3 = rootView.findViewById(R.id.fab3);
+        unFocus(btn3);
+        FloatingActionButton btn4 = rootView.findViewById(R.id.fab4);
+        unFocus(btn4);
+        FloatingActionButton btn6 = rootView.findViewById(R.id.fab6);
+        unFocus(btn6);
+        FloatingActionButton btn8 = rootView.findViewById(R.id.fab8);
+        unFocus(btn8);
 
 
-
-        StandardView gameView = rootView.findViewById(R.id.gameView);
+        gameView = rootView.findViewById(R.id.gameView);
         // Customize and configure your GameView as needed
         if (GameManager.getInstance().getGame() == null){
-            GameManager.getInstance().setGame(dataSaver.loadCurrentLevel());
-            GameManager.getInstance().getGame().setGameListener(this);
+            GameManager.getInstance().setGame(dataSaver.loadCurrentLevel(), dataSaver.loadBoughtItems());
         }
+        GameManager.getInstance().getGame().setGameListener(this);
         gameView.addGame(GameManager.getInstance().getGame());
         return rootView;
+    }
+
+    private void clearPower(View view) {
+        gameView.usePower(GameConstants.CLEAR_POWER);
+    }
+
+    private static void unFocus(FloatingActionButton btn) {
+        btn.setFocusable(false);
+        btn.setFocusableInTouchMode(false);
     }
 
     private void saveGame(Game game, GameState status){
         int currentMoney = dataSaver.loadMoney();
         if (status == GameState.LOSER){
-            dataSaver.saveCurrentLevel(game.getLevel());
-            dataSaver.saveMoney(currentMoney);
             return;
         }
-        dataSaver.saveCurrentLevel(game.getLevel()+1);
         dataSaver.saveMoney(currentMoney+1);
+        if (game.getLevel() < dataSaver.loadCurrentLevel()){return;}
+        dataSaver.saveCurrentLevel(game.getLevel()+1);
     }
 
     @Override
@@ -125,5 +130,16 @@ public class GameFragment extends Fragment implements GameListener {
         }
         GameManager.getInstance().deleteGame();
         NavHostFragment.findNavController(GameFragment.this).navigate(destination);
+    }
+
+    @Override
+    public void onPowerUse(boolean powerUsed){
+        if (!powerUsed){
+            showSnackbar(gameView, "How do not have any more charges");
+        }
+    }
+    private void showSnackbar(View button, String message) {
+        Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 }

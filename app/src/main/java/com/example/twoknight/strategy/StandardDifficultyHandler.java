@@ -30,7 +30,7 @@ public class StandardDifficultyHandler implements DifficultyHandler {
     public void prepareNextRound(MutableGame game) {
         MutableHero hero = (MutableHero) game.getHero();
         int currentTurn = game.getTurnNumber();
-        boolean blocksNotLaser = currentLevel % 2 == 0;
+        boolean blocksNotLaser = isBlocksNotLaser();
         if (currentTurn == 0) {
             game.addTile(new StandardImmovableTile());
             if (blocksNotLaser && currentLevel > 1) {
@@ -39,11 +39,11 @@ public class StandardDifficultyHandler implements DifficultyHandler {
             }
         }
         if (game.getLaserState() != null) {
-            game.fireLaser();
+            //game.fireLaser();
         }
         int laserCD = 9 + currentLevel + game.checkTiles() / 2;
         if (!blocksNotLaser && currentLevel > 2 && isOffCD(currentTurn, laserCD)) {
-            game.beginLaser();
+            //game.beginLaser();
         }
 
         refreshShield(hero, currentTurn);
@@ -53,6 +53,11 @@ public class StandardDifficultyHandler implements DifficultyHandler {
             game.addTile(new StandardImmovableTile(4));
         }
         incrementGoldenTile(game.getField());
+    }
+    @Override
+    public boolean isBlocksNotLaser() {
+        boolean blocksNotLaser = currentLevel % 2 == 0;
+        return blocksNotLaser;
     }
 
 
@@ -68,7 +73,7 @@ public class StandardDifficultyHandler implements DifficultyHandler {
     }
 
     private void refreshShield(MutableHero hero, int currentTurn) {
-        int maxShield = Math.min(1 << (currentLevel + 1), 1024);
+        int maxShield = getMaxShield();
         int shieldCD = (int) Math.max(10 - currentLevel / 3, 5);
         if (hero.getShield() == 0) {
             shieldCounter++;
@@ -78,6 +83,10 @@ public class StandardDifficultyHandler implements DifficultyHandler {
             hero.setShield(maxShield);
             shieldCounter = 0;
         }
+    }
+    @Override
+    public int getMaxShield() {
+        return Math.min(1 << (int) (1.25 * (Math.sqrt(currentLevel) + 1)), 1024);
     }
 
     private static boolean isOffCD(int currentTurn, int coolDown) {

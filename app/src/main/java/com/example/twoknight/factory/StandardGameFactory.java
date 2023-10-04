@@ -30,7 +30,7 @@ public class StandardGameFactory implements GameFactory {
     @Override
     public Hero buildHero() {
         int heroMaxHealth = (currentLevel <= 2) ? GameConstants.HERO_MAX_HEALTH / 2 : GameConstants.HERO_MAX_HEALTH;
-        int heroStartingShield = (currentLevel <= 5) ? 0 : Math.min(1 << (currentLevel + 1), 1024); //  difficultyHandler.getShield()
+        int heroStartingShield = difficultyHandler.getMaxShield();
         return new StandardHero(GameConstants.STANDARD_HERO_TYPE, heroMaxHealth, 0, heroStartingShield);
     }
 

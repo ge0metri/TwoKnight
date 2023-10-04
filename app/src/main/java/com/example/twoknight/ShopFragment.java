@@ -60,6 +60,33 @@ public class ShopFragment extends Fragment {
         addItemDescription("Choose a tile on the field and double it.\n You have n charges", shopView2);
         addButtons(shopView2, 1);
 
+        View shopView3 = rootView.findViewById(R.id.shopItem3);
+        drawShopImage(R.drawable.ic_x2, shopView3);
+        addItemText(R.string.power1, shopView3);
+        addItemDescription("Nah", shopView3);
+        addButtons(shopView3, 2);
+
+        View shopView4 = rootView.findViewById(R.id.shopItem4);
+        drawShopImage(R.drawable.ic_x2, shopView4);
+        addItemText(R.string.power1, shopView4);
+        addItemDescription("Nah", shopView4);
+        addButtons(shopView4, 3);
+
+        View shopView5 = rootView.findViewById(R.id.shopItem5);
+        drawShopImage(android.R.drawable.ic_delete, shopView5);
+        addItemText(R.string.clearPower, shopView5);
+        addItemDescription(getString(R.string.clearPowerDesc), shopView5);
+        addButtons(shopView5, 4);
+
+        View shopView6 = rootView.findViewById(R.id.shopItem6);
+        drawShopImage(R.drawable.ic_x2, shopView6);
+        addItemText(R.string.power1, shopView6);
+        addItemDescription("Nah", shopView6);
+        addButtons(shopView6, 5);
+
+
+
+
         Button menuButton = rootView.findViewById(R.id.btnMenu);
         menuButton.setOnClickListener(this::toMenu);
 
@@ -125,10 +152,6 @@ public class ShopFragment extends Fragment {
         int money = dataSaver.loadMoney();
         int[] boughtItems = dataSaver.loadBoughtItems();
         int price = GameConstants.powerCost[itemIndex];
-        if (money < delta*price){
-            //Insufficient coins
-            showSnackbar(shopView, "You don't have enough money");
-            return;}
         if (boughtItems[itemIndex] + delta < 0){
             showSnackbar(shopView, "You don't have anything to sell");
             return;
@@ -137,6 +160,10 @@ public class ShopFragment extends Fragment {
             showSnackbar(shopView, "You cannot buy any more of that");
             return;
         }
+        if (money < delta*price){
+            //Insufficient coins
+            showSnackbar(shopView, "You don't have enough money, it costs " + price );
+            return;}
         dataSaver.saveMoney(money-delta*price);
         TextView quantity = shopView.findViewById(R.id.quantityIndicator);
         boughtItems[itemIndex]+=delta; //TODO: Add try/catch?

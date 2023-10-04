@@ -112,7 +112,11 @@ public class MenuFragment extends Fragment {
     }
 
     private void updateDisplay() {
-        String levelText = "Current max level: " + dataSaver.loadCurrentLevel();
+        int level = dataSaver.loadCurrentLevel();
+        if (GameManager.getInstance().getGame() != null){
+            level = GameManager.getInstance().getGame().getLevel();
+        }
+        String levelText = "Current level: " + level;
         levelTextView.setText(levelText);
         String moneyText = "$ " + dataSaver.loadMoney() + " $";
         moneyTextView.setText(moneyText);

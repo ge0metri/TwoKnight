@@ -111,13 +111,15 @@ public class StandardGame implements MutableGame {
 
     @Override
     public void endTurn(int e) {
-        Log.d("game", String.valueOf(gameState));
+        //Log.d("game", String.valueOf(gameState));
+        Log.d("game", String.valueOf(currentLevel));
         boolean moved = false;
         if (debugMode) {
             debugCode(e);
             debugMode = false;
         } else if (KeyEvent.VK_0 <= e && e <= KeyEvent.VK_9 && getGameState() != GameState.POINTER) {
-            powerStrategy.prepareSkill(this, e);
+            boolean powerSuccess = powerStrategy.prepareSkill(this, e);
+            listener.onPowerUse(powerSuccess);
         } else if (gameState == GameState.POINTER) {
             handlePointer(e);
         } else {
