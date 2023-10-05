@@ -11,6 +11,8 @@ import java.util.Random;
 public class StandardDifficultyHandler implements DifficultyHandler {
 
     private final int currentLevel;
+
+
     private boolean useSpawnRates = false;
     private int[] boughtSkills;
     private int shieldCounter = 0;
@@ -23,7 +25,6 @@ public class StandardDifficultyHandler implements DifficultyHandler {
     public StandardDifficultyHandler(int currentLevel, int[] boughtSkills) {
         this.currentLevel = currentLevel;
         this.boughtSkills = boughtSkills;
-        useSpawnRates = true;
     }
 
     @Override
@@ -111,5 +112,13 @@ public class StandardDifficultyHandler implements DifficultyHandler {
         }
         return val;
     }
+    @Override
+    public boolean isUseSpawnRates() {
+        return useSpawnRates;
+    }
 
+    @Override
+    public void setUseSpawnRates(boolean useSpawnRates) {
+        this.useSpawnRates = useSpawnRates;
+    }
 }

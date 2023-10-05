@@ -10,8 +10,12 @@ import com.example.twoknight.framework.Tile;
 import com.example.twoknight.standard.GameConstants;
 import com.example.twoknight.standard.KeyEvent;
 import com.example.twoknight.standard.Laser;
+import com.example.twoknight.strategy.DifficultyHandler;
 import com.example.twoknight.tiles.StandardImmovableTile;
 import com.example.twoknight.tiles.StandardShopTile;
+
+import java.util.Collections;
+import java.util.Set;
 
 public class ShopGame implements Shop {
     Tile[][] tiles = new Tile[GameConstants.side0][GameConstants.side1];
@@ -135,8 +139,13 @@ public class ShopGame implements Shop {
     }
 
     @Override
-    public int getPower() {
-        return 0;
+    public Set<Integer> getPower() {
+        return Collections.singleton(0);
+    }
+
+    @Override
+    public DifficultyHandler getDifficultyHandler() {
+        return null;
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.example.twoknight;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.CycleInterpolator;
 
 import com.example.twoknight.framework.Game;
 import com.example.twoknight.framework.GameListener;
@@ -34,6 +39,7 @@ public class GameFragment extends Fragment implements GameListener {
     private Game standardGame;
     private StandardView gameView;
     private DataSaver dataSaver;
+    AnimatorSet animatorSet;
 
     public GameFragment() {
         // Required empty public constructor
@@ -76,12 +82,16 @@ public class GameFragment extends Fragment implements GameListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_game, container, false);
+        gameView = rootView.findViewById(R.id.gameView);
+
+        readyScreenShake(gameView);
 
         FloatingActionButton clearFieldPower = rootView.findViewById(R.id.clearPowerBtn);
         unFocus(clearFieldPower);
         clearFieldPower.setOnClickListener(this::clearPower);
-        FloatingActionButton btn2 = rootView.findViewById(R.id.fab2);
-        unFocus(btn2);
+        FloatingActionButton spawnLuckPower = rootView.findViewById(R.id.spawnLuckBtn);
+        unFocus(spawnLuckPower);
+        spawnLuckPower.setOnClickListener(this::spawnLuck);
         FloatingActionButton btn3 = rootView.findViewById(R.id.fab3);
         unFocus(btn3);
         FloatingActionButton btn4 = rootView.findViewById(R.id.fab4);
@@ -91,8 +101,6 @@ public class GameFragment extends Fragment implements GameListener {
         FloatingActionButton btn8 = rootView.findViewById(R.id.fab8);
         unFocus(btn8);
 
-
-        gameView = rootView.findViewById(R.id.gameView);
         // Customize and configure your GameView as needed
         if (GameManager.getInstance().getGame() == null){
             GameManager.getInstance().setGame(dataSaver.loadCurrentLevel(), dataSaver.loadBoughtItems());
@@ -100,6 +108,34 @@ public class GameFragment extends Fragment implements GameListener {
         GameManager.getInstance().getGame().setGameListener(this);
         gameView.addGame(GameManager.getInstance().getGame());
         return rootView;
+    }
+
+    private void readyScreenShake(View view) {
+        ObjectAnimator shakeAnimatorX = ObjectAnimator.ofFloat(view, "translationX", 0f, 10f);
+        ObjectAnimator shakeAnimatorY = ObjectAnimator.ofFloat(view, "translationY", 0f, 10f);
+
+// Set the duration and interpolator for the animation
+        shakeAnimatorX.setDuration(90);  // Adjust the duration as needed
+        shakeAnimatorY.setDuration(90);  // Adjust the duration as needed
+        shakeAnimatorX.setInterpolator(new CycleInterpolator(4));  // Number of shakes
+        shakeAnimatorY.setInterpolator(new CycleInterpolator(5));  // Number of shakes
+
+// Combine the X and Y animations
+
+        animatorSet = new AnimatorSet();
+        animatorSet.playTogether(shakeAnimatorX, shakeAnimatorY);
+// Optional: Add a listener to reset the translation when the animation ends
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                view.setTranslationX(0f);
+                view.setTranslationY(0f);
+            }
+        });
+    }
+
+    private void spawnLuck(View view) {
+        gameView.usePower(GameConstants.SPAWN_LUCK);
     }
 
     private void clearPower(View view) {
@@ -138,6 +174,17 @@ public class GameFragment extends Fragment implements GameListener {
             showSnackbar(gameView, "How do not have any more charges");
         }
     }
+
+    @Override
+    public void onHighDamage() {
+        animatorSet.start();
+    }
+
+    @Override
+    public void addTile(int[] out) {
+        gameView.addTile(out);
+    }
+
     private void showSnackbar(View button, String message) {
         Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_SHORT);
         snackbar.show();

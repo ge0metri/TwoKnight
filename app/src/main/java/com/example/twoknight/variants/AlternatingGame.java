@@ -11,6 +11,9 @@ import com.example.twoknight.framework.Tile;
 import com.example.twoknight.standard.KeyEvent;
 import com.example.twoknight.standard.Laser;
 import com.example.twoknight.standard.StandardGame;
+import com.example.twoknight.strategy.DifficultyHandler;
+
+import java.util.Set;
 
 public class AlternatingGame implements Game, Shop {
 
@@ -82,8 +85,13 @@ public class AlternatingGame implements Game, Shop {
     }
 
     @Override
-    public int getPower() {
+    public Set<Integer> getPower() {
         return game.getPower();
+    }
+
+    @Override
+    public DifficultyHandler getDifficultyHandler() {
+        return null;
     }
 
     @Override

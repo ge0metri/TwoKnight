@@ -12,15 +12,21 @@ import com.example.twoknight.framework.Tile;
 import com.example.twoknight.tiles.StandardGoldenTile;
 import com.example.twoknight.tiles.StandardTile;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class StandardPowerStrategy implements PowerStrategy {
 
     private int[] boughtSkills;
-    private Integer usingSkill;
+    private Set<Integer> usingSkill = new HashSet<>();
     private Tile tempTile = null;
     private Integer tempX = null;
     private Integer tempY = null;
+    private int[] activeTurn = new int[]{0,0,0,0,0,0,0,0,0,0};
+
+    public StandardPowerStrategy() {
+    }
 
     @Override
     public boolean prepareSkill(MutableGame game, int e) {
@@ -30,6 +36,12 @@ public class StandardPowerStrategy implements PowerStrategy {
              return false;
          }
         switch (e) {
+            case GameConstants.SPAWN_LUCK: {
+                game.getDifficultyHandler().setUseSpawnRates(true);
+                usingSkill.add(GameConstants.SPAWN_LUCK);
+                activeTurn[GameConstants.SPAWN_LUCK] = game.getTurnNumber();
+                break;
+            }
             case KeyEvent.VK_1: {
                 game.addTile(new StandardTile(128));
                 // game.setWinner(Player.POINTER);
@@ -38,17 +50,17 @@ public class StandardPowerStrategy implements PowerStrategy {
             }
             case KeyEvent.VK_2: {
                 game.setWinner(GameState.POINTER);
-                usingSkill = 2;
+                usingSkill.add(2);
                 break;
             }
             case KeyEvent.VK_3: {
                 game.setWinner(GameState.POINTER);
-                usingSkill = 3;
+                usingSkill.add(3);
                 break;
             }
             case 12: {
                 game.setWinner(GameState.POINTER);
-                usingSkill = 4;
+                usingSkill.add(4);
                 break;
             }
             case 11: {
@@ -125,12 +137,13 @@ public class StandardPowerStrategy implements PowerStrategy {
         int x = pointer / game.getField().length;
         int y = pointer % game.getField()[0].length;
         boolean illegalMove = false;
-        switch (usingSkill) {
+        int skill = 0;
+        switch (skill) {
             case 1: {
                 if (game.getField()[x][y] == null) {
                     game.getField()[x][y] = new StandardTile(128);
                     game.setWinner(GameState.RUNNING);
-                    boughtSkills[(usingSkill + 9) % 10]--;
+                    boughtSkills[1]--;
                     usingSkill = null;
                 } else {
                     illegalMove = true;
@@ -142,7 +155,7 @@ public class StandardPowerStrategy implements PowerStrategy {
                     StandardTile standardTile = (StandardTile) game.getField()[x][y];
                     game.getField()[x][y] = new StandardTile(standardTile.getValue() * 2);
                     game.setWinner(GameState.RUNNING);
-                    boughtSkills[(usingSkill + 9) % 10]--;
+                    boughtSkills[2]--;
                     usingSkill = null;
                 } else {
                     illegalMove = true;
@@ -159,7 +172,7 @@ public class StandardPowerStrategy implements PowerStrategy {
                     StandardTile standardTile = (StandardTile) game.getField()[x][y];
                     game.getField()[x][y] = tempTile;
                     game.getField()[tempX][tempY] = standardTile;
-                    boughtSkills[(usingSkill + 9) % 10]--;
+                    boughtSkills[2]--;
                     tempX = null;
                     tempY = null;
                     tempTile = null;
@@ -174,7 +187,7 @@ public class StandardPowerStrategy implements PowerStrategy {
                 if (!(game.getField()[x][y] instanceof Hero)) {
                     game.getField()[x][y] = null;
                     game.setWinner(GameState.RUNNING);
-                    boughtSkills[(usingSkill + 9) % 10]--;
+                    boughtSkills[4]--;
                     usingSkill = null;
                 } else {
                     illegalMove = true;
@@ -198,7 +211,17 @@ public class StandardPowerStrategy implements PowerStrategy {
     }
 
     @Override
-    public int getPower() {
+    public Set<Integer> getPower() {
         return usingSkill;
+    }
+
+    @Override
+    public void endTurn(MutableGame game) {
+        boolean isSpawnLuckOver = game.getTurnNumber() > activeTurn[GameConstants.SPAWN_LUCK]
+                + boughtSkills[GameConstants.SPAWN_LUCK_LENGTH]; //TODO: Add variable time. And visual?
+        if (isSpawnLuckOver){
+            game.getDifficultyHandler().setUseSpawnRates(false);
+            usingSkill.remove(GameConstants.SPAWN_LUCK);
+        }
     }
 }

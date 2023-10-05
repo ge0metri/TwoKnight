@@ -49,40 +49,41 @@ public class ShopFragment extends Fragment {
         moneyText.setOnClickListener(this::addMoney); //TODO: Remove this at some point
 
         View shopView1 = rootView.findViewById(R.id.shopItem1);
-        drawShopImage(R.drawable.ic_x2, shopView1);
-        addItemText(R.string.power1, shopView1);
-        addItemDescription("Nah", shopView1);
-        addButtons(shopView1, 0);
+        drawShopImage(R.drawable.ic_lucky_i, shopView1);
+        addItemText(R.string.spawn_luck_title, shopView1);
+        updateItemDescription(shopView1, GameConstants.SPAWN_LUCK);
+        addButtons(GameConstants.SPAWN_LUCK, shopView1);
+
 
         View shopView2 = rootView.findViewById(R.id.shopItem2);
-        drawShopImage(R.drawable.ic_shield, shopView2);
-        addItemText(R.string.power2, shopView2);
-        addItemDescription("Choose a tile on the field and double it.\n You have n charges", shopView2);
-        addButtons(shopView2, 1);
+        drawShopImage(R.drawable.ic_lucky_ii, shopView2);
+        addItemText(R.string.spawn_luck_len_title, shopView2);
+        updateItemDescription(shopView2, GameConstants.SPAWN_LUCK_LENGTH);
+        addButtons(GameConstants.SPAWN_LUCK_LENGTH, shopView2);
 
         View shopView3 = rootView.findViewById(R.id.shopItem3);
-        drawShopImage(R.drawable.ic_x2, shopView3);
-        addItemText(R.string.power1, shopView3);
-        addItemDescription("Nah", shopView3);
-        addButtons(shopView3, 2);
+        drawShopImage(R.drawable.ic_shield, shopView3);
+        addItemText(R.string.power2, shopView3);
+        addItemDescription("Choose a tile on the field and double it.\n You have n charges", shopView3);
+        addButtons(2, shopView3);
 
         View shopView4 = rootView.findViewById(R.id.shopItem4);
         drawShopImage(R.drawable.ic_x2, shopView4);
-        addItemText(R.string.power1, shopView4);
+        addItemText(R.string.spawn_luck_title, shopView4);
         addItemDescription("Nah", shopView4);
-        addButtons(shopView4, 3);
+        addButtons(3, shopView4);
 
         View shopView5 = rootView.findViewById(R.id.shopItem5);
         drawShopImage(android.R.drawable.ic_delete, shopView5);
         addItemText(R.string.clearPower, shopView5);
         addItemDescription(getString(R.string.clearPowerDesc), shopView5);
-        addButtons(shopView5, 4);
+        addButtons(4, shopView5);
 
         View shopView6 = rootView.findViewById(R.id.shopItem6);
         drawShopImage(R.drawable.ic_x2, shopView6);
-        addItemText(R.string.power1, shopView6);
+        addItemText(R.string.spawn_luck_title, shopView6);
         addItemDescription("Nah", shopView6);
-        addButtons(shopView6, 5);
+        addButtons(5, shopView6);
 
 
 
@@ -95,6 +96,26 @@ public class ShopFragment extends Fragment {
 
     }
 
+    private void updateItemDescription(View shopView, int itemIndex) {
+        int[] boughtSkills = dataSaver.loadBoughtItems();
+        switch (itemIndex){
+            case GameConstants.SPAWN_LUCK:{
+                int spawnLuckAmount = boughtSkills[GameConstants.SPAWN_LUCK];
+                int spawnLow = 1<<(1+ spawnLuckAmount/9);
+                int rateHigh = 5*(1 + spawnLuckAmount%9);
+                addItemDescription(getString(
+                        R.string.spawn_luck_desc, spawnLow, spawnLow*2, 100-rateHigh, rateHigh
+                ), shopView);
+                break;
+            }
+            case GameConstants.SPAWN_LUCK_LENGTH:{
+                addItemDescription(getString(
+                        R.string.spawn_luck_len_desc, boughtSkills[GameConstants.SPAWN_LUCK_LENGTH]
+                ), shopView);
+                break;
+            }
+        }
+    }
     private void addItemDescription(String description, View shopView) {
         TextView itemDescription = shopView.findViewById(R.id.shopItemDescription);
         itemDescription.setText(description);
@@ -110,7 +131,7 @@ public class ShopFragment extends Fragment {
         shopItemImage.setImageResource(drawableId);
     }
 
-    private void addButtons(View shopView, int itemIndex) {
+    private void addButtons(int itemIndex, View shopView) {
         TextView quantityText = shopView.findViewById(R.id.quantityIndicator);
         String s = ""+dataSaver.loadBoughtItems()[itemIndex];
         quantityText.setText(s);
@@ -171,6 +192,7 @@ public class ShopFragment extends Fragment {
         String quanText = "" + (boughtItems[itemIndex]);
         quantity.setText(quanText);
         updateMoney();
+        updateItemDescription(shopView, itemIndex);
     }
 
     private void showSnackbar(View button, String message) {

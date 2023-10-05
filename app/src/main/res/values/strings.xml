@@ -146,11 +146,14 @@
     <string name="item_name">Item Name</string>
     <string name="shop_item_image">Shop Item Image</string>
     <string name="item_description">Item Description</string>
-    <string name="power1">Lucky</string>
+    <string name="spawn_luck_title">Lucky I</string>
     <string name="power2">Double tile</string>
     <string name="leveldesc1">In this level the shield you must break \n
         has the value %d. %s \n
         Good Luck!</string>
     <string name="clearPower">Clear Field</string>
     <string name="clearPowerDesc">Clear all but the very largest tile! \n Uses per level: </string>
+    <string name="spawn_luck_desc">Activate a burst of lucky tiles. \n For a limited time,\n only %d and %d tiles\n will spawn! \n with rates %d %% and %d %% </string>
+    <string name="spawn_luck_len_desc">Determine how long \"Lucky I\" lasts\n It will last %d turns</string>
+    <string name="spawn_luck_len_title">Lucky II</string>
 </resources>

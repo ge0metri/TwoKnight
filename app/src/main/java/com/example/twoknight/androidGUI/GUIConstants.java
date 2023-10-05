@@ -8,6 +8,7 @@ import android.graphics.Paint;
 
 public class GUIConstants {
 
+    public static final int SCREEN_SHAKE_THRESHOLD = 12;
     public static Paint boardPaint = new Paint();
     public static Paint TilePaint = new Paint();
     public static final String[] colorTable = {

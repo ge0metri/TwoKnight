@@ -1,11 +1,16 @@
 package com.example.twoknight.standard;
 
+import com.example.twoknight.androidGUI.GUIConstants;
+import com.example.twoknight.framework.Game;
+import com.example.twoknight.framework.GameListener;
+import com.example.twoknight.framework.GameState;
 import com.example.twoknight.framework.MutableHero;
+import com.example.twoknight.framework.Observable;
 import com.example.twoknight.framework.Tile;
 import com.example.twoknight.strategy.HeroBrain;
 import com.example.twoknight.strategy.StandardHeroBrain;
 
-public class StandardHero implements MutableHero {
+public class StandardHero implements MutableHero, Observable {
     private final String heroType;
     private final int maxHealth;
     private int health;
@@ -15,6 +20,12 @@ public class StandardHero implements MutableHero {
     private int armor;
     private int shield;
     private boolean vulnerable = false;
+    private HeroListener listener = new HeroListener() {
+        @Override
+        public void onHighDamage() {
+
+        }
+    };
 
     public StandardHero(String heroType, int heroMaxHealth, int armor, int shield) {
         this.heroType = heroType;
@@ -73,7 +84,11 @@ public class StandardHero implements MutableHero {
     @Override
     public int mergeWith(Tile other) {
         if (canMergeWith(other)) {
-            health -= heroBrain.damage(this, other);
+            int damage = heroBrain.damage(this, other);
+            if (damage > GUIConstants.SCREEN_SHAKE_THRESHOLD){
+                listener.onHighDamage();
+            }
+            health -= damage;
             merged = true;
             return health;
         }
@@ -88,5 +103,10 @@ public class StandardHero implements MutableHero {
     @Override
     public void setVulnerable(boolean vulnerable) {
         this.vulnerable = vulnerable;
+    }
+
+    @Override
+    public void setGameListener(GameListener listener) {
+        this.listener = listener;
     }
 }

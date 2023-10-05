@@ -18,6 +18,9 @@
 package com.example.twoknight.framework;
 
 import com.example.twoknight.standard.Laser;
+import com.example.twoknight.strategy.DifficultyHandler;
+
+import java.util.Set;
 
 /**
  * The role of a single TwoKnight game, allowing clients to
@@ -83,5 +86,7 @@ public interface Game extends Observable {
      */
     Laser getLaserState();
 
-    int getPower();
+    Set<Integer> getPower();
+
+    DifficultyHandler getDifficultyHandler();
 }

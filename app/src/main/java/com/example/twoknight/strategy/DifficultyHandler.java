@@ -13,4 +13,8 @@ public interface DifficultyHandler {
     int getCurrentLevel();
 
     int getTileValue();
+
+    boolean isUseSpawnRates();
+
+    void setUseSpawnRates(boolean useSpawnRates);
 }

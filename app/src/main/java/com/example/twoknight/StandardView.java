@@ -2,6 +2,10 @@ package com.example.twoknight;
 
 import static java.lang.Math.min;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,6 +17,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -21,13 +26,13 @@ import androidx.core.content.ContextCompat;
 import com.example.twoknight.androidGUI.GUIConstants;
 import com.example.twoknight.factory.StandardGameFactory;
 import com.example.twoknight.framework.*;
-import com.example.twoknight.standard.GameConstants;
 import com.example.twoknight.standard.KeyEvent;
 import com.example.twoknight.standard.StandardGame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 public class StandardView extends View {
     private Game game;
@@ -51,6 +56,11 @@ public class StandardView extends View {
     int emptyColor = ContextCompat.getColor(getContext(), R.color.empty_col);
     private float healthBarHeight;
     private float yOffSet;
+    private RectF pointerRect;
+    private boolean pointerMode = false;
+    private ArrayList<int[]> newRects = new ArrayList<>();
+    private float newRectScale = 0;
+    private String newRectHolder = "rewRectScale";
 
     public StandardView(Context context) {
         super(context);
@@ -124,6 +134,35 @@ public class StandardView extends View {
         //canvas.drawCircle(200, 200, 200, pincelAmerelo);
         drawBoard(canvas);
         drawHealth(canvas);
+        drawNewRects(canvas);
+        drawPointer(canvas);
+    }
+
+    private void drawNewRects(Canvas canvas) {
+        for (int[] out : newRects){
+            RectF rectTarget = getTileRect(out[0], out[1]);
+            RectF rectStart = new RectF(
+                    rectTarget.centerX(), rectTarget.centerY(), rectTarget.centerX(), rectTarget.centerY()
+            );
+            RectF rect = new RectF(
+                    rectTarget.left*newRectScale + (1-newRectScale)*rectTarget.centerX(),
+                    rectTarget.top*newRectScale + (1-newRectScale)*rectTarget.centerY(),
+                    rectTarget.right*newRectScale + (1-newRectScale)*rectTarget.centerX(),
+                    rectTarget.bottom*newRectScale + (1-newRectScale)*rectTarget.centerY()
+            );
+            getTileColor(game.getField()[out[0]][out[1]].getValue());
+            canvas.drawRoundRect(rect, corner/4, corner/4, GUIConstants.TilePaint);
+        }
+    }
+
+    private void drawPointer(Canvas canvas) {
+        if (!pointerMode){
+            return;
+        }
+        GUIConstants.TilePaint.setColor(Color.argb(100, 230, 230, 120));
+        if (pointerRect != null){
+            canvas.drawRoundRect(pointerRect, corner/4, corner/4, GUIConstants.TilePaint);
+        }
     }
 
     private void drawHealth(Canvas canvas) {
@@ -144,7 +183,7 @@ public class StandardView extends View {
                     (int) (margin + tileSize-0.5*margin)));
             criticalImage.draw(canvas);
         }
-        if (healthBar > boardSize*0.1){
+        if (healthBar > boardSize*0.2){
             Rect textBounds = new Rect();
             String health = game.getHero().getHealth() + "";
             textPaint.getTextBounds(health, 0, health.length(), textBounds);
@@ -172,8 +211,15 @@ public class StandardView extends View {
         }
     }
 
+    private boolean isDrawingRect(int i, int j) {
+        for (int[] pair : newRects) {
+            if (pair[0] == i && pair[1] == j) {return true;}
+        }
+        return false;
+    }
+
     private void drawTile(Tile[][] field, int i, int j, Canvas canvas) {
-        if (field[i][j] == null) {
+        if (field[i][j] == null || isDrawingRect(i,j)) {
             GUIConstants.TilePaint.setColor(emptyColor);
             drawTileRect(i, j, canvas); //draws tile without value. Color is determined before fcn is called
             return;
@@ -184,7 +230,6 @@ public class StandardView extends View {
             drawHeroTile(hero, i,j, canvas);
             return;
         }
-
         int value = tile.getValue();
         if (value == 0) {
             GUIConstants.TilePaint.setColor(Color.BLACK);
@@ -192,11 +237,15 @@ public class StandardView extends View {
             GUIConstants.TilePaint.setColor(Color.GRAY);
             drawTileRect(i, j, canvas, value);
         } else {
-            GUIConstants.TilePaint.setColor(
-                    Color.parseColor(
-                            GUIConstants.colorTable[(int) (Math.log(Math.abs(value)) / Math.log(2))]));
+            getTileColor(value);
             drawTileRect(i, j, canvas, value); //draws tile with value
         }
+    }
+
+    private static void getTileColor(int value) {
+        GUIConstants.TilePaint.setColor(
+                Color.parseColor(
+                        GUIConstants.colorTable[(int) (Math.log(Math.abs(value)) / Math.log(2))]));
     }
 
     private void drawHeroTile(Hero hero, int i, int j, Canvas canvas) {
@@ -240,8 +289,8 @@ public class StandardView extends View {
         Rect textBounds = new Rect();
         textPaint.getTextBounds(value, 0, value.length(), textBounds);
         // Calculate the position to draw the number in the center of the tile
-        float textX = rect.centerX() - textBounds.width() / 2;
-        float textY = rect.centerY() + textBounds.height() / 2;
+        float textX = rect.centerX() - textBounds.width() / 2f;
+        float textY = rect.centerY() + textBounds.height() / 2f;
         canvas.drawText(value, textX, textY, textPaint);
     }
 
@@ -251,8 +300,7 @@ public class StandardView extends View {
         float yu = yOffSet + (j +1)*spacing + j *tileSize;
         float xd = xu + tileSize;
         float yd = yu + tileSize;
-        RectF rect = new RectF(xu, yu, xd, yd);
-        return rect;
+        return new RectF(xu, yu, xd, yd);
     }
 
     private void drawTileRect(int i, int j, Canvas canvas) {
@@ -263,6 +311,9 @@ public class StandardView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                animateBlock(event);
+                break;
             case MotionEvent.ACTION_DOWN:
                 // Store the initial touch coordinates
                 startX = event.getX();
@@ -270,6 +321,7 @@ public class StandardView extends View {
                 break;
 
             case MotionEvent.ACTION_UP:
+                pointerRect = null;
                 // Store the final touch coordinates
                 float endX = event.getX();
                 float endY = event.getY();
@@ -310,8 +362,70 @@ public class StandardView extends View {
         return true;
     }
 
+    private void animateBlock(MotionEvent event) {
+        float x = event.getX();
+        float y = event.getY();
+        int i = (int) ((x-margin)/(boardSize/4));
+        int j = (int) ((y - yOffSet)/(boardSize/4));
+        boolean iIsInside = 0 <= i && i <= 3;
+        boolean jIsInside = 0 <= j && j <= 3;
+        if (y < yOffSet || y > yOffSet + boardSize || !iIsInside || !jIsInside) {
+            pointerRect = null;
+            invalidate();
+            return;
+        }
+        RectF rectF = getTileRect(i,j);
+        if (rectF.equals(pointerRect)){
+            return;
+        }
+        invalidate();
+        pointerRect = getTileRect(i,j);
+
+    }
+
     public void usePower(int power) {
         game.endTurn(power);
         invalidate();
+    }
+
+    public void addTile(int[] out) {
+        newRects.clear();
+        newRects.add(out);
+        animateNewRect();
+    }
+
+    private void animateNewRect() {
+        PropertyValuesHolder valuesHolder = PropertyValuesHolder.ofFloat(
+                newRectHolder,
+                0f,
+                1f
+        );
+
+        // 2
+        ValueAnimator animator = new ValueAnimator();
+        animator.setValues(valuesHolder);
+        animator.setDuration(120);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        // 3
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                // 4
+                newRectScale = (float) animation.getAnimatedValue(newRectHolder);
+
+                // 6
+                invalidate();
+            }
+        });
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                newRects.clear();
+            }
+        });
+
+        // 7
+        animator.start();
     }
 }

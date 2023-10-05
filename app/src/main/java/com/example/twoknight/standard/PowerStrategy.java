@@ -2,6 +2,8 @@ package com.example.twoknight.standard;
 
 import com.example.twoknight.framework.MutableGame;
 
+import java.util.Set;
+
 public interface PowerStrategy {
     boolean prepareSkill(MutableGame standardGame, int e);
 
@@ -9,5 +11,7 @@ public interface PowerStrategy {
 
     void cancel(MutableGame game);
 
-    int getPower();
+    Set<Integer> getPower();
+
+    void endTurn(MutableGame standardGame);
 }

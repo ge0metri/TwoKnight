@@ -158,7 +158,7 @@ public class LevelSelectFragment extends Fragment {
     }
 
     private void showSnackbar(View button, String message) {
-        Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_SHORT).setAnchorView(button);
+        Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_SHORT);
         snackbar.show();
     }
     @Override

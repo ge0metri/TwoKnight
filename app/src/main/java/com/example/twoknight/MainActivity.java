@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     // TODO: 6) More stuff later probably
     // TODO: if unlimited -> add odds for tiles
     // TODO: Make shop art
-    // TODO: Make buttons do stuff
     // TODO: Add small feedback animations - shake, puffs stuff
+    // TODO: Maybe balance stuff like hero at the edge early later in middle
     // TOD: 3) implement tutorial --ok--
     // TOD 1) Make end screen --ok--
 

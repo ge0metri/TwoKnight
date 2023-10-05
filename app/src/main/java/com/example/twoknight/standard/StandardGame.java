@@ -25,6 +25,8 @@ import com.example.twoknight.framework.GameState;
 import com.example.twoknight.framework.Hero;
 import com.example.twoknight.framework.ImmovableTile;
 import com.example.twoknight.framework.MutableGame;
+import com.example.twoknight.framework.MutableHero;
+import com.example.twoknight.framework.Observable;
 import com.example.twoknight.framework.Tile;
 import com.example.twoknight.strategy.DifficultyHandler;
 import com.example.twoknight.tiles.GoldenTile;
@@ -34,6 +36,7 @@ import com.example.twoknight.tiles.StandardTile;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 public class StandardGame implements MutableGame {
     Random rand = new Random();
@@ -73,11 +76,14 @@ public class StandardGame implements MutableGame {
                 emptyMap.add(e);
             }
         }
+        beginGame();
+    }
+
+    private void beginGame() {
         addRandomTile();
         addRandomTile();
         addHeroTile();
         difficultyHandler.prepareNextRound(this);
-
     }
 
     @Override
@@ -111,9 +117,11 @@ public class StandardGame implements MutableGame {
 
     @Override
     public void endTurn(int e) {
-        //Log.d("game", String.valueOf(gameState));
-        Log.d("game", String.valueOf(currentLevel));
+        boolean isUsingPower = !powerStrategy.getPower().isEmpty();
         boolean moved = false;
+        if (isUsingPower){
+            powerStrategy.endTurn(this);
+        }
         if (debugMode) {
             debugCode(e);
             debugMode = false;
@@ -271,8 +279,9 @@ public class StandardGame implements MutableGame {
     private void addRandomTile() {
         int[] out = getRandomPos();
         if (out == null) return;
-        int val = rand.nextInt(10) == 0 ? 4 : 2;
-        val = difficultyHandler.getTileValue();
+        // int val = rand.nextInt(10) == 0 ? 4 : 2; Depricated
+        int val = difficultyHandler.getTileValue();
+        if (listener != null){listener.addTile(out);}
         currentField[out[0]][out[1]] = new StandardTile(val);
         emptyMap.remove(new int[]{out[0], out[1]});
     }
@@ -352,8 +361,13 @@ public class StandardGame implements MutableGame {
     }
 
     @Override
-    public int getPower() {
+    public Set<Integer> getPower() {
         return powerStrategy.getPower();
+    }
+
+    @Override
+    public DifficultyHandler getDifficultyHandler() {
+        return difficultyHandler;
     }
 
     boolean movesAvailable() {
@@ -470,5 +484,6 @@ public class StandardGame implements MutableGame {
     @Override
     public void setGameListener(GameListener listener) {
         this.listener = listener;
+        ((Observable) hero).setGameListener(listener);
     }
 }

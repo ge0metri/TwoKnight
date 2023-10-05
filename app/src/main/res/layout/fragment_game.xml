@@ -75,7 +75,7 @@
                 custom:srcCompat="@android:drawable/ic_popup_sync" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab2"
+                android:id="@+id/spawnLuckBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
@@ -83,8 +83,8 @@
                 android:focusableInTouchMode="false"
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
-
+                custom:srcCompat="@drawable/ic_lucky_i" />
+            <!--TODO: Add maybe clovers in a circle around, and make button glow -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab6"
                 android:layout_width="wrap_content"
