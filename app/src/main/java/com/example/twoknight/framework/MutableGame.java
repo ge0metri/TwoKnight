@@ -30,9 +30,9 @@ public interface MutableGame extends Game {
 
     void addTile(Tile tile);
 
-    void beginLaser();
+    void beginLaser(int i, int j);
 
-    void fireLaser();
+    void fireLaser(int i, int j);
 
     Laser getLaserState();
 

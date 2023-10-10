@@ -224,7 +224,6 @@ public class StandardGame implements MutableGame {
     private void debugCode(int e) {
         switch (e) {
             case KeyEvent.VK_1: {
-                beginLaser();
                 break;
             }
             case KeyEvent.VK_2: {
@@ -338,17 +337,18 @@ public class StandardGame implements MutableGame {
     }
 
     @Override
-    public void beginLaser() {
+    public void beginLaser(int i, int j) {
         if (!isCharging) {
-            rowNotCol = rand.nextBoolean();
-            laserPosition = (rowNotCol) ? rand.nextInt(side0) : rand.nextInt(side1);
+            listener.onBeginLaser(i,j);
             isCharging = true;
         }
     }
 
     @Override
-    public void fireLaser() {
-        removeRandomLine(rowNotCol, laserPosition);
+    public void fireLaser(int i, int j) {
+        //removeRandomLine(rowNotCol, laserPosition);
+        currentField[i][j] = null;
+        listener.onFireLaser(i,j);
         isCharging = false;
     }
 
@@ -385,12 +385,18 @@ public class StandardGame implements MutableGame {
             int r = j / side1;
             int c = j % side1;
 
-            if (currentField[r][c] == null || currentField[r][c] instanceof ImmovableTile)
+            if (currentField[r][c] == null || currentField[r][c] instanceof ImmovableTile) {
                 continue;
+            }
 
             int nextR = r + yIncr;
             int nextC = c + xIncr;
-
+            boolean shouldAdd = false;
+            if (currentField[r][c] instanceof StandardTile){
+                shouldAdd = true;
+            }
+            int[] start = {r,c};
+            int startValue = currentField[r][c].getValue();
             while (nextR >= 0 && nextR < side0 && nextC >= 0 && nextC < side1) {
 
                 Tile next = currentField[nextR][nextC];
@@ -426,10 +432,18 @@ public class StandardGame implements MutableGame {
                     currentField[r][c] = null;
                     int[] e = {r, c};
                     emptyMap.remove(e);
+                    nextR += yIncr;
+                    nextC += xIncr;
                     moved = true;
                     break;
                 } else
                     break;
+            }
+            int[] end = {nextR-yIncr,nextC-xIncr};
+            boolean startIsEnd = start[0] == end[0] && start[1] == end[1];
+            boolean endIsStandard = currentField[end[0]][end[1]] instanceof StandardTile;
+            if (shouldAdd && moved && !startIsEnd && endIsStandard){
+                listener.onMove(start, end, startValue);
             }
         }
 

@@ -153,6 +153,8 @@ public class LevelSelectFragment extends Fragment {
         String s = "\n\n";
         if (difficultyHandler.isBlocksNotLaser()){
             s = "\n And blocks will spawn that can be \n destroyed by smashing them with a tile ";
+        }else {
+            s = "\n And a laser will target \n the largest tile ";
         }
         levelDescription.setText(getString(R.string.leveldesc1, shield, s));
     }

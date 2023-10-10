@@ -185,6 +185,21 @@ public class GameFragment extends Fragment implements GameListener {
         gameView.addTile(out);
     }
 
+    @Override
+    public void onMove(int[] start, int[] end, int startValue) {
+        gameView.onMove(start, end, startValue);
+    }
+
+    @Override
+    public void onBeginLaser(int i, int j) {
+        gameView.onBeginLaser(i,j);
+    }
+
+    @Override
+    public void onFireLaser(int i, int j) {
+        gameView.onFireLaser(i,j);
+    }
+
     private void showSnackbar(View button, String message) {
         Snackbar snackbar = Snackbar.make(button, message, Snackbar.LENGTH_SHORT);
         snackbar.show();

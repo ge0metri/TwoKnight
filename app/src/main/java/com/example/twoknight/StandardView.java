@@ -32,9 +32,9 @@ import com.example.twoknight.standard.StandardGame;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 
 public class StandardView extends View {
+    private Paint laserPaint;
     private Game game;
     private float viewHeight;
     private float viewWidth;
@@ -48,9 +48,9 @@ public class StandardView extends View {
     Drawable heroSmug = AppCompatResources.getDrawable(getContext(), R.drawable.ic_hero_smug);
     private final Paint textPaint;
     private float corner;
-    private Drawable heroScard = AppCompatResources.getDrawable(getContext(), R.drawable.ic_hero_scard);
-    private Drawable heroShield = AppCompatResources.getDrawable(getContext(), R.drawable.ic_shield);
-    private Drawable criticalImage = AppCompatResources.getDrawable(getContext(), R.drawable.ic_x2);
+    private final Drawable heroScard = AppCompatResources.getDrawable(getContext(), R.drawable.ic_hero_scard);
+    private final Drawable heroShield = AppCompatResources.getDrawable(getContext(), R.drawable.ic_shield);
+    private final Drawable criticalImage = AppCompatResources.getDrawable(getContext(), R.drawable.ic_x2);
     int heroColor = ContextCompat.getColor(getContext(), R.color.hero_col);
     int hurtColor = ContextCompat.getColor(getContext(), R.color.hero_stcolor);
     int emptyColor = ContextCompat.getColor(getContext(), R.color.empty_col);
@@ -58,16 +58,19 @@ public class StandardView extends View {
     private float yOffSet;
     private RectF pointerRect;
     private boolean pointerMode = false;
-    private ArrayList<int[]> newRects = new ArrayList<>();
+    private final ArrayList<int[]> newRects = new ArrayList<>();
     private float newRectScale = 0;
-    private String newRectHolder = "rewRectScale";
+    private final String newRectHolder = "newRectScale";
+    private final String moveHolder = "moveScale";
+    private float moveScale = 0;
+    private final ArrayList<int[]> moveRects = new ArrayList<>();
+    private int[] laserPosition;
 
     public StandardView(Context context) {
         super(context);
         //game = new AlternatingGame();
         game = new StandardGame(new StandardGameFactory(1));
-        textPaint = new Paint();
-        textPaint.setColor(Color.BLACK);
+        textPaint = getPaint();
         setFocusable(true);
         setFocusableInTouchMode(true);
     }
@@ -75,11 +78,23 @@ public class StandardView extends View {
         super(context, attrs);
         //game = new AlternatingGame();
         game = new StandardGame(new StandardGameFactory(1));
-        textPaint = new Paint();
-        textPaint.setColor(Color.BLACK);
+        textPaint = getPaint();
         setFocusable(true);
         setFocusableInTouchMode(true);
     }
+
+    @NonNull
+    private Paint getPaint() {
+        final Paint textPaint;
+        textPaint = new Paint();
+        textPaint.setColor(Color.BLACK);
+        laserPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        laserPaint.setColor(Color.RED);
+        laserPaint.setStrokeWidth(15);
+        laserPaint.setStyle(Paint.Style.STROKE);
+        return textPaint;
+    }
+
     public void addGame(Game game){
         this.game = game;
         textPaint.setAntiAlias(true);
@@ -111,16 +126,16 @@ public class StandardView extends View {
     public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
         switch (keyCode){
             case android.view.KeyEvent.KEYCODE_DPAD_LEFT:
-                game.endTurn(KeyEvent.VK_LEFT);
+                endTurn(KeyEvent.VK_LEFT);
                 break;
             case android.view.KeyEvent.KEYCODE_DPAD_RIGHT:
-                game.endTurn(KeyEvent.VK_RIGHT);
+                endTurn(KeyEvent.VK_RIGHT);
                 break;
             case android.view.KeyEvent.KEYCODE_DPAD_DOWN:
-                game.endTurn(KeyEvent.VK_DOWN);
+                endTurn(KeyEvent.VK_DOWN);
                 break;
             case android.view.KeyEvent.KEYCODE_DPAD_UP:
-                game.endTurn(KeyEvent.VK_UP);
+                endTurn(KeyEvent.VK_UP);
                 break;
         }
         invalidate();
@@ -133,24 +148,66 @@ public class StandardView extends View {
         // Draw your game elements on the canvas
         //canvas.drawCircle(200, 200, 200, pincelAmerelo);
         drawBoard(canvas);
+        drawTiles(canvas);
         drawHealth(canvas);
         drawNewRects(canvas);
-        drawPointer(canvas);
+        drawTileMove(canvas);
+        if (laserPosition != null){
+            drawLaser(canvas);
+        }
+        //drawPointer(canvas);
+    }
+
+    private void drawLaser(Canvas canvas) {
+        int i = laserPosition[0];
+        int j = laserPosition[1];
+        RectF rectF = getTileRect(i,j);
+        canvas.drawCircle(rectF.centerX(), rectF.centerY(), rectF.height()/2, laserPaint);
+        laserPaint.setStyle(Paint.Style.FILL);
+        canvas.drawRoundRect(
+                rectF.left+tileSize*0.46f,
+                rectF.top,
+                rectF.right-tileSize*0.46f,
+                rectF.bottom,
+                corner/4,
+                corner/4,
+                laserPaint
+        );
+        canvas.drawRoundRect(
+                rectF.left,
+                rectF.top +tileSize*0.46f,
+                rectF.right,
+                rectF.bottom - tileSize*0.46f,
+                corner/4,
+                corner/4,
+                laserPaint
+        );
+        laserPaint.setStyle(Paint.Style.STROKE);
+    }
+
+    private void drawTileMove(Canvas canvas) {
+        for (int[] coordinates :
+                moveRects) {
+            int iStart = coordinates[0];
+            int jStart = coordinates[1];
+            int iEnd = coordinates[2];
+            int jEnd = coordinates[3];
+            int value = coordinates[4];
+            setTileColor(value);
+            drawTileRect(iStart, jStart, iEnd, jEnd, canvas, value);
+        }
     }
 
     private void drawNewRects(Canvas canvas) {
         for (int[] out : newRects){
             RectF rectTarget = getTileRect(out[0], out[1]);
-            RectF rectStart = new RectF(
-                    rectTarget.centerX(), rectTarget.centerY(), rectTarget.centerX(), rectTarget.centerY()
-            );
             RectF rect = new RectF(
                     rectTarget.left*newRectScale + (1-newRectScale)*rectTarget.centerX(),
                     rectTarget.top*newRectScale + (1-newRectScale)*rectTarget.centerY(),
                     rectTarget.right*newRectScale + (1-newRectScale)*rectTarget.centerX(),
                     rectTarget.bottom*newRectScale + (1-newRectScale)*rectTarget.centerY()
             );
-            getTileColor(game.getField()[out[0]][out[1]].getValue());
+            setTileColor(game.getField()[out[0]][out[1]].getValue());
             canvas.drawRoundRect(rect, corner/4, corner/4, GUIConstants.TilePaint);
         }
     }
@@ -195,7 +252,6 @@ public class StandardView extends View {
     }
 
     private void drawBoard(Canvas canvas) {
-        Tile[][] field = game.getField();
         canvas.drawRoundRect(
                 margin,
                 yOffSet,
@@ -204,6 +260,10 @@ public class StandardView extends View {
                 corner,
                 corner,
                 GUIConstants.boardPaint);
+    }
+
+    private void drawTiles(Canvas canvas) {
+        Tile[][] field = game.getField();
         for (int i = 0; i < field.length; i++){
             for (int j = 0; j < field[i].length; j++){
                 drawTile(field, i,j, canvas);
@@ -214,6 +274,11 @@ public class StandardView extends View {
     private boolean isDrawingRect(int i, int j) {
         for (int[] pair : newRects) {
             if (pair[0] == i && pair[1] == j) {return true;}
+        }
+        for (int[] coordinates: moveRects) {
+            if (coordinates[2] == i && coordinates[3] == j){
+                return true;
+            }
         }
         return false;
     }
@@ -237,12 +302,12 @@ public class StandardView extends View {
             GUIConstants.TilePaint.setColor(Color.GRAY);
             drawTileRect(i, j, canvas, value);
         } else {
-            getTileColor(value);
+            setTileColor(value);
             drawTileRect(i, j, canvas, value); //draws tile with value
         }
     }
 
-    private static void getTileColor(int value) {
+    private static void setTileColor(int value) {
         GUIConstants.TilePaint.setColor(
                 Color.parseColor(
                         GUIConstants.colorTable[(int) (Math.log(Math.abs(value)) / Math.log(2))]));
@@ -282,6 +347,22 @@ public class StandardView extends View {
         if (value > 0){
             textPaint.setTextSize(tileSize / 2);
             drawTileValue(String.valueOf(value), rect, canvas);
+        }
+    }
+
+    private void drawTileRect(int iStart, int jStart, int iEnd, int jEnd, Canvas canvas, int value){
+        RectF rectStart = getTileRect(iStart, jStart);
+        RectF rectEnd = getTileRect(iEnd, jEnd);
+        RectF interpolatedRect = new RectF(
+                rectEnd.left * moveScale + (1-moveScale)*rectStart.left,
+                rectEnd.top * moveScale + (1-moveScale)*rectStart.top,
+                rectEnd.right * moveScale + (1-moveScale)*rectStart.right,
+                rectEnd.bottom * moveScale + (1-moveScale)*rectStart.bottom
+                );
+        canvas.drawRoundRect(interpolatedRect,corner/4,corner/4, GUIConstants.TilePaint);
+        if (value > 0){
+            textPaint.setTextSize(tileSize / 2);
+            drawTileValue(String.valueOf(value), interpolatedRect, canvas);
         }
     }
 
@@ -336,22 +417,22 @@ public class StandardView extends View {
                     if (deltaY > 0) {
                         // Right swipe
                         // Update game logic to move tiles to the right
-                        game.endTurn(KeyEvent.VK_DOWN);
+                        endTurn(KeyEvent.VK_DOWN);
                     } else {
                         // Left swipe
                         // Update game logic to move tiles to the left
-                        game.endTurn(KeyEvent.VK_UP);
+                        endTurn(KeyEvent.VK_UP);
                     }
                 } else {
                     // Vertical swipe (up or down)
                     if (deltaX > 0) {
                         // Down swipe
                         // Update game logic to move tiles down
-                        game.endTurn(KeyEvent.VK_RIGHT);
+                        endTurn(KeyEvent.VK_RIGHT);
                     } else {
                         // Up swipe
                         // Update game logic to move tiles up
-                        game.endTurn(KeyEvent.VK_LEFT);
+                        endTurn(KeyEvent.VK_LEFT);
                     }
                 }
                 invalidate();
@@ -360,6 +441,52 @@ public class StandardView extends View {
 
         // Return true to indicate that the touch event is handled
         return true;
+    }
+
+    private void endTurn(int direction) {
+        game.endTurn(direction);
+        animateMove();
+        animateNewRect();
+    }
+
+    public void onMove(int[] start, int[] end, int startValue) {
+        int[] coordinates = {start[0], start[1], end[0], end[1], startValue};
+        moveRects.add(coordinates);
+    }
+    private void animateMove() {
+        PropertyValuesHolder valuesHolder = PropertyValuesHolder.ofFloat(
+                moveHolder,
+                0f,
+                1f
+        );
+
+        // 2
+        ValueAnimator animator = new ValueAnimator();
+        animator.setValues(valuesHolder);
+        animator.setDuration(60);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        // 3
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                // 4
+                moveScale = (float) animation.getAnimatedValue(moveHolder);
+
+                // 6
+                invalidate();
+            }
+        });
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                moveRects.clear();
+                invalidate();
+            }
+        });
+
+        // 7
+        animator.start();
     }
 
     private void animateBlock(MotionEvent event) {
@@ -391,7 +518,6 @@ public class StandardView extends View {
     public void addTile(int[] out) {
         newRects.clear();
         newRects.add(out);
-        animateNewRect();
     }
 
     private void animateNewRect() {
@@ -427,5 +553,13 @@ public class StandardView extends View {
 
         // 7
         animator.start();
+    }
+
+    public void onBeginLaser(int i, int j) {
+        laserPosition = new int[]{i, j};
+    }
+
+    public void onFireLaser(int i, int j) {
+        laserPosition = null;
     }
 }

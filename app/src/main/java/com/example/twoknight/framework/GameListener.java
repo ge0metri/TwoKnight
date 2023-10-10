@@ -10,4 +10,10 @@ public interface GameListener extends HeroListener {
     void onHighDamage();
 
     void addTile(int[] out);
+
+    void onMove(int[] start, int[] end, int startValue);
+
+    void onBeginLaser(int i, int j);
+
+    void onFireLaser(int i, int j);
 }

@@ -1,5 +1,7 @@
 package com.example.twoknight.strategy;
 
+import com.example.twoknight.framework.Hero;
+import com.example.twoknight.framework.ImmovableTile;
 import com.example.twoknight.framework.MutableGame;
 import com.example.twoknight.framework.MutableHero;
 import com.example.twoknight.framework.Tile;
@@ -17,7 +19,8 @@ public class StandardDifficultyHandler implements DifficultyHandler {
     private int[] boughtSkills;
     private int shieldCounter = 0;
     private Random rand = new Random();
-
+    private int cargeTime = 2;
+    int[] laserPosition;
     public StandardDifficultyHandler(int currentLevel) {
         this.currentLevel = currentLevel;
     }
@@ -40,11 +43,16 @@ public class StandardDifficultyHandler implements DifficultyHandler {
             }
         }
         if (game.getLaserState() != null) {
-            //game.fireLaser();
+            if (cargeTime == 0){
+                game.fireLaser(laserPosition[0], laserPosition[1]);
+            }
+            cargeTime--;
         }
         int laserCD = 9 + currentLevel + game.checkTiles() / 2;
         if (!blocksNotLaser && currentLevel > 2 && isOffCD(currentTurn, laserCD)) {
-            //game.beginLaser();
+            laserPosition = findMaxTile(game);
+            game.beginLaser(laserPosition[0], laserPosition[1]);
+            cargeTime = 2;
         }
 
         refreshShield(hero, currentTurn);
@@ -55,6 +63,30 @@ public class StandardDifficultyHandler implements DifficultyHandler {
         }
         incrementGoldenTile(game.getField());
     }
+
+    private int[] findMaxTile(MutableGame game) {
+        Tile[][] field = game.getField();
+        int iMax = 0;
+        int jMax = 0;
+        int Max = 0;
+        Tile firstTile = field[0][0];
+        if (firstTile != null && !(firstTile instanceof ImmovableTile)){
+            Max = firstTile.getValue();
+        }
+        for (int i = 0; i < field.length; i++) {
+            for (int j = 0; j < field[i].length; j++) {
+                if (field[i][j] == null || field[i][j] instanceof Hero){continue;}
+                if (i == 0 && j == 0){continue;}
+                if (field[i][j].getValue() > Max){
+                    Max = field[i][j].getValue();
+                    iMax = i;
+                    jMax = j;
+                }
+            }
+        }
+        return new int[]{iMax, jMax};
+    }
+
     @Override
     public boolean isBlocksNotLaser() {
         boolean blocksNotLaser = currentLevel % 2 == 0;
