@@ -559,7 +559,7 @@ public class StandardView extends View {
         laserPosition = new int[]{i, j};
     }
 
-    public void onFireLaser(int i, int j) {
+    public void onFireLaser(int i, int j, boolean skipLaser) {
         laserPosition = null;
     }
 }

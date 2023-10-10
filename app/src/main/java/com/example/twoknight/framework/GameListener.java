@@ -15,5 +15,5 @@ public interface GameListener extends HeroListener {
 
     void onBeginLaser(int i, int j);
 
-    void onFireLaser(int i, int j);
+    void onFireLaser(int i, int j, boolean skipLaser);
 }

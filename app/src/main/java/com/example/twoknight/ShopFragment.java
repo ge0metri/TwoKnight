@@ -61,6 +61,7 @@ public class ShopFragment extends Fragment {
         updateItemDescription(shopView2, GameConstants.SPAWN_LUCK_LENGTH);
         addButtons(GameConstants.SPAWN_LUCK_LENGTH, shopView2);
 
+/*
         View shopView3 = rootView.findViewById(R.id.shopItem3);
         drawShopImage(R.drawable.ic_shield, shopView3);
         addItemText(R.string.power2, shopView3);
@@ -72,7 +73,7 @@ public class ShopFragment extends Fragment {
         addItemText(R.string.spawn_luck_title, shopView4);
         addItemDescription("Nah", shopView4);
         addButtons(3, shopView4);
-
+*/
         View shopView5 = rootView.findViewById(R.id.shopItem5);
         drawShopImage(android.R.drawable.ic_delete, shopView5);
         addItemText(R.string.clearPower, shopView5);
@@ -81,9 +82,9 @@ public class ShopFragment extends Fragment {
 
         View shopView6 = rootView.findViewById(R.id.shopItem6);
         drawShopImage(R.drawable.ic_x2, shopView6);
-        addItemText(R.string.spawn_luck_title, shopView6);
-        addItemDescription("Nah", shopView6);
-        addButtons(5, shopView6);
+        addItemText(R.string.pause_power, shopView6);
+        updateItemDescription(shopView6, GameConstants.PAUSE_POWER);
+        addButtons(GameConstants.PAUSE_POWER, shopView6);
 
 
 
@@ -112,6 +113,10 @@ public class ShopFragment extends Fragment {
                 addItemDescription(getString(
                         R.string.spawn_luck_len_desc, boughtSkills[GameConstants.SPAWN_LUCK_LENGTH]
                 ), shopView);
+                break;
+            }
+            case GameConstants.PAUSE_POWER:{
+                addItemDescription(getString(R.string.pause_desc, 2*boughtSkills[GameConstants.PAUSE_POWER]), shopView);
                 break;
             }
         }

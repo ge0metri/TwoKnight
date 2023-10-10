@@ -40,20 +40,22 @@ public class StandardPowerStrategy implements PowerStrategy {
                 game.getDifficultyHandler().setUseSpawnRates(true);
                 usingSkill.add(GameConstants.SPAWN_LUCK);
                 activeTurn[GameConstants.SPAWN_LUCK] = game.getTurnNumber();
+                boughtSkills[GameConstants.SPAWN_LUCK] = 0;
                 break;
             }
-            case KeyEvent.VK_1: {
-                game.addTile(new StandardTile(128));
-                // game.setWinner(Player.POINTER);
-                // usingSkill = 1;
+            case GameConstants.PAUSE_POWER: {
+                usingSkill.add(GameConstants.PAUSE_POWER);
+                activeTurn[GameConstants.PAUSE_POWER] = game.getTurnNumber();
+                boughtSkills[GameConstants.PAUSE_POWER] = 0;
                 break;
             }
             case KeyEvent.VK_2: {
+                game.addTile(new StandardTile(128));
                 game.setWinner(GameState.POINTER);
                 usingSkill.add(2);
                 break;
             }
-            case KeyEvent.VK_3: {
+            case 1: {
                 game.setWinner(GameState.POINTER);
                 usingSkill.add(3);
                 break;
@@ -219,9 +221,17 @@ public class StandardPowerStrategy implements PowerStrategy {
     public void endTurn(MutableGame game) {
         boolean isSpawnLuckOver = game.getTurnNumber() > activeTurn[GameConstants.SPAWN_LUCK]
                 + boughtSkills[GameConstants.SPAWN_LUCK_LENGTH]; //TODO: Add variable time. And visual?
-        if (isSpawnLuckOver){
+        if (isSpawnLuckOver && usingSkill.contains(GameConstants.SPAWN_LUCK)){
             game.getDifficultyHandler().setUseSpawnRates(false);
             usingSkill.remove(GameConstants.SPAWN_LUCK);
+        }
+        boolean isPausePowerOver = game.getTurnNumber() > activeTurn[GameConstants.PAUSE_POWER]
+                + boughtSkills[GameConstants.PAUSE_POWER]*2;
+        if (usingSkill.contains(GameConstants.PAUSE_POWER)){
+            game.fireLaser(1,1); // values should not matter here
+            if (isPausePowerOver){
+                usingSkill.remove(GameConstants.PAUSE_POWER);
+            }
         }
     }
 }

@@ -347,9 +347,12 @@ public class StandardGame implements MutableGame {
     @Override
     public void fireLaser(int i, int j) {
         //removeRandomLine(rowNotCol, laserPosition);
-        currentField[i][j] = null;
-        listener.onFireLaser(i,j);
+        boolean skipLaser = powerStrategy.getPower().contains(GameConstants.PAUSE_POWER);
+        listener.onFireLaser(i,j, skipLaser);
         isCharging = false;
+        if (!skipLaser){
+            currentField[i][j] = null;
+        }
     }
 
     @Override

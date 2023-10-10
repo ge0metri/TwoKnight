@@ -156,4 +156,6 @@
     <string name="spawn_luck_desc">Activate a burst of lucky tiles. \n For a limited time,\n only %d and %d tiles\n will spawn! \n with rates %d %% and %d %% </string>
     <string name="spawn_luck_len_desc">Determine how long \"Lucky I\" lasts\n It will last %d turns</string>
     <string name="spawn_luck_len_title">Lucky II</string>
+    <string name="pause_power">Pause</string>
+    <string name="pause_desc">Pause either the laser \nor stop gery tiles from spawning\nfor %d turns</string>
 </resources>

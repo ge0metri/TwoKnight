@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:alignmentMode="alignMargins"
             android:columnCount="3"
-            android:rowCount="2"
+            android:rowCount="1"
             android:focusable="false"
             android:focusableInTouchMode="false"
             ads:layout_constraintBottom_toBottomOf="parent"
@@ -63,16 +63,6 @@
             ads:layout_constraintStart_toStartOf="parent"
             ads:layout_constraintTop_toBottomOf="@+id/gameView">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                custom:srcCompat="@android:drawable/ic_popup_sync" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/spawnLuckBtn"
@@ -86,28 +76,6 @@
                 custom:srcCompat="@drawable/ic_lucky_i" />
             <!--TODO: Add maybe clovers in a circle around, and make button glow -->
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/clearPowerBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,6 +87,28 @@
                 custom:srcCompat="@android:drawable/ic_delete" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/pausePower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:layout_margin="@dimen/btn_margin"
+                android:contentDescription="Send email"
+                custom:srcCompat="@android:drawable/ic_media_pause" />
+<!--
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:layout_margin="@dimen/btn_margin"
+                android:contentDescription="Send email"
+                custom:srcCompat="@android:drawable/ic_dialog_email" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -128,6 +118,17 @@
                 android:layout_margin="@dimen/btn_margin"
                 android:contentDescription="Send email"
                 custom:srcCompat="@android:drawable/ic_dialog_email" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:layout_margin="@dimen/btn_margin"
+                android:contentDescription="Send email"
+                custom:srcCompat="@android:drawable/ic_popup_sync" />
+-->
         </GridLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -92,15 +92,17 @@ public class GameFragment extends Fragment implements GameListener {
         FloatingActionButton spawnLuckPower = rootView.findViewById(R.id.spawnLuckBtn);
         unFocus(spawnLuckPower);
         spawnLuckPower.setOnClickListener(this::spawnLuck);
-        FloatingActionButton btn3 = rootView.findViewById(R.id.fab3);
-        unFocus(btn3);
+        FloatingActionButton pausePower = rootView.findViewById(R.id.pausePower);
+        unFocus(pausePower);
+        pausePower.setOnClickListener(this::pausePower);
+/*
         FloatingActionButton btn4 = rootView.findViewById(R.id.fab4);
         unFocus(btn4);
         FloatingActionButton btn6 = rootView.findViewById(R.id.fab6);
         unFocus(btn6);
         FloatingActionButton btn8 = rootView.findViewById(R.id.fab8);
         unFocus(btn8);
-
+*/
         // Customize and configure your GameView as needed
         if (GameManager.getInstance().getGame() == null){
             GameManager.getInstance().setGame(dataSaver.loadCurrentLevel(), dataSaver.loadBoughtItems());
@@ -108,6 +110,10 @@ public class GameFragment extends Fragment implements GameListener {
         GameManager.getInstance().getGame().setGameListener(this);
         gameView.addGame(GameManager.getInstance().getGame());
         return rootView;
+    }
+
+    private void pausePower(View view) {
+        gameView.usePower(GameConstants.PAUSE_POWER);
     }
 
     private void readyScreenShake(View view) {
@@ -196,8 +202,8 @@ public class GameFragment extends Fragment implements GameListener {
     }
 
     @Override
-    public void onFireLaser(int i, int j) {
-        gameView.onFireLaser(i,j);
+    public void onFireLaser(int i, int j, boolean skipLaser) {
+        gameView.onFireLaser(i,j, skipLaser);
     }
 
     private void showSnackbar(View button, String message) {

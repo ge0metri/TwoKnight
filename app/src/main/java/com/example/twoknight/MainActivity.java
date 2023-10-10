@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     // TODO: Make shop art
     // TODO: Add small feedback animations - shake, puffs stuff
     // TODO: Maybe balance stuff like hero at the edge early later in middle'
-    // TODO: Reintroduce a laser/sniper
     // TOD: 3) implement tutorial --ok--
     // TOD 1) Make end screen --ok--
 
