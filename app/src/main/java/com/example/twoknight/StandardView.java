@@ -4,6 +4,7 @@ import static java.lang.Math.min;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -92,6 +93,7 @@ public class StandardView extends View {
         laserPaint.setColor(Color.RED);
         laserPaint.setStrokeWidth(15);
         laserPaint.setStyle(Paint.Style.STROKE);
+        GUIConstants.ShieldPaint.setColor(Color.rgb(248, 248, 80));
         return textPaint;
     }
 
@@ -226,6 +228,7 @@ public class StandardView extends View {
         GUIConstants.TilePaint.setColor(Color.RED);
         float healthBar = boardSize * game.getHero().getHealth() / game.getHero().getValue();
         if (healthBar<0){healthBar=0;}
+        drawShieldBar(canvas, healthBar);
         canvas.drawRoundRect(margin,
                 margin,
                 margin+healthBar,
@@ -233,6 +236,7 @@ public class StandardView extends View {
                 corner,
                 corner,
                 GUIConstants.TilePaint);
+
         if (game.getHero().isVulnerable()){
             criticalImage.setBounds(new Rect((int) (margin+healthBar-0.75*tileSize),
                     (int) (0.5*margin),
@@ -249,6 +253,20 @@ public class StandardView extends View {
             float textY = (float) (margin + healthBarHeight*0.5 + textBounds.height() / 2);
             canvas.drawText(health, textX, textY, textPaint);
         }
+    }
+
+    private void drawShieldBar(Canvas canvas, float healthBar) {
+        float shieldCount = game.getDifficultyHandler().getShieldCounter();
+        float shieldCD = game.getDifficultyHandler().getShieldCD();
+        float shieldBar = shieldCount <= 0 ? healthBar : (healthBar)*shieldCount/shieldCD;
+        float addedPad = margin/4;
+        canvas.drawRoundRect(margin - addedPad,
+                margin - addedPad,
+                margin+shieldBar + addedPad,
+                margin + healthBarHeight + addedPad,
+                corner,
+                corner,
+                GUIConstants.ShieldPaint);
     }
 
     private void drawBoard(Canvas canvas) {
@@ -445,15 +463,20 @@ public class StandardView extends View {
 
     private void endTurn(int direction) {
         game.endTurn(direction);
-        animateMove();
-        animateNewRect();
+        animateEndTurn();
+    }
+
+    private void animateEndTurn() {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(animateMove(), animateNewRect()); // Run animations simultaneously
+        animatorSet.start();
     }
 
     public void onMove(int[] start, int[] end, int startValue) {
         int[] coordinates = {start[0], start[1], end[0], end[1], startValue};
         moveRects.add(coordinates);
     }
-    private void animateMove() {
+    private ValueAnimator animateMove() {
         PropertyValuesHolder valuesHolder = PropertyValuesHolder.ofFloat(
                 moveHolder,
                 0f,
@@ -463,7 +486,7 @@ public class StandardView extends View {
         // 2
         ValueAnimator animator = new ValueAnimator();
         animator.setValues(valuesHolder);
-        animator.setDuration(60);
+        animator.setDuration(80);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
 
         // 3
@@ -486,7 +509,7 @@ public class StandardView extends View {
         });
 
         // 7
-        animator.start();
+        return animator;
     }
 
     private void animateBlock(MotionEvent event) {
@@ -520,7 +543,7 @@ public class StandardView extends View {
         newRects.add(out);
     }
 
-    private void animateNewRect() {
+    private ValueAnimator animateNewRect() {
         PropertyValuesHolder valuesHolder = PropertyValuesHolder.ofFloat(
                 newRectHolder,
                 0f,
@@ -552,7 +575,7 @@ public class StandardView extends View {
         });
 
         // 7
-        animator.start();
+        return animator;
     }
 
     public void onBeginLaser(int i, int j) {

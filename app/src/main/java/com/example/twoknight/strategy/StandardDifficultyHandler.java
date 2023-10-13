@@ -17,15 +17,23 @@ public class StandardDifficultyHandler implements DifficultyHandler {
 
     private boolean useSpawnRates = false;
     private int[] boughtSkills;
+
+
     private int shieldCounter = 0;
     private Random rand = new Random();
     private int cargeTime = 2;
     int[] laserPosition;
+
+
+    private final int shieldCD;
+
     public StandardDifficultyHandler(int currentLevel) {
+        shieldCD = (int) Math.max(10 - currentLevel / 3, 5);
         this.currentLevel = currentLevel;
     }
 
     public StandardDifficultyHandler(int currentLevel, int[] boughtSkills) {
+        shieldCD = (int) Math.max(10 - currentLevel / 3, 5);
         this.currentLevel = currentLevel;
         this.boughtSkills = boughtSkills;
     }
@@ -62,6 +70,7 @@ public class StandardDifficultyHandler implements DifficultyHandler {
             game.addTile(new StandardImmovableTile(4));
         }
         incrementGoldenTile(game.getField());
+        game.addRandomTile();
     }
 
     private int[] findMaxTile(MutableGame game) {
@@ -107,7 +116,6 @@ public class StandardDifficultyHandler implements DifficultyHandler {
 
     private void refreshShield(MutableHero hero, int currentTurn) {
         int maxShield = getMaxShield();
-        int shieldCD = (int) Math.max(10 - currentLevel / 3, 5);
         if (hero.getShield() == 0) {
             shieldCounter++;
         }
@@ -153,4 +161,14 @@ public class StandardDifficultyHandler implements DifficultyHandler {
     public void setUseSpawnRates(boolean useSpawnRates) {
         this.useSpawnRates = useSpawnRates;
     }
+    @Override
+    public int getShieldCounter() {
+        return shieldCounter;
+    }
+    @Override
+    public int getShieldCD() {
+        return shieldCD;
+    }
+
+
 }

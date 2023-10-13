@@ -19,4 +19,5 @@ public class GUIConstants {
             "#A4544D", "#6E2A23", "#420D09"};
 
 
+    public static Paint ShieldPaint = new Paint();
 }

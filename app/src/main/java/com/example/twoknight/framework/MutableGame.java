@@ -28,6 +28,8 @@ public interface MutableGame extends Game {
     // === Accessors for Game state
     void setWinner(GameState who);
 
+    void addRandomTile();
+
     void addTile(Tile tile);
 
     void beginLaser(int i, int j);

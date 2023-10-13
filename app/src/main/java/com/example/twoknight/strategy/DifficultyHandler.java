@@ -17,4 +17,8 @@ public interface DifficultyHandler {
     boolean isUseSpawnRates();
 
     void setUseSpawnRates(boolean useSpawnRates);
+
+    int getShieldCounter();
+
+    int getShieldCD();
 }

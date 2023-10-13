@@ -17,15 +17,12 @@
 
 package com.example.twoknight.standard;
 
-import android.util.Log;
-
 import com.example.twoknight.factory.GameFactory;
 import com.example.twoknight.framework.GameListener;
 import com.example.twoknight.framework.GameState;
 import com.example.twoknight.framework.Hero;
 import com.example.twoknight.framework.ImmovableTile;
 import com.example.twoknight.framework.MutableGame;
-import com.example.twoknight.framework.MutableHero;
 import com.example.twoknight.framework.Observable;
 import com.example.twoknight.framework.Tile;
 import com.example.twoknight.strategy.DifficultyHandler;
@@ -275,7 +272,8 @@ public class StandardGame implements MutableGame {
         gameState = who;
     }
 
-    private void addRandomTile() {
+    @Override
+    public void addRandomTile() {
         int[] out = getRandomPos();
         if (out == null) return;
         // int val = rand.nextInt(10) == 0 ? 4 : 2; Depricated
@@ -455,7 +453,6 @@ public class StandardGame implements MutableGame {
             int health = getHero().getHealth();
             if (health > 0) {
                 clearMerged();
-                addRandomTile();
             } else {
                 gameState = GameState.WINNER;
                 listener.onLevelCleared(this, gameState);
