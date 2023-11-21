@@ -5,6 +5,7 @@ import com.example.twoknight.framework.ImmovableTile;
 import com.example.twoknight.framework.MutableGame;
 import com.example.twoknight.framework.MutableHero;
 import com.example.twoknight.framework.Tile;
+import com.example.twoknight.standard.GameConstants;
 import com.example.twoknight.tiles.GoldenTile;
 import com.example.twoknight.tiles.StandardImmovableTile;
 
@@ -21,7 +22,7 @@ public class StandardDifficultyHandler implements DifficultyHandler {
 
     private int shieldCounter = 0;
     private Random rand = new Random();
-    private int cargeTime = 2;
+    private int chargeTime = -1;
     int[] laserPosition;
 
 
@@ -50,17 +51,8 @@ public class StandardDifficultyHandler implements DifficultyHandler {
                 game.addTile(new StandardImmovableTile());
             }
         }
-        if (game.getLaserState() != null) {
-            if (cargeTime == 0){
-                game.fireLaser(laserPosition[0], laserPosition[1]);
-            }
-            cargeTime--;
-        }
-        int laserCD = 9 + currentLevel + game.checkTiles() / 2;
-        if (!blocksNotLaser && currentLevel > 2 && isOffCD(currentTurn, laserCD)) {
-            laserPosition = findMaxTile(game);
-            game.beginLaser(laserPosition[0], laserPosition[1]);
-            cargeTime = 2;
+        if(!blocksNotLaser){
+            handleLaser(game);
         }
 
         refreshShield(hero, currentTurn);
@@ -71,6 +63,22 @@ public class StandardDifficultyHandler implements DifficultyHandler {
         }
         incrementGoldenTile(game.getField());
         game.addRandomTile();
+    }
+
+    private void handleLaser(MutableGame game) {
+        int currentTurn = game.getTurnNumber();
+        if (game.getLaserState() != null) {
+            if (chargeTime == 0){
+                game.fireLaser(laserPosition[0], laserPosition[1]);
+            }
+            chargeTime--;
+        }
+        int laserCD = 9 + currentLevel + game.checkTiles() / 2;
+        if (currentLevel > 2 && isOffCD(currentTurn, laserCD)) {
+            laserPosition = findMaxTile(game);
+            game.beginLaser(laserPosition[0], laserPosition[1]);
+            chargeTime = 2;
+        }
     }
 
     private int[] findMaxTile(MutableGame game) {
@@ -129,6 +137,10 @@ public class StandardDifficultyHandler implements DifficultyHandler {
     public int getMaxShield() {
         return Math.min(1 << (int) (1.25 * (Math.sqrt(currentLevel) + 1)), 1024);
     }
+    @Override
+    public int getChargeTime() {
+        return chargeTime;
+    }
 
     private static boolean isOffCD(int currentTurn, int coolDown) {
         return currentTurn % coolDown == coolDown - 1;
@@ -143,7 +155,7 @@ public class StandardDifficultyHandler implements DifficultyHandler {
     public int getTileValue() {
         int val = rand.nextInt(10) == 0 ? 4 : 2;
         if (useSpawnRates){
-            int rateUpgrade = boughtSkills[0]; // Defined as each one is 5% increase. Starts at 4 = 10% 2 = 90%.
+            int rateUpgrade = boughtSkills[GameConstants.SPAWN_LUCK]; // Defined as each one is 5% increase. Starts at 4 = 10% 2 = 90%.
             // Each increase goes 4 = 10 + 5*n %. until 4 = 50%. Then upgrade to 8 = 10, 4 = 90%
             // So the values are determined by each time 45 | n*5, i.e. 9 | n, the low val is n//9 and rate is n%9.
             int low = 1<<(1+ rateUpgrade/9);

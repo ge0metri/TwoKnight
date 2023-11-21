@@ -18,7 +18,7 @@ import java.util.Set;
 
 public class StandardPowerStrategy implements PowerStrategy {
 
-    private int[] boughtSkills;
+    private int[] availableSkills;
     private Set<Integer> usingSkill = new HashSet<>();
     private Tile tempTile = null;
     private Integer tempX = null;
@@ -30,9 +30,11 @@ public class StandardPowerStrategy implements PowerStrategy {
 
     @Override
     public boolean prepareSkill(MutableGame game, int e) {
-        boughtSkills = game.getBought();
+        if (availableSkills == null){
+            availableSkills = game.getBought().clone();
+        }
         int powerIndex = e; // - 48; for standard
-        if (boughtSkills[powerIndex] <= 0) {
+        if (availableSkills[powerIndex] <= 0) {
              return false;
          }
         switch (e) {
@@ -40,13 +42,13 @@ public class StandardPowerStrategy implements PowerStrategy {
                 game.getDifficultyHandler().setUseSpawnRates(true);
                 usingSkill.add(GameConstants.SPAWN_LUCK);
                 activeTurn[GameConstants.SPAWN_LUCK] = game.getTurnNumber();
-                boughtSkills[GameConstants.SPAWN_LUCK] = 0;
+                availableSkills[GameConstants.SPAWN_LUCK] = 0;
                 break;
             }
             case GameConstants.PAUSE_POWER: {
                 usingSkill.add(GameConstants.PAUSE_POWER);
                 activeTurn[GameConstants.PAUSE_POWER] = game.getTurnNumber();
-                boughtSkills[GameConstants.PAUSE_POWER] = 0;
+                availableSkills[GameConstants.PAUSE_POWER] = 0;
                 break;
             }
             case KeyEvent.VK_2: {
@@ -67,18 +69,18 @@ public class StandardPowerStrategy implements PowerStrategy {
             }
             case 11: {
                 game.addTile(new StandardGoldenTile());
-                boughtSkills[(powerIndex + 9) % 10]--;
+                availableSkills[(powerIndex + 9) % 10]--;
                 break;
             }
             case KeyEvent.VK_6: {
                 removeGreyTiles(game);
-                boughtSkills[(powerIndex + 9) % 10]--;
+                availableSkills[(powerIndex + 9) % 10]--;
                 break;
             }
             case KeyEvent.VK_7: { // mystery power
                 Random random = new Random();
-                boughtSkills[random.nextInt(6)]++;
-                boughtSkills[(powerIndex + 9) % 10]--;
+                availableSkills[random.nextInt(6)]++;
+                availableSkills[(powerIndex + 9) % 10]--;
                 break;
             }
             case KeyEvent.VK_8: { // remove shield
@@ -106,7 +108,7 @@ public class StandardPowerStrategy implements PowerStrategy {
                     for (int j = 0; j < field[i].length; j++) {
                         if (field[i][j] == null || field[i][j] instanceof Hero){continue;}
                         if (i == 0 && j == 0){continue;}
-                        if (field[i][j].getValue() > Max){
+                        if (!(field[i][j] instanceof ImmovableTile) && field[i][j].getValue() > Max){
                             Max = field[i][j].getValue();
                             field[iMax][jMax] = null;
                             iMax = i;
@@ -116,7 +118,7 @@ public class StandardPowerStrategy implements PowerStrategy {
                         }
                     }
                 }
-                boughtSkills[GameConstants.CLEAR_POWER]--;
+                availableSkills[GameConstants.CLEAR_POWER]--;
                 break;
                 //((MutableHero) game.getHero()).setVulnerable(true);
             }
@@ -136,6 +138,7 @@ public class StandardPowerStrategy implements PowerStrategy {
 
     @Override
     public void useSkill(MutableGame game, int pointer) {
+        int[] boughtSkills = game.getBought();
         int x = pointer / game.getField().length;
         int y = pointer % game.getField()[0].length;
         boolean illegalMove = false;
@@ -219,11 +222,20 @@ public class StandardPowerStrategy implements PowerStrategy {
 
     @Override
     public void endTurn(MutableGame game) {
+        int[] boughtSkills = game.getBought();
+        if (usingSkill.contains(GameConstants.SPAWN_LUCK)){
+            game.getGameListener().onPowerTimer(boughtSkills[GameConstants.SPAWN_LUCK_LENGTH],
+                    boughtSkills[GameConstants.SPAWN_LUCK_LENGTH] - (game.getTurnNumber() - activeTurn[GameConstants.SPAWN_LUCK]),
+                    GameConstants.SPAWN_LUCK);
+        }
         boolean isSpawnLuckOver = game.getTurnNumber() > activeTurn[GameConstants.SPAWN_LUCK]
                 + boughtSkills[GameConstants.SPAWN_LUCK_LENGTH]; //TODO: Add variable time. And visual?
         if (isSpawnLuckOver && usingSkill.contains(GameConstants.SPAWN_LUCK)){
             game.getDifficultyHandler().setUseSpawnRates(false);
             usingSkill.remove(GameConstants.SPAWN_LUCK);
+            game.getGameListener().onPowerTimer(0,
+                    0,
+                    GameConstants.SPAWN_LUCK);
         }
         boolean isPausePowerOver = game.getTurnNumber() > activeTurn[GameConstants.PAUSE_POWER]
                 + boughtSkills[GameConstants.PAUSE_POWER]*2;

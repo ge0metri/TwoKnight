@@ -40,6 +40,11 @@ public class GameFragment extends Fragment implements GameListener {
     private StandardView gameView;
     private DataSaver dataSaver;
     AnimatorSet animatorSet;
+    FloatingActionButton clearFieldPower;
+    FloatingActionButton spawnLuckPower;
+    FloatingActionButton pausePower;
+    private CircularMaskedImageView luckCooldown;
+    private CircularMaskedImageView pauseCooldown;
 
     public GameFragment() {
         // Required empty public constructor
@@ -86,15 +91,17 @@ public class GameFragment extends Fragment implements GameListener {
 
         readyScreenShake(gameView);
 
-        FloatingActionButton clearFieldPower = rootView.findViewById(R.id.clearPowerBtn);
+        clearFieldPower = rootView.findViewById(R.id.clearPowerBtn);
         unFocus(clearFieldPower);
         clearFieldPower.setOnClickListener(this::clearPower);
-        FloatingActionButton spawnLuckPower = rootView.findViewById(R.id.spawnLuckBtn);
+        luckCooldown = rootView.findViewById(R.id.luckCooldown);
+        spawnLuckPower = rootView.findViewById(R.id.spawnLuckBtn);
         unFocus(spawnLuckPower);
         spawnLuckPower.setOnClickListener(this::spawnLuck);
-        FloatingActionButton pausePower = rootView.findViewById(R.id.pausePower);
+        pausePower = rootView.findViewById(R.id.pausePower);
         unFocus(pausePower);
         pausePower.setOnClickListener(this::pausePower);
+        pauseCooldown = rootView.findViewById(R.id.pauseCooldown);
 /*
         FloatingActionButton btn4 = rootView.findViewById(R.id.fab4);
         unFocus(btn4);
@@ -112,9 +119,6 @@ public class GameFragment extends Fragment implements GameListener {
         return rootView;
     }
 
-    private void pausePower(View view) {
-        gameView.usePower(GameConstants.PAUSE_POWER);
-    }
 
     private void readyScreenShake(View view) {
         ObjectAnimator shakeAnimatorX = ObjectAnimator.ofFloat(view, "translationX", 0f, 10f);
@@ -140,12 +144,24 @@ public class GameFragment extends Fragment implements GameListener {
         });
     }
 
+    private void pausePower(View view) {
+        gameView.usePower(GameConstants.PAUSE_POWER);
+        if (gameView.getGame().getBought()[GameConstants.PAUSE_POWER] < 1){
+            pausePower.setEnabled(false);
+        }
+    }
     private void spawnLuck(View view) {
         gameView.usePower(GameConstants.SPAWN_LUCK);
+        if (gameView.getGame().getBought()[GameConstants.SPAWN_LUCK] < 1){
+            spawnLuckPower.setEnabled(false);
+        }
     }
 
     private void clearPower(View view) {
         gameView.usePower(GameConstants.CLEAR_POWER);
+        if (gameView.getGame().getBought()[GameConstants.CLEAR_POWER] < 1){
+            clearFieldPower.setEnabled(false);
+        }
     }
 
     private static void unFocus(FloatingActionButton btn) {
@@ -177,7 +193,7 @@ public class GameFragment extends Fragment implements GameListener {
     @Override
     public void onPowerUse(boolean powerUsed){
         if (!powerUsed){
-            showSnackbar(gameView, "How do not have any more charges");
+            showSnackbar(gameView, "You do not have any more charges");
         }
     }
 
@@ -204,6 +220,20 @@ public class GameFragment extends Fragment implements GameListener {
     @Override
     public void onFireLaser(int i, int j, boolean skipLaser) {
         gameView.onFireLaser(i,j, skipLaser);
+    }
+
+    @Override
+    public void onPowerTimer(int maxIndex, int index, int power) {
+        switch (power){
+            case GameConstants.SPAWN_LUCK:{
+                luckCooldown.setCooldown(maxIndex, index);
+                break;
+            }
+            case GameConstants.PAUSE_POWER:{
+                pauseCooldown.setCooldown(maxIndex, index);
+                break;
+            }
+        }
     }
 
     private void showSnackbar(View button, String message) {

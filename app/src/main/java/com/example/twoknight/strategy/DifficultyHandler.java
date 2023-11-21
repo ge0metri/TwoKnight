@@ -10,6 +10,8 @@ public interface DifficultyHandler {
 
     int getMaxShield();
 
+    int getChargeTime();
+
     int getCurrentLevel();
 
     int getTileValue();

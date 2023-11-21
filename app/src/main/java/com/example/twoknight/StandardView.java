@@ -102,6 +102,10 @@ public class StandardView extends View {
         textPaint.setAntiAlias(true);
     }
 
+    public Game getGame(){
+        return game;
+    }
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -166,19 +170,21 @@ public class StandardView extends View {
         RectF rectF = getTileRect(i,j);
         canvas.drawCircle(rectF.centerX(), rectF.centerY(), rectF.height()/2, laserPaint);
         laserPaint.setStyle(Paint.Style.FILL);
+        float stage = 1-((3-getGame().getDifficultyHandler().getChargeTime())/3f);
+        canvas.drawText(stage+"", rectF.left, rectF.top, textPaint);
         canvas.drawRoundRect(
                 rectF.left+tileSize*0.46f,
-                rectF.top,
+                rectF.top+stage*rectF.height(),
                 rectF.right-tileSize*0.46f,
-                rectF.bottom,
+                rectF.bottom-stage*rectF.height(),
                 corner/4,
                 corner/4,
                 laserPaint
         );
         canvas.drawRoundRect(
-                rectF.left,
+                rectF.left+stage*rectF.width(),
                 rectF.top +tileSize*0.46f,
-                rectF.right,
+                rectF.right-stage*rectF.width(),
                 rectF.bottom - tileSize*0.46f,
                 corner/4,
                 corner/4,

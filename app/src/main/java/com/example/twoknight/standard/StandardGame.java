@@ -17,6 +17,8 @@
 
 package com.example.twoknight.standard;
 
+import android.util.Log;
+
 import com.example.twoknight.factory.GameFactory;
 import com.example.twoknight.framework.GameListener;
 import com.example.twoknight.framework.GameState;
@@ -116,9 +118,6 @@ public class StandardGame implements MutableGame {
     public void endTurn(int e) {
         boolean isUsingPower = !powerStrategy.getPower().isEmpty();
         boolean moved = false;
-        if (isUsingPower){
-            powerStrategy.endTurn(this);
-        }
         if (debugMode) {
             debugCode(e);
             debugMode = false;
@@ -160,12 +159,16 @@ public class StandardGame implements MutableGame {
                 listener.onLevelCleared(this, gameState);
             }
             if (moved) {
+                if (isUsingPower){
+                    powerStrategy.endTurn(this);
+                }
                 difficultyHandler.prepareNextRound(this);
             }
             if (checkTiles() == 0 && gameState != GameState.WINNER) {
                 gameState = GameState.LOSER;
                 listener.onLevelCleared(this, gameState);
             }
+            Log.v("tag", difficultyHandler.getChargeTime()+"");
         }
     }
 
@@ -458,7 +461,6 @@ public class StandardGame implements MutableGame {
                 listener.onLevelCleared(this, gameState);
             }
         }
-
         return moved;
     }
 
@@ -499,5 +501,9 @@ public class StandardGame implements MutableGame {
     public void setGameListener(GameListener listener) {
         this.listener = listener;
         ((Observable) hero).setGameListener(listener);
+    }
+    @Override
+    public GameListener getGameListener() {
+        return listener;
     }
 }

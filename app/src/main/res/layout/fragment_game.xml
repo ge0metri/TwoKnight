@@ -50,86 +50,77 @@
             custom:circleLabel="Hello"
             custom:labelColor="#ffff66" />
 
-        <GridLayout
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/spawnLuckBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:alignmentMode="alignMargins"
-            android:columnCount="3"
-            android:rowCount="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/btn_margin"
+            android:contentDescription="Send email"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintStart_toEndOf="@id/pausePower"
+            ads:layout_constraintTop_toBottomOf="@+id/gameView"
+            custom:srcCompat="@drawable/ic_lucky_i" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/clearPowerBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/btn_margin"
+            android:contentDescription="Send email"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintEnd_toStartOf="@id/pausePower"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toBottomOf="@+id/gameView"
+            custom:srcCompat="@android:drawable/ic_delete" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/pausePower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/btn_margin"
+            android:contentDescription="Send email"
             android:focusable="false"
             android:focusableInTouchMode="false"
             ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
-            ads:layout_constraintTop_toBottomOf="@+id/gameView">
+            ads:layout_constraintTop_toBottomOf="@+id/gameView"
+            custom:srcCompat="@android:drawable/ic_media_pause" />
 
+        <com.example.twoknight.CircularMaskedImageView
+            android:id="@+id/luckCooldown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:elevation="7dp"
+            android:focusable="false"
+            ads:layout_constraintBottom_toBottomOf="@+id/spawnLuckBtn"
+            ads:layout_constraintEnd_toEndOf="@+id/spawnLuckBtn"
+            ads:layout_constraintStart_toStartOf="@+id/spawnLuckBtn"
+            ads:layout_constraintTop_toTopOf="@+id/spawnLuckBtn"
+            ads:layout_constraintVertical_bias="0.487"
+            app:srcCompat="@drawable/ic_lucky_i" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/spawnLuckBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                custom:srcCompat="@drawable/ic_lucky_i" />
-            <!--TODO: Add maybe clovers in a circle around, and make button glow -->
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/clearPowerBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                custom:srcCompat="@android:drawable/ic_delete" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/pausePower"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                custom:srcCompat="@android:drawable/ic_media_pause" />
-<!--
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                custom:srcCompat="@android:drawable/ic_dialog_email" />
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:layout_margin="@dimen/btn_margin"
-                android:contentDescription="Send email"
-                custom:srcCompat="@android:drawable/ic_popup_sync" />
--->
-        </GridLayout>
+        <com.example.twoknight.CircularMaskedImageView
+            android:id="@+id/pauseCooldown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:elevation="7dp"
+            android:focusable="false"
+            ads:layout_constraintBottom_toBottomOf="@+id/pausePower"
+            ads:layout_constraintEnd_toEndOf="@+id/pausePower"
+            ads:layout_constraintStart_toStartOf="@+id/pausePower"
+            ads:layout_constraintTop_toTopOf="@+id/pausePower"
+            ads:layout_constraintVertical_bias="0.487"
+            app:srcCompat="@drawable/ic_lucky_ii" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

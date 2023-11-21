@@ -49,4 +49,7 @@ public interface MutableGame extends Game {
     void clearMerged();
 
     void skipLaser();
+
+
+    GameListener getGameListener();
 }
