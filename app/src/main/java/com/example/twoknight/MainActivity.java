@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     // TODO: Add easter egg? (credits)
     // TODO: Add small feedback animations - shake, puffs stuff
     // TODO: add banner
+    // TODO: fix laser fire
+    // TODO: special case for level <3
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
