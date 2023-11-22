@@ -22,7 +22,7 @@ public class StandardDifficultyHandler implements DifficultyHandler {
 
     private int shieldCounter = 0;
     private Random rand = new Random();
-    private int chargeTime = -1;
+    private int chargeTime = 2;
     int[] laserPosition;
 
 
@@ -59,7 +59,11 @@ public class StandardDifficultyHandler implements DifficultyHandler {
 
         int blockCD = 8 + currentLevel;
         if (blocksNotLaser && currentLevel > 2 && isOffCD(currentTurn, blockCD)) {
-            game.addTile(new StandardImmovableTile(4));
+            int tileValue = 4;
+            if (currentLevel >= 25){
+                tileValue = 8;
+            }
+            game.addTile(new StandardImmovableTile(tileValue));
         }
         incrementGoldenTile(game.getField());
         game.addRandomTile();
@@ -70,6 +74,7 @@ public class StandardDifficultyHandler implements DifficultyHandler {
         if (game.getLaserState() != null) {
             if (chargeTime == 0){
                 game.fireLaser(laserPosition[0], laserPosition[1]);
+                chargeTime = 3;
             }
             chargeTime--;
         }

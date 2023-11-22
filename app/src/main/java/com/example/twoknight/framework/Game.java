@@ -18,6 +18,7 @@
 package com.example.twoknight.framework;
 
 import com.example.twoknight.standard.Laser;
+import com.example.twoknight.standard.PowerStrategy;
 import com.example.twoknight.strategy.DifficultyHandler;
 
 import java.util.Set;
@@ -89,4 +90,6 @@ public interface Game extends Observable {
     Set<Integer> getPower();
 
     DifficultyHandler getDifficultyHandler();
+
+    PowerStrategy getPowerStrategy();
 }

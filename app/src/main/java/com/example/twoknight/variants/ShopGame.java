@@ -10,6 +10,7 @@ import com.example.twoknight.framework.Tile;
 import com.example.twoknight.standard.GameConstants;
 import com.example.twoknight.standard.KeyEvent;
 import com.example.twoknight.standard.Laser;
+import com.example.twoknight.standard.PowerStrategy;
 import com.example.twoknight.strategy.DifficultyHandler;
 import com.example.twoknight.tiles.StandardImmovableTile;
 import com.example.twoknight.tiles.StandardShopTile;
@@ -145,6 +146,11 @@ public class ShopGame implements Shop {
 
     @Override
     public DifficultyHandler getDifficultyHandler() {
+        return null;
+    }
+
+    @Override
+    public PowerStrategy getPowerStrategy() {
         return null;
     }
 

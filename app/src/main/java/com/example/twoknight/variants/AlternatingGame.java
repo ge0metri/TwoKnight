@@ -10,6 +10,7 @@ import com.example.twoknight.framework.Hero;
 import com.example.twoknight.framework.Tile;
 import com.example.twoknight.standard.KeyEvent;
 import com.example.twoknight.standard.Laser;
+import com.example.twoknight.standard.PowerStrategy;
 import com.example.twoknight.standard.StandardGame;
 import com.example.twoknight.strategy.DifficultyHandler;
 
@@ -91,6 +92,11 @@ public class AlternatingGame implements Game, Shop {
 
     @Override
     public DifficultyHandler getDifficultyHandler() {
+        return null;
+    }
+
+    @Override
+    public PowerStrategy getPowerStrategy() {
         return null;
     }
 

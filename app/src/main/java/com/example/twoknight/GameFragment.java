@@ -28,14 +28,6 @@ import com.google.android.material.snackbar.Snackbar;
  */
 public class GameFragment extends Fragment implements GameListener {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private Game standardGame;
     private StandardView gameView;
     private DataSaver dataSaver;
@@ -50,21 +42,8 @@ public class GameFragment extends Fragment implements GameListener {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GameFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static GameFragment newInstance(String param1, String param2) {
         GameFragment fragment = new GameFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -95,6 +74,7 @@ public class GameFragment extends Fragment implements GameListener {
         unFocus(clearFieldPower);
         clearFieldPower.setOnClickListener(this::clearPower);
         luckCooldown = rootView.findViewById(R.id.luckCooldown);
+        luckCooldown.setEnabled(false);
         spawnLuckPower = rootView.findViewById(R.id.spawnLuckBtn);
         unFocus(spawnLuckPower);
         spawnLuckPower.setOnClickListener(this::spawnLuck);
@@ -102,6 +82,7 @@ public class GameFragment extends Fragment implements GameListener {
         unFocus(pausePower);
         pausePower.setOnClickListener(this::pausePower);
         pauseCooldown = rootView.findViewById(R.id.pauseCooldown);
+        pauseCooldown.setEnabled(false);
 /*
         FloatingActionButton btn4 = rootView.findViewById(R.id.fab4);
         unFocus(btn4);
@@ -146,20 +127,20 @@ public class GameFragment extends Fragment implements GameListener {
 
     private void pausePower(View view) {
         gameView.usePower(GameConstants.PAUSE_POWER);
-        if (gameView.getGame().getBought()[GameConstants.PAUSE_POWER] < 1){
+        if (gameView.getGame().getPowerStrategy().getAvailableSkills()[GameConstants.PAUSE_POWER] < 1){
             pausePower.setEnabled(false);
         }
     }
     private void spawnLuck(View view) {
         gameView.usePower(GameConstants.SPAWN_LUCK);
-        if (gameView.getGame().getBought()[GameConstants.SPAWN_LUCK] < 1){
+        if (gameView.getGame().getPowerStrategy().getAvailableSkills()[GameConstants.SPAWN_LUCK] < 1){
             spawnLuckPower.setEnabled(false);
         }
     }
 
     private void clearPower(View view) {
         gameView.usePower(GameConstants.CLEAR_POWER);
-        if (gameView.getGame().getBought()[GameConstants.CLEAR_POWER] < 1){
+        if (gameView.getGame().getPowerStrategy().getAvailableSkills()[GameConstants.CLEAR_POWER] < 1){
             clearFieldPower.setEnabled(false);
         }
     }
@@ -226,10 +207,18 @@ public class GameFragment extends Fragment implements GameListener {
     public void onPowerTimer(int maxIndex, int index, int power) {
         switch (power){
             case GameConstants.SPAWN_LUCK:{
+                luckCooldown.setEnabled(true);
+                if (maxIndex == 0){
+                    luckCooldown.setEnabled(false);
+                }
                 luckCooldown.setCooldown(maxIndex, index);
                 break;
             }
             case GameConstants.PAUSE_POWER:{
+                pauseCooldown.setEnabled(true);
+                if (maxIndex == 0){
+                    pauseCooldown.setEnabled(false);
+                }
                 pauseCooldown.setCooldown(maxIndex, index);
                 break;
             }

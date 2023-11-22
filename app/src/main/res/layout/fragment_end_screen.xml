@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,49 +13,47 @@
 
         <!-- Play Button -->
 
-        <TextView
-            android:id="@+id/endTextView"
-            android:layout_width="237dp"
-            android:layout_height="58dp"
-            android:layout_alignBottom="@+id/btnShop"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="125dp"
-            android:layout_marginTop="357dp"
-            android:layout_marginEnd="31dp"
-            android:layout_marginBottom="202dp"
-            android:rotation="-3"
-            android:shadowColor="#3E3E3E"
-            android:shadowDx="5"
-            android:shadowDy="5"
-            android:shadowRadius="2"
-            android:text="You did it!"
-            android:textColor="#000000"
-            android:textSize="34sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/endTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/endImage"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="125dp"
+                android:layout_marginTop="-38dp"
+                android:layout_marginEnd="31dp"
+                android:layout_marginBottom="20dp"
+                android:rotation="-3"
+                android:shadowColor="#3E3E3E"
+                android:shadowDx="5"
+                android:shadowDy="5"
+                android:shadowRadius="2"
+                android:text="You did it \n + $ 1 $"
+                android:textColor="#000000"
+                android:textSize="34sp"
+                android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/endImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_hero_dead"
-            ads:layout_constraintVertical_bias="1.0" />
+            <ImageView
+                android:id="@+id/endImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_hero_dead"
+                ads:layout_constraintVertical_bias="1.0" />
 
-        <Button
-            android:id="@+id/btnNextLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/endImage"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:backgroundTint="#361B75"
-            android:onClick="startGame"
-            android:text="Next level"
-            ads:strokeColor="#250000"
-            ads:strokeWidth="2dp" />
+            <Button
+                android:id="@+id/btnNextLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="#361B75"
+                android:layout_below="@id/endTextView"
+                android:onClick="startGame"
+                android:text="Next level"
+                ads:strokeColor="#250000"
+                ads:strokeWidth="2dp" />
 
         <!-- How to Play Button -->
         <Button
@@ -111,4 +109,4 @@
 
     </RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>

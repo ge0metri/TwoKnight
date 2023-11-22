@@ -43,8 +43,6 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tutorial_description1"></string>
     <string name="tutorial_description2">But watch out! \n A shield can appear that can only be broken by a tile of a specific value.</string>
     <string name="tutorial_description3">And the next tile will deal DOUBLE damage. But hurry, the shield will regenerate!</string>

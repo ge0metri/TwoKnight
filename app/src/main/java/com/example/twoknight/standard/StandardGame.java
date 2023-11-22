@@ -124,6 +124,9 @@ public class StandardGame implements MutableGame {
         } else if (KeyEvent.VK_0 <= e && e <= KeyEvent.VK_9 && getGameState() != GameState.POINTER) {
             boolean powerSuccess = powerStrategy.prepareSkill(this, e);
             listener.onPowerUse(powerSuccess);
+            if (powerSuccess){
+                powerStrategy.endTurn(this);
+            }
         } else if (gameState == GameState.POINTER) {
             handlePointer(e);
         } else {
@@ -164,11 +167,6 @@ public class StandardGame implements MutableGame {
                 }
                 difficultyHandler.prepareNextRound(this);
             }
-            if (checkTiles() == 0 && gameState != GameState.WINNER) {
-                gameState = GameState.LOSER;
-                listener.onLevelCleared(this, gameState);
-            }
-            Log.v("tag", difficultyHandler.getChargeTime()+"");
         }
     }
 
@@ -353,6 +351,10 @@ public class StandardGame implements MutableGame {
         isCharging = false;
         if (!skipLaser){
             currentField[i][j] = null;
+            if (checkTiles() == 0 && gameState != GameState.WINNER) {
+                gameState = GameState.LOSER;
+                listener.onLevelCleared(this, gameState);
+            }
         }
     }
 
@@ -372,6 +374,11 @@ public class StandardGame implements MutableGame {
     @Override
     public DifficultyHandler getDifficultyHandler() {
         return difficultyHandler;
+    }
+
+    @Override
+    public PowerStrategy getPowerStrategy() {
+        return powerStrategy;
     }
 
     boolean movesAvailable() {

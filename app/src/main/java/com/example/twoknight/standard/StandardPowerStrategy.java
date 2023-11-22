@@ -240,10 +240,18 @@ public class StandardPowerStrategy implements PowerStrategy {
         boolean isPausePowerOver = game.getTurnNumber() > activeTurn[GameConstants.PAUSE_POWER]
                 + boughtSkills[GameConstants.PAUSE_POWER]*2;
         if (usingSkill.contains(GameConstants.PAUSE_POWER)){
+            game.getGameListener().onPowerTimer(boughtSkills[GameConstants.PAUSE_POWER],
+                    boughtSkills[GameConstants.PAUSE_POWER] - (game.getTurnNumber() - activeTurn[GameConstants.PAUSE_POWER]),
+                    GameConstants.PAUSE_POWER);
+
             game.fireLaser(1,1); // values should not matter here
             if (isPausePowerOver){
                 usingSkill.remove(GameConstants.PAUSE_POWER);
             }
         }
+    }
+    @Override
+    public int[] getAvailableSkills() {
+        return availableSkills;
     }
 }

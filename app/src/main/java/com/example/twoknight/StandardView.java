@@ -11,11 +11,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -74,6 +76,7 @@ public class StandardView extends View {
         textPaint = getPaint();
         setFocusable(true);
         setFocusableInTouchMode(true);
+        setWillNotDraw(false);
     }
     public StandardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -82,6 +85,7 @@ public class StandardView extends View {
         textPaint = getPaint();
         setFocusable(true);
         setFocusableInTouchMode(true);
+        setWillNotDraw(false);
     }
 
     @NonNull
@@ -170,8 +174,9 @@ public class StandardView extends View {
         RectF rectF = getTileRect(i,j);
         canvas.drawCircle(rectF.centerX(), rectF.centerY(), rectF.height()/2, laserPaint);
         laserPaint.setStyle(Paint.Style.FILL);
-        float stage = 1-((3-getGame().getDifficultyHandler().getChargeTime())/3f);
-        canvas.drawText(stage+"", rectF.left, rectF.top, textPaint);
+        float stage = getGame().getDifficultyHandler().getChargeTime();
+        //stage *= stage;
+        stage /= 6f;
         canvas.drawRoundRect(
                 rectF.left+tileSize*0.46f,
                 rectF.top+stage*rectF.height(),
@@ -459,10 +464,9 @@ public class StandardView extends View {
                         endTurn(KeyEvent.VK_LEFT);
                     }
                 }
-                invalidate();
                 break;
         }
-
+        invalidate();
         // Return true to indicate that the touch event is handled
         return true;
     }

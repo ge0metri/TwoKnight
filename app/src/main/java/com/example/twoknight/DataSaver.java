@@ -78,7 +78,7 @@ public class DataSaver {
         return s;
     }
     public Tile[][] loadField(String[] s, Hero hero){
-        Tile[][] field = new Tile[4][4]; //TODO: not hardcode this
+        Tile[][] field = new Tile[4][4]; //TODO: not hardcode this?
         for (int i = 0; i < field.length; i++){
             for (int j = 0; j < field[i].length; j++){
                 int index = (i * field[j].length) + j;

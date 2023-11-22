@@ -14,4 +14,6 @@ public interface PowerStrategy {
     Set<Integer> getPower();
 
     void endTurn(MutableGame standardGame);
+
+    int[] getAvailableSkills();
 }

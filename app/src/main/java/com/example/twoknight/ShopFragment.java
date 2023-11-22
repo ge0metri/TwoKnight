@@ -81,7 +81,7 @@ public class ShopFragment extends Fragment {
         addButtons(4, shopView5);
 
         View shopView6 = rootView.findViewById(R.id.shopItem6);
-        drawShopImage(R.drawable.ic_x2, shopView6);
+        drawShopImage(R.drawable.ic_pause, shopView6);
         addItemText(R.string.pause_power, shopView6);
         updateItemDescription(shopView6, GameConstants.PAUSE_POWER);
         addButtons(GameConstants.PAUSE_POWER, shopView6);
@@ -192,7 +192,7 @@ public class ShopFragment extends Fragment {
             return;}
         dataSaver.saveMoney(money-delta*price);
         TextView quantity = shopView.findViewById(R.id.quantityIndicator);
-        boughtItems[itemIndex]+=delta; //TODO: Add try/catch?
+        boughtItems[itemIndex]+=delta;
         dataSaver.saveBoughtItems(boughtItems);
         String quanText = "" + (boughtItems[itemIndex]);
         quantity.setText(quanText);

@@ -40,6 +40,7 @@
             android:layout_height="0dp"
             android:baselineAligned="false"
             android:visibility="visible"
+            android:contentDescription="Game"
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
             ads:layout_constraintTop_toBottomOf="@id/adView"
@@ -56,7 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_margin="@dimen/btn_margin"
-            android:contentDescription="Send email"
+            android:contentDescription="Luck Power"
+            android:tooltipText="Luck Power"
             android:focusable="false"
             android:focusableInTouchMode="false"
             ads:layout_constraintBottom_toBottomOf="parent"
@@ -70,7 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_margin="@dimen/btn_margin"
-            android:contentDescription="Send email"
+            android:contentDescription="Clear Power"
+            android:tooltipText="Clear Power"
             android:focusable="false"
             android:focusableInTouchMode="false"
             ads:layout_constraintBottom_toBottomOf="parent"
@@ -85,14 +88,15 @@
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_margin="@dimen/btn_margin"
-            android:contentDescription="Send email"
+            android:contentDescription="Pause power"
+            android:tooltipText="Pause Power"
             android:focusable="false"
             android:focusableInTouchMode="false"
             ads:layout_constraintBottom_toBottomOf="parent"
             ads:layout_constraintEnd_toEndOf="parent"
             ads:layout_constraintStart_toStartOf="parent"
             ads:layout_constraintTop_toBottomOf="@+id/gameView"
-            custom:srcCompat="@android:drawable/ic_media_pause" />
+            custom:srcCompat="@drawable/ic_pause" />
 
         <com.example.twoknight.CircularMaskedImageView
             android:id="@+id/luckCooldown"
@@ -120,7 +124,7 @@
             ads:layout_constraintStart_toStartOf="@+id/pausePower"
             ads:layout_constraintTop_toTopOf="@+id/pausePower"
             ads:layout_constraintVertical_bias="0.487"
-            app:srcCompat="@drawable/ic_lucky_ii" />
+            app:srcCompat="@drawable/ic_pause" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
