@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintHorizontal_bias="0.5"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintTop_toTopOf="parent"
+        ads:layout_constraintVertical_bias="0.5"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="YOUR_AD_UNIT_ID"
+            ads:layout_constraintBottom_toTopOf="@id/gameView"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintHorizontal_bias="0.5"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toTopOf="parent"
+            ads:layout_constraintVertical_bias="1.0" />
+
+        <com.example.twoknight.StandardView
+            android:id="@+id/gameView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:baselineAligned="false"
+            android:visibility="visible"
+            android:contentDescription="Game"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toBottomOf="@id/adView"
+            app:layout_constraintDimensionRatio="1:1.15"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            custom:circleColor="#92B692"
+            custom:circleLabel="Hello"
+            custom:labelColor="#ffff66" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/spawnLuckBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/btn_margin"
+            android:contentDescription="Luck Power"
+            android:tooltipText="Luck Power"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintStart_toEndOf="@id/pausePower"
+            ads:layout_constraintTop_toBottomOf="@+id/gameView"
+            custom:srcCompat="@drawable/ic_lucky_i" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/clearPowerBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/btn_margin"
+            android:contentDescription="Clear Power"
+            android:tooltipText="Clear Power"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintEnd_toStartOf="@id/pausePower"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toBottomOf="@+id/gameView"
+            custom:srcCompat="@android:drawable/ic_delete" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/pausePower"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/btn_margin"
+            android:contentDescription="Pause power"
+            android:tooltipText="Pause Power"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            ads:layout_constraintBottom_toBottomOf="parent"
+            ads:layout_constraintEnd_toEndOf="parent"
+            ads:layout_constraintStart_toStartOf="parent"
+            ads:layout_constraintTop_toBottomOf="@+id/gameView"
+            custom:srcCompat="@drawable/ic_pause" />
+
+        <com.example.twoknight.CircularMaskedImageView
+            android:id="@+id/luckCooldown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:elevation="7dp"
+            android:focusable="false"
+            ads:layout_constraintBottom_toBottomOf="@+id/spawnLuckBtn"
+            ads:layout_constraintEnd_toEndOf="@+id/spawnLuckBtn"
+            ads:layout_constraintStart_toStartOf="@+id/spawnLuckBtn"
+            ads:layout_constraintTop_toTopOf="@+id/spawnLuckBtn"
+            ads:layout_constraintVertical_bias="0.487"
+            app:srcCompat="@drawable/ic_lucky_i" />
+
+        <com.example.twoknight.CircularMaskedImageView
+            android:id="@+id/pauseCooldown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:elevation="7dp"
+            android:focusable="false"
+            ads:layout_constraintBottom_toBottomOf="@+id/pausePower"
+            ads:layout_constraintEnd_toEndOf="@+id/pausePower"
+            ads:layout_constraintStart_toStartOf="@+id/pausePower"
+            ads:layout_constraintTop_toTopOf="@+id/pausePower"
+            ads:layout_constraintVertical_bias="0.487"
+            app:srcCompat="@drawable/ic_pause" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

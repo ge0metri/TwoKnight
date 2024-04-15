@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MenuFragment">
+
+
+
+    <fragment
+        android:id="@+id/GameFragment"
+        android:name="com.example.twoknight.GameFragment"
+        android:label="game fragment"
+        tools:layout="@layout/fragment_game">
+        <action
+            android:id="@+id/action_GameFragment_to_EndScreenFragment"
+            app:destination="@id/EndScreenFragment" />
+        <action
+            android:id="@+id/action_GameFragment_to_LossScreenFragment"
+            app:destination="@id/LossScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/MenuFragment"
+        android:name="com.example.twoknight.MenuFragment"
+        android:label="menu fragment"
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_MenuFragment_to_GameFragment"
+            app:destination="@id/GameFragment" />
+        <action
+            android:id="@+id/action_MenuFragment_to_TutorialFragment"
+            app:destination="@id/TutorialFragment" />
+        <action
+            android:id="@+id/action_MenuFragment_to_ShopFragment"
+            app:destination="@id/ShopFragment" />
+        <action
+            android:id="@+id/action_MenuFragment_to_levelSelectFragment"
+            app:destination="@id/levelSelectFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/EndScreenFragment"
+        android:name="com.example.twoknight.EndScreenFragment"
+        android:label="end screen fragment"
+        tools:layout="@layout/fragment_end_screen" >
+        <action
+            android:id="@+id/action_EndScreenFragment_to_GameFragment"
+            app:destination="@id/GameFragment" />
+        <action
+            android:id="@+id/action_EndScreenFragment_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
+        <action
+            android:id="@+id/action_EndScreenFragment_to_ShopFragment"
+            app:destination="@id/ShopFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/LossScreenFragment"
+        android:name="com.example.twoknight.LossScreenFragment"
+        android:label="loss screen fragment"
+        tools:layout="@layout/fragment_loss_screen" >
+        <action
+            android:id="@+id/action_LossScreenFragment_to_GameFragment"
+            app:destination="@id/GameFragment" />
+        <action
+            android:id="@+id/action_LossScreenFragment_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
+        <action
+            android:id="@+id/action_LossScreenFragment_to_ShopFragment"
+            app:destination="@id/ShopFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/TutorialFragment"
+        android:name="com.example.twoknight.TutorialFragment"
+        android:label="tutorial fragment"
+        tools:layout="@layout/fragment_tutorial" >
+        <action
+            android:id="@+id/action_TutorialFragment_to_TutorialFragment2"
+            app:destination="@id/TutorialFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/TutorialFragment2"
+        android:name="com.example.twoknight.TutorialFragment2"
+        android:label="tutorial fragment2"
+        tools:layout="@layout/fragment_tutorial2" >
+        <action
+            android:id="@+id/action_TutorialFragment2_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ShopFragment"
+        android:name="com.example.twoknight.ShopFragment"
+        android:label="ShopFragment"
+        tools:layout="@layout/fragment_shop">
+        <action
+            android:id="@+id/action_ShopFragment_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/levelSelectFragment"
+        android:name="com.example.twoknight.LevelSelectFragment"
+        android:label="fragment_level_select"
+        tools:layout="@layout/fragment_level_select" >
+        <action
+            android:id="@+id/action_levelSelectFragment_to_MenuFragment"
+            app:destination="@id/MenuFragment" />
+    </fragment>
+
+
+    <!--
+        <fragment
+            android:id="@+id/FirstFragment"
+            android:name="com.example.twoknight.FirstFragment"
+            android:label="@string/first_fragment_label"
+            tools:layout="@layout/fragment_first">
+
+            <action
+                android:id="@+id/action_FirstFragment_to_SecondFragment"
+                app:destination="@id/SecondFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/SecondFragment"
+            android:name="com.example.twoknight.SecondFragment"
+            android:label="@string/second_fragment_label"
+            tools:layout="@layout/fragment_second">
+
+            <action
+                android:id="@+id/action_SecondFragment_to_FirstFragment"
+                app:destination="@id/FirstFragment" />
+        </fragment> -->
+</navigation>

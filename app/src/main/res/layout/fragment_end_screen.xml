@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    tools:context=".EndScreenFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background_end">
+
+        <!-- Play Button -->
+
+            <TextView
+                android:id="@+id/endTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/endImage"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="125dp"
+                android:layout_marginTop="-38dp"
+                android:layout_marginEnd="31dp"
+                android:layout_marginBottom="20dp"
+                android:rotation="-3"
+                android:shadowColor="#3E3E3E"
+                android:shadowDx="5"
+                android:shadowDy="5"
+                android:shadowRadius="2"
+                android:text="You did it \n + $ 1 $"
+                android:textColor="#000000"
+                android:textSize="34sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/endImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_hero_dead"
+                ads:layout_constraintVertical_bias="1.0" />
+
+            <Button
+                android:id="@+id/btnNextLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="#361B75"
+                android:layout_below="@id/endTextView"
+                android:onClick="startGame"
+                android:text="Next level"
+                ads:strokeColor="#250000"
+                ads:strokeWidth="2dp" />
+
+        <!-- How to Play Button -->
+        <Button
+            android:id="@+id/btnMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnNextLevel"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Main menu"
+            android:backgroundTint="#361B75"
+            ads:strokeColor="#250000"
+            ads:strokeWidth="2dp" />
+
+        <!-- Shop Button -->
+        <Button
+            android:id="@+id/btnShop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnMenu"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="Shop"
+            android:backgroundTint="#361B75"
+            ads:icon="?android:attr/listChoiceIndicatorSingle"
+            ads:strokeColor="#250000"
+            ads:strokeWidth="2dp"/>
+
+        <TextView
+            android:id="@+id/moneyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="96$"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <TextView
+            android:id="@+id/levelText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Current level: 2"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
